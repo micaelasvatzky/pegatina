@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Pegatina — Design Tokens (Tailwind v4 via @theme)
+   Paleta: Naranja #ea7f20, Crema #fbfae1, Amarillo #fdc623, Azul #71a5ca
+   ============================================================ */
+@theme {
+  /* Brand colors */
+  --color-primario: #ea7f20;   /* naranja — primario */
+  --color-crema: #fbfae1;      /* fondo */
+  --color-acento: #fdc623;     /* amarillo/dorado */
+  --color-secundario: #71a5ca; /* azul */
+
+  /* Neutros */
+  --color-ink: #2c2c2c;
+  --color-ink-soft: #3c3c3c;
+  --color-muted: #939393;
+  --color-line: #e2e2e2;
+
+  /* Tipografías */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Kids Word", "Montserrat", ui-sans-serif, sans-serif;
+}
+
+:root {
+  --background: #fbfae1;
+  --foreground: #2c2c2c;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Clase utilitaria para títulos con la tipografía de marca */
+.font-display {
+  font-family: var(--font-display);
+}
