@@ -10,8 +10,9 @@ import { jwtVerify } from "jose";
  * - sin sesión → redirige a /login
  */
 
-const MONGODB_URI = process.env.JWT_SECRET || "pegatina-secreto-desarrollo-cambiar-antes-de-producir";
-const SECRET = new TextEncoder().encode(MONGODB_URI);
+const JWT_SECRET =
+  process.env.JWT_SECRET || "pegatina-secreto-desarrollo-cambiar-antes-de-producir";
+const SECRET = new TextEncoder().encode(JWT_SECRET);
 const COOKIE_NAME = "pegatina-sesion";
 
 async function getSessionRole(request: NextRequest): Promise<string | null> {

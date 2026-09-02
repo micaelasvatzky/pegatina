@@ -1,7 +1,14 @@
 import { MongoClient, Db } from "mongodb";
 
-const MONGODB_URI =
-  "mongodb+srv://svatzkymicaela_db_user:AcbSNIFdveUOjEK1@cluster0.qjofplw.mongodb.net/?appName=Cluster0";
+const rawMongoUri = process.env.MONGODB_URI;
+
+if (!rawMongoUri) {
+  throw new Error(
+    "Falta MONGODB_URI. Definila en .env.local (ver .env.example)."
+  );
+}
+
+const MONGODB_URI: string = rawMongoUri;
 
 let cachedClient: MongoClient | null = null;
 let cachedDb: Db | null = null;

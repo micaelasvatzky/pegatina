@@ -15,8 +15,8 @@ import type { DBUsuario } from "@/lib/types";
 const COOKIE_NAME = "pegatina-sesion";
 const SESSION_MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 días
 
-// Secreto de firma. En producción va en .env.local, pero por MVP lo ponemos
-// acá (mismo criterio que la URI de Mongo). ⚠️ mover a env antes del deploy.
+// Secreto para firmar/verificar los JWT de sesión.
+// Vive en .env.local (ver .env.example). El fallback solo sirve para desarrollo local.
 const JWT_SECRET =
   process.env.JWT_SECRET ||
   "pegatina-secreto-desarrollo-cambiar-antes-de-producir";
