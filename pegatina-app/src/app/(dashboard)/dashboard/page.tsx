@@ -12,7 +12,7 @@ export default function DashboardPage() {
 
       <div className="flex flex-col gap-6">
         {/* @usuario */}
-        <p className="text-2xl font-bold text-ink">@loremipsum</p>
+        <p className="text-2xl font-bold text-ink">@tutienda</p>
 
         {/* Stats */}
         <div className="grid max-w-[560px] grid-cols-1 gap-5">

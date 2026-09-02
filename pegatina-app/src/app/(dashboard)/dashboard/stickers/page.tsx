@@ -23,8 +23,10 @@ export default function MisStickersPage() {
             key={sticker.id}
             className="flex flex-col items-start gap-6 bg-white p-4 shadow-sm"
           >
-            <div className="h-[275px] w-full rounded-xl bg-neutral-300" />
-            <span className="text-xl text-ink">{sticker.titulo}</span>
+            <div className="flex h-[275px] w-full items-center justify-center rounded-xl bg-primario/10">
+              <span className="text-5xl">🎨</span>
+            </div>
+            <span className="text-xl text-ink">{sticker.nombre}</span>
           </div>
         ))}
       </div>

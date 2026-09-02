@@ -74,17 +74,51 @@ Juvenil e informal, directo y poco técnico. Público objetivo: 18-35 años.
   - `--color-primario` `#ea7f20` (naranja), `--color-crema` `#fbfae1` (fondo), `--color-acento` `#fdc623` (amarillo), `--color-secundario` `#71a5ca` (azul), `--color-ink` `#2c2c2c` (texto), `--color-muted` `#939393`, `--color-line` `#e2e2e2`
 
 ### Pantallas construidas (MVP, con paleta de marca aplicada)
-- **Store (comprador)**: `/` (landing), `/catalogo`, `/producto/[id]`, `/login`, `/signup/comprador`, `/signup/ilustrador` — layout con `Navbar` + footer
+- **Store (comprador)**: `/` (landing), `/catalogo`, `/producto/[id]`, `/artista/[usuario]`, `/carrito`, `/login`, `/signup/comprador`, `/signup/ilustrador` — layout con `Navbar` + footer + panel de carrito lateral
 - **Dashboard (ilustrador)**: `/dashboard`, `/dashboard/stickers`, `/dashboard/stickers/nuevo`, `/dashboard/pedidos`, `/dashboard/perfil` — layout con `Navbar` + `Sidebar`
-- **Componentes compartidos**: `Navbar.tsx`, `Sidebar.tsx`, `StickerCard.tsx`
-- **Datos/dominio**: `src/lib/types.ts` (Sticker, Order, Role, OrderStatus) + `src/lib/mock-data.ts` (mock)
+- **Componentes compartidos**: `Navbar.tsx`, `Sidebar.tsx`, `StickerCard.tsx`, `CartDrawer.tsx`, `AuthModal.tsx`, `AddToCartButton.tsx`, `Providers.tsx`
+- **Contextos**: `CartContext.tsx` (carrito con localStorage), `AuthContext.tsx` (auth simulada con flag localStorage)
+- **Datos**: `src/lib/types.ts` (DBSticker + Sticker), `src/lib/mongodb.ts` (client Mongo cacheado), `src/lib/data.ts` (queries a colección "stickers")
+
+### Base de datos (MongoDB Atlas)
+- **URI**: hardcodeada en `src/lib/mongodb.ts` (⚠️ mover a `.env.local` antes del deploy)
+- **DB**: `pegatina`, colección `stickers` (20 docs)
+- **Esquema sticker**: `_id`, `nombre`, `precio`, `ilustrador` (@usuario), `categoria`, `foto`, `material`, `resistente_al_agua`, `acabado`
+- **Categorías**: Bebidas, Comida, Buenos Aires, Argentina, Animales, Cultura
+- **Driver**: `mongodb` instalado en el proyecto
+
+### Funcionalidades implementadas (Fase B)
+- ✅ Búsqueda hero → lleva a `/catalogo?q=...`
+- ✅ Buscador en catálogo por nombre O ilustrador
+- ✅ Filtro por categoría + rango de precios (server-side via searchParams, combinables)
+- ✅ StickerCard: fondo neutro + emoji placeholder (fotos reales vienen pronto), solo nombre/precio/ilustrador
+- ✅ Perfil de artista público `/artista/[usuario]` con sus stickers (ruta SIN `@`, SEO-friendly)
+- ✅ Carrito: panel lateral desplegable + página `/carrito`, persistido en localStorage
+- ✅ Modal de login/signup al agregar sin estar logueado (redirige a /login con ?redirect)
+
+### Auth REAL (Fase C — implementado)
+- ✅ **Backend**: colección `usuarios` en Mongo (`nombre`, `email`, `password_hash`, `rol`, `foto`, `direccion`, `bio`, `createdAt`) con bcrypt
+- ✅ **Sesión**: JWT en cookie httpOnly (`pegatina-sesion`), 7 días, expiración, secreto por backend `jose` (edge)
+- ✅ **API routes**: `POST /api/auth/signup`, `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`, `GET /api/pedidos`
+- ✅ **Middleware** (`src/middleware.ts` con `jose`): `/dashboard*` solo ilustrador, `/perfil` requiere sesión. Sin sesión → redirige a `/login`
+- ✅ **Frontend**: `AuthContext` real (fetch a `/api/auth/me` al montar + login/signup/logout async con manejo de errores). `usuario` + `isLoggedIn` + `loading`
+- ✅ **Navbar**: si logueado → avatar (inicial) + primer nombre → link a `/perfil` (comprador) o `/dashboard` (ilustrador); si no → ícono de login. SIN lupa
+- ✅ **Login/signup reales**: formularios client con validación + errores + redirección por rol
+- ✅ **Página `/perfil`** (comprador): muestra foto (o inicial) + nombre + email + badge rol + últimas compras desde colección `pedidos`. Estado vacío lindo cuando no hay compras
 
 ### Pendiente / próximos pasos
 - 🔲 Logo SVG de Pegatina (Mica lo sube) para Navbar + footer (hoy es texto "Pegatina")
-- 🔲 Auth real con roles + middleware de redirección (login → `/dashboard` si ilustrador, `/catalogo` si comprador) — hoy es solo UI
-- 🔲 Backend MongoDB + API REST (hoy es `mock-data.ts`)
-- 🔲 Carrito real + checkout con Mercado Pago / Mercado Envíos
-- 🔲 Revisión visual del MVP en el navegador (`npm run dev` en `pegatina-app/`)
+- 🔲 Conectar `AuthModal` → ya redirige a login; falta completar el flujo de "volver al producto y agregar" tras loguear
+- 🔲 Foto de perfil del comprador (subida real de imagen; hoy se muestra la inicial)
+- 🔲 Fotos reales de stickers (el usuario las sube, reemplazan emojis placeholder)
+- 🔲 Checkout + pago con Mercado Pago / Mercado Envíos + datos de envío (MARCADO como "otra entrega" por el usuario)
+- 🔲 Datos extra de pago: definir campos de envío (comprador) + datos del ilustrador (ej: CBU)
+- 🔲 Mover credenciales de Mongo + `JWT_SECRET` a `.env.local` antes del deploy ⚠️
+- 🔲 Perfil/dashboard completo del ILUSTRADOR (usuario dijo "dsp pasamos al usuario ilustrador")
+
+### Usuarios de prueba (crear para testear, NO quedan guardados)
+- Se crean desde `/signup/comprador` o `/signup/ilustrador` con un email real de prueba.
+- ⚠️ Después del testing, limpiar la colección `usuarios` en Atlas (MongoDB Compass) si se dejaron de prueba.
 
 ### Comandos útiles
 - Correr dev server: `cd pegatina-app && npm run dev` → `http://localhost:3000`

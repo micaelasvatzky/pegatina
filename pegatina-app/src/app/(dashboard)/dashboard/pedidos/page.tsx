@@ -12,22 +12,20 @@ export default function PedidosPage() {
           Gestión de pedidos
         </h1>
         <p className="mt-1 text-base leading-[170%] text-ink/70">
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-          nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-          volutpat.
+          Seguí el estado de tus pedidos y administrá los envíos.
         </p>
       </div>
 
       {/* Tabla */}
       <div className="overflow-hidden rounded border border-line">
         {/* Header tabla */}
-        <div className="flex bg-muted px-7 py-4 text-base font-bold text-white">
-          <span className="w-24">Order no</span>
+        <div className="flex bg-primario px-7 py-4 text-base font-bold text-white">
+          <span className="w-24">Pedido</span>
           <span className="w-40">Items</span>
-          <span className="flex-1">Status</span>
-          <span className="w-44">Tracking ID</span>
-          <span className="w-36">Delivery Date</span>
-          <span className="w-24">Price</span>
+          <span className="flex-1">Estado</span>
+          <span className="w-44">Tracking</span>
+          <span className="w-36">Entrega</span>
+          <span className="w-24">Precio</span>
         </div>
 
         {/* Filas */}
@@ -37,10 +35,12 @@ export default function PedidosPage() {
             className="flex items-center border-t border-line bg-white px-7 py-5 text-base"
           >
             <span className="w-24 font-bold text-ink/70">
-              {order.orderNo}
+              #{order.orderNo}
             </span>
             <div className="flex w-40 items-center gap-2">
-              <div className="h-[60px] w-[48px] shrink-0 bg-neutral-300" />
+              <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded bg-primario/10 text-xl">
+                📦
+              </div>
               <span className="text-ink">{order.items}</span>
             </div>
             <div className="flex-1">
@@ -49,7 +49,7 @@ export default function PedidosPage() {
                   <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.6" />
                   <path d="M10 5V10L13 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
                 </svg>
-                In Progress
+                En progreso
               </span>
             </div>
             <span className="w-44 text-ink/70">
@@ -58,9 +58,11 @@ export default function PedidosPage() {
             <span className="w-36 text-ink/70">
               {order.deliveryDate}
               <br />
-              <span className="text-sm">(Expected)</span>
+              <span className="text-sm">(Estimada)</span>
             </span>
-            <span className="w-24 text-ink/70">${order.price.toFixed(2)}</span>
+            <span className="w-24 text-ink/70">
+              ${order.price.toLocaleString("es-AR")}
+            </span>
           </div>
         ))}
       </div>

@@ -4,6 +4,7 @@
    Pegatina — Design Tokens (Tailwind v4 via @theme)
    Paleta: Naranja #ea7f20, Crema #fbfae1, Amarillo #fdc623, Azul #71a5ca
    ============================================================ */
+
 @theme {
   /* Brand colors */
   --color-primario: #ea7f20;   /* naranja — primario */
@@ -19,7 +20,6 @@
 
   /* Tipografías */
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Kids Word", "Montserrat", ui-sans-serif, sans-serif;
 }
 
 :root {
@@ -31,9 +31,4 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-}
-
-/* Clase utilitaria para títulos con la tipografía de marca */
-.font-display {
-  font-family: var(--font-display);
 }

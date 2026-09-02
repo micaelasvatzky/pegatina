@@ -1,6 +1,5 @@
 /**
  * Subir Sticker — formulario del ilustrador para publicar un sticker nuevo.
- * Galería de imágenes + título, precio, stock + botones Publicar / Guardar borrador.
  */
 export default function NuevoStickerPage() {
   return (
@@ -11,33 +10,26 @@ export default function NuevoStickerPage() {
         {/* FORMULARIO */}
         <div className="flex-1">
           <div className="flex flex-col gap-5">
-            {/* Título */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-ink">
-                Título del sticker
-              </label>
+              <label className="text-sm text-ink">Nombre del sticker</label>
               <input
                 type="text"
-                placeholder="Sticker"
+                placeholder="Ej: Matecito Argentino"
                 className="h-[46px] rounded-full border border-line bg-white px-5 focus:border-primario focus:outline-none"
               />
             </div>
 
-            {/* Precio */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-ink">
-                Precio de venta
-              </label>
+              <label className="text-sm text-ink">Precio de venta</label>
               <input
                 type="text"
-                placeholder="$$$$$$"
+                placeholder="Ej: 1200"
                 className="h-[46px] rounded-full border border-line bg-white px-5 focus:border-primario focus:outline-none"
               />
             </div>
 
-            {/* Stock */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-ink">Stock Inicial</label>
+              <label className="text-sm text-ink">Stock inicial</label>
               <input
                 type="number"
                 placeholder="0"
@@ -45,18 +37,18 @@ export default function NuevoStickerPage() {
               />
             </div>
 
-            {/* Categoría */}
             <div className="flex flex-col gap-1">
               <label className="text-sm text-ink">Categoría</label>
               <select className="h-[46px] rounded-full border border-line bg-white px-5 focus:border-primario focus:outline-none">
-                <option>Animales</option>
+                <option>Bebidas</option>
                 <option>Comida</option>
-                <option>Floral</option>
-                <option>Otro</option>
+                <option>Buenos Aires</option>
+                <option>Argentina</option>
+                <option>Animales</option>
+                <option>Cultura</option>
               </select>
             </div>
 
-            {/* Descripción */}
             <div className="flex flex-col gap-1">
               <label className="text-sm text-ink">Descripción</label>
               <textarea
@@ -65,9 +57,8 @@ export default function NuevoStickerPage() {
               />
             </div>
 
-            {/* Botones */}
             <div className="mt-4 flex flex-col gap-3">
-              <button className="w-full rounded-full bg-ink py-4 text-xl font-semibold text-white transition-colors hover:bg-primario">
+              <button className="w-full rounded-full bg-primario py-4 text-xl font-bold text-white transition-colors hover:bg-ink">
                 Publicar
               </button>
               <button className="w-full rounded-full border border-line bg-crema py-4 text-xl font-semibold text-ink transition-colors hover:bg-secundario/10">
@@ -81,10 +72,17 @@ export default function NuevoStickerPage() {
         <div className="flex shrink-0 gap-8">
           <div className="flex flex-col justify-between">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="h-[194px] w-[141px] rounded bg-neutral-300" />
+              <div
+                key={i}
+                className="flex h-[194px] w-[141px] items-center justify-center rounded-xl bg-primario/10"
+              >
+                <span className="text-3xl">🎨</span>
+              </div>
             ))}
           </div>
-          <div className="h-full w-[498px] rounded-lg bg-neutral-300" />
+          <div className="flex h-[627px] w-[498px] items-center justify-center rounded-2xl bg-primario/10">
+            <span className="text-7xl">🎨</span>
+          </div>
         </div>
       </div>
     </div>

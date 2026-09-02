@@ -1,107 +1,89 @@
 "use client";
 
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 /**
  * Navbar global de Pegatina.
- * Logo a la izquierda, navegación (Categorías, Búsqueda, Perfil/Carrito)
- * a la derecha. El logo se reemplaza cuando Mica suba el SVG.
+ * Logo a la izquierda, navegación y carrito a la derecha.
+ * Si hay sesión, muestra el avatar + nombre; si no, el ícono de login.
  */
 export default function Navbar() {
+  const { count, openCart } = useCart();
+  const { usuario, isLoggedIn, loading } = useAuth();
+
+  const perfilHref = usuario?.rol === "ilustrador" ? "/dashboard" : "/perfil";
+  const inicial = usuario?.nombre?.charAt(0).toUpperCase() ?? "";
+  const primerNombre = usuario?.nombre?.split(" ")[0] ?? "";
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-crema/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-line bg-crema/95 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="font-display text-3xl text-ink">
+        <Link href="/" className="text-3xl font-bold text-primario">
           Pegatina
         </Link>
 
         {/* Navegación */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-5">
           <Link
             href="/catalogo"
-            className="flex items-center gap-1 text-base text-ink transition-colors hover:text-primario"
+            className="text-base font-medium text-ink transition-colors hover:text-primario"
           >
-            Categorías
-            <svg
-              width="12"
-              height="8"
-              viewBox="0 0 12 8"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1 1.5L6 6.5L11 1.5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            Explorar
           </Link>
-
-          {/* Búsqueda */}
-          <button
-            aria-label="Buscar"
-            className="text-ink transition-colors hover:text-primario"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="9"
-                cy="9"
-                r="6.5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M14 14L18 18"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
 
           {/* Perfil / Login */}
-          <Link
-            href="/login"
-            aria-label="Iniciar sesión"
-            className="text-ink transition-colors hover:text-primario"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="10"
-                cy="6"
-                r="3.5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M3 18C3 13.5 6 11 10 11C14 11 17 13.5 17 18"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </Link>
+          {!loading &&
+            (isLoggedIn && usuario ? (
+              <Link
+                href={perfilHref}
+                className="flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pl-1.5 pr-4 transition-colors hover:border-primario"
+                title={usuario.nombre}
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
+                  {inicial}
+                </span>
+                <span className="max-w-[7rem] truncate text-sm font-semibold text-ink">
+                  {primerNombre}
+                </span>
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                aria-label="Iniciar sesión"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-ink transition-colors hover:bg-primario/10 hover:text-primario"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="10"
+                    cy="6"
+                    r="3.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M3 18C3 13.5 6 11 10 11C14 11 17 13.5 17 18"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </Link>
+            ))}
 
           {/* Carrito */}
-          <Link
-            href="/carrito"
-            aria-label="Carrito"
-            className="text-ink transition-colors hover:text-primario"
+          <button
+            onClick={openCart}
+            aria-label="Abrir carrito"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full text-ink transition-colors hover:bg-primario/10 hover:text-primario"
           >
             <svg
               width="20"
@@ -120,7 +102,12 @@ export default function Navbar() {
               <circle cx="8" cy="17" r="1.3" fill="currentColor" />
               <circle cx="14" cy="17" r="1.3" fill="currentColor" />
             </svg>
-          </Link>
+            {count > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primario text-[11px] font-bold text-white">
+                {count}
+              </span>
+            )}
+          </button>
         </div>
       </nav>
     </header>
