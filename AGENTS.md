@@ -95,6 +95,10 @@ Juvenil e informal, directo y poco técnico. Público objetivo: 18-35 años.
 - ✅ Perfil de artista público `/artista/[usuario]` con sus stickers (ruta SIN `@`, SEO-friendly)
 - ✅ Carrito: panel lateral desplegable + página `/carrito`, persistido en localStorage
 - ✅ Modal de login/signup al agregar sin estar logueado (redirige a /login con ?redirect)
+- ✅ Nombres de ilustradores como links evidentes (primario + subrayado + ↗ → `/artista/[usuario]`)
+- ✅ **RoleModal** (`src/components/RoleModal.tsx`): "¿Qué tipo de cuenta querés?" (Comprador/Ilustrador) al tocar "Creala gratis" en login y en AuthModal. Soporta prop `redirect`
+- ✅ **Selector de cantidad** en detalle (`AddToCartButton`) y en cards (`AddToCartCard`); `add(sticker, cantidad)` en CartContext
+- ✅ **Botón "Agregar"** en cada card (grilla) + selector de cantidad
 
 ### Auth REAL (Fase C — implementado)
 - ✅ **Backend**: colección `usuarios` en Mongo (`nombre`, `email`, `password_hash`, `rol`, `foto`, `direccion`, `bio`, `createdAt`) con bcrypt
