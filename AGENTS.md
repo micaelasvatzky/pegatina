@@ -81,7 +81,7 @@ Juvenil e informal, directo y poco técnico. Público objetivo: 18-35 años.
 - **Datos**: `src/lib/types.ts` (DBSticker + Sticker), `src/lib/mongodb.ts` (client Mongo cacheado), `src/lib/data.ts` (queries a colección "stickers")
 
 ### Base de datos (MongoDB Atlas)
-- **URI**: hardcodeada en `src/lib/mongodb.ts` (⚠️ mover a `.env.local` antes del deploy)
+- **URI**: `process.env.MONGODB_URI` leída de `.env.local` (ver `.env.example`). ⚠️ Credencial ya filtrada en historial de git — pendiente rotar password en Atlas / hacer repo privado
 - **DB**: `pegatina`, colección `stickers` (20 docs)
 - **Esquema sticker**: `_id`, `nombre`, `precio`, `ilustrador` (@usuario), `categoria`, `foto`, `material`, `resistente_al_agua`, `acabado`
 - **Categorías**: Bebidas, Comida, Buenos Aires, Argentina, Animales, Cultura
@@ -113,7 +113,7 @@ Juvenil e informal, directo y poco técnico. Público objetivo: 18-35 años.
 - 🔲 Fotos reales de stickers (el usuario las sube, reemplazan emojis placeholder)
 - 🔲 Checkout + pago con Mercado Pago / Mercado Envíos + datos de envío (MARCADO como "otra entrega" por el usuario)
 - 🔲 Datos extra de pago: definir campos de envío (comprador) + datos del ilustrador (ej: CBU)
-- 🔲 Mover credenciales de Mongo + `JWT_SECRET` a `.env.local` antes del deploy ⚠️
+- 🔲 Rotar password de Mongo en Atlas (credencial filtrada en historial) / hacer repo privado ⚠️
 - 🔲 Perfil/dashboard completo del ILUSTRADOR (usuario dijo "dsp pasamos al usuario ilustrador")
 
 ### Usuarios de prueba (crear para testear, NO quedan guardados)
