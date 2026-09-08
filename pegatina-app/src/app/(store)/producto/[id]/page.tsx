@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { getStickerById } from "@/lib/data";
 import AddToCartButton from "@/components/AddToCartButton";
 
+// Dinámica: consulta MongoDB en runtime, no en build time.
+// Así el build no depende de que la base esté disponible/autenticada.
+export const dynamic = "force-dynamic";
+
 /** Colores por categoría para la galería */
 const catBg: Record<string, string> = {
   Bebidas: "bg-secundario/15",

@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { getStickersByIlustrador } from "@/lib/data";
 import StickerCard from "@/components/StickerCard";
 
+// Dinámica: consulta MongoDB en runtime, no en build time.
+// Así el build no depende de que la base esté disponible/autenticada.
+export const dynamic = "force-dynamic";
+
 /**
  * Perfil público de un artista con sus stickers.
  * Ruta dinámica: /artista/[usuario] (ej: /artista/@mateconmili)
