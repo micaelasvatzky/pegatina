@@ -11,6 +11,8 @@ function serializeSticker(doc: DBSticker): Sticker {
     categoria: doc.categoria,
     foto: doc.foto,
     material: doc.material,
+    acabado: doc.acabado,
+    resistente_al_agua: doc.resistente_al_agua,
   };
 }
 
@@ -63,4 +65,25 @@ export async function getCategorias(): Promise<string[]> {
   const db = await getDb();
   const cats = await db.collection<DBSticker>("stickers").distinct("categoria");
   return cats.sort();
+}
+
+/**
+ * Trae las unidades vendidas por sticker (sumando cantidades de todos los
+ * pedidos). Devuelve un Map<sticker_id, unidades>.
+ */
+export async function getVentasPorStickerId(): Promise<Map<string, number>> {
+  const db = await getDb();
+  const rows = await db
+    .collection("pedidos")
+    .aggregate<{ _id: string; total: number }>([
+      { $unwind: "$items" },
+      {
+        $group: {
+          _id: "$items.sticker_id",
+          total: { $sum: "$items.cantidad" },
+        },
+      },
+    ])
+    .toArray();
+  return new Map(rows.map((r) => [r._id, r.total]));
 }

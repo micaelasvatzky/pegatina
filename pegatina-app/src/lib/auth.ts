@@ -114,6 +114,7 @@ export function publicUsuario(u: DBUsuario) {
     nombre: u.nombre,
     email: u.email,
     rol: u.rol,
+    usuario: u.usuario ?? null,
     foto: u.foto ?? null,
   };
 }

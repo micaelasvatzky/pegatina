@@ -9,6 +9,8 @@ export interface DBUsuario {
   email: string;
   password_hash: string;
   rol: Role;
+  /** @usuario (handle público) — el identificador que une al usuario con sus stickers. */
+  usuario?: string | null;
   foto?: string | null;
   direccion?: string | null;
   bio?: string | null;
@@ -21,6 +23,8 @@ export interface Usuario {
   nombre: string;
   email: string;
   rol: Role;
+  /** @usuario público (handle) — puede faltar si el signup no lo pedía aún. */
+  usuario?: string | null;
   foto?: string | null;
 }
 
@@ -56,6 +60,8 @@ export interface Sticker {
   categoria: string;
   foto: string;
   material: string;
+  acabado?: string;
+  resistente_al_agua?: boolean;
 }
 
 export interface Order {

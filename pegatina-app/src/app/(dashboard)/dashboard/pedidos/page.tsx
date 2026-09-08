@@ -1,23 +1,40 @@
 import { orders } from "@/lib/mock-data";
 
 /**
- * Gestión de Pedidos — tabla de pedidos del ilustrador con estado de envío.
+ * Gestión de Pedidos — pedidos del ilustrador con estado de envío.
+ * (Los datos reales desde Mongo llegan en la próxima entrega;
+ * el diseño ya queda alineado al sistema de la marca.)
  */
+
+/** Color por estado, usando la paleta de Pegatina. */
+const estadoEstilo: Record<string, string> = {
+  pending: "bg-ink/10 text-ink/70",
+  in_progress: "bg-acento/20 text-ink",
+  shipped: "bg-primario/15 text-primario",
+  delivered: "bg-secundario/20 text-ink",
+};
+
+/** Etiqueta por estado. */
+const estadoLabel: Record<string, string> = {
+  pending: "Pendiente",
+  in_progress: "En progreso",
+  shipped: "Enviado",
+  delivered: "Entregado",
+};
+
 export default function PedidosPage() {
   return (
     <div>
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-ink">
-          Gestión de pedidos
-        </h1>
-        <p className="mt-1 text-base leading-[170%] text-ink/70">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-ink">Pedidos</h1>
+        <p className="mt-1 text-muted">
           Seguí el estado de tus pedidos y administrá los envíos.
         </p>
       </div>
 
       {/* Tabla */}
-      <div className="overflow-hidden rounded border border-line">
+      <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
         {/* Header tabla */}
         <div className="flex bg-primario px-7 py-4 text-base font-bold text-white">
           <span className="w-24">Pedido</span>
@@ -25,7 +42,7 @@ export default function PedidosPage() {
           <span className="flex-1">Estado</span>
           <span className="w-44">Tracking</span>
           <span className="w-36">Entrega</span>
-          <span className="w-24">Precio</span>
+          <span className="w-28">Precio</span>
         </div>
 
         {/* Filas */}
@@ -38,18 +55,22 @@ export default function PedidosPage() {
               #{order.orderNo}
             </span>
             <div className="flex w-40 items-center gap-2">
-              <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded bg-primario/10 text-xl">
+              <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-xl bg-primario/10 text-xl">
                 📦
               </div>
-              <span className="text-ink">{order.items}</span>
+              <span className="truncate text-ink">{order.items}</span>
             </div>
             <div className="flex-1">
-              <span className="inline-flex items-center gap-2 rounded bg-ink/15 px-3 py-2 text-sm font-bold text-ink/70">
+              <span
+                className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-bold ${
+                  estadoEstilo[order.status] ?? "bg-ink/10 text-ink/70"
+                }`}
+              >
                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                   <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.6" />
                   <path d="M10 5V10L13 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
                 </svg>
-                En progreso
+                {estadoLabel[order.status] ?? "Pendiente"}
               </span>
             </div>
             <span className="w-44 text-ink/70">
@@ -60,12 +81,19 @@ export default function PedidosPage() {
               <br />
               <span className="text-sm">(Estimada)</span>
             </span>
-            <span className="w-24 text-ink/70">
+            <span className="w-28 font-semibold text-ink">
               ${order.price.toLocaleString("es-AR")}
             </span>
           </div>
         ))}
       </div>
+
+      {/* Pie */}
+      {orders.length === 0 && (
+        <p className="mt-8 text-center text-muted">
+          Todavía no tenés pedidos. Cuando alguien compre tus stickers, los vas a ver acá. 📦
+        </p>
+      )}
     </div>
   );
 }
