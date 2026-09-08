@@ -19,6 +19,8 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<
     { error?: string } & { usuario?: Usuario | null }
   >;
+  /** Entra directo con la cuenta demo de ilustrador (solo con DEMO_MODE=true). */
+  demoLogin: () => Promise<{ error?: string } & { usuario?: Usuario | null }>;
   signup: (data: {
     nombre: string;
     email: string;
@@ -74,6 +76,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { usuario: data.usuario };
   }, []);
 
+  const demoLogin = useCallback(async () => {
+    const res = await fetch("/api/auth/demo", { method: "POST" });
+    const data = await res.json();
+    if (!res.ok) {
+      return { error: data.error ?? "No pudimos entrar con la cuenta demo." };
+    }
+    setUsuario(data.usuario);
+    return { usuario: data.usuario };
+  }, []);
+
   const signup = useCallback(
     async (data: {
       nombre: string;
@@ -113,6 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         usuario,
         isLoggedIn: usuario !== null,
         login,
+        demoLogin,
         signup,
         logout,
       }}

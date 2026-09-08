@@ -11,17 +11,18 @@ import RoleModal from "@/components/RoleModal";
  * Client component: usa useSearchParams para leer ?redirect.
  * Llama a POST /api/auth/login y redirige según ?redirect o el rol.
  */
-export default function LoginForm() {
+export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
 
-  const { login } = useAuth();
+  const { login, demoLogin } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [demoSubmitting, setDemoSubmitting] = useState(false);
   const [showRoleModal, setShowRoleModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,6 +47,21 @@ export default function LoginForm() {
     } else {
       router.push("/");
     }
+  };
+
+  const handleDemoLogin = async () => {
+    setError(null);
+    setDemoSubmitting(true);
+
+    const result = await demoLogin();
+
+    if (result.error) {
+      setError(result.error);
+      setDemoSubmitting(false);
+      return;
+    }
+
+    router.push("/dashboard");
   };
 
   return (
@@ -129,6 +145,27 @@ export default function LoginForm() {
               Soy ilustrador
             </Link>
           </div>
+
+          {/* Acceso demo: SOLO con DEMO_MODE=true en desarrollo */}
+          {demoMode && (
+            <div className="mt-6">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-px flex-1 bg-line" />
+                <span className="text-xs font-medium uppercase tracking-wide text-muted">
+                  solo desarrollo
+                </span>
+                <span className="h-px flex-1 bg-line" />
+              </div>
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                disabled={demoSubmitting}
+                className="w-full rounded-full border-2 border-dashed border-acento bg-acento/10 py-4 text-[20px] font-bold text-ink transition-colors hover:bg-acento/20 disabled:opacity-60"
+              >
+                {demoSubmitting ? "Entrando..." : "🎨 Entrar como ilustrador demo"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Lado derecho - ilustración decorativa */}
