@@ -80,10 +80,10 @@ export default async function CatalogoPage({
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10">
-      <div className="flex gap-10">
+    <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+      <div className="flex flex-col gap-8 lg:flex-row lg:gap-10">
         {/* SIDEBAR FILTROS */}
-        <aside className="flex w-64 shrink-0 flex-col gap-6">
+        <aside className="flex w-full shrink-0 flex-col gap-6 lg:w-64">
           {/* Categorías */}
           <div className="rounded-2xl border border-line bg-white p-6">
             <h3 className="mb-5 flex items-center gap-3 text-xl font-bold text-ink">
@@ -189,7 +189,7 @@ export default async function CatalogoPage({
         {/* GRID PRODUCTOS */}
         <section className="flex-1">
           <div className="mb-8 flex flex-col items-center gap-3">
-            <h1 className="text-center text-4xl font-bold text-ink">
+            <h1 className="text-center text-3xl font-bold text-ink md:text-4xl">
               Catálogo
             </h1>
 
@@ -232,13 +232,18 @@ export default async function CatalogoPage({
 
           {stickers.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-20 text-center">
-              <span className="text-5xl">🔍</span>
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-crema text-muted">
+                <svg width="30" height="30" viewBox="0 0 20 20" fill="none">
+                  <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.6" />
+                  <path d="M14 14L18 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </span>
               <p className="text-lg text-muted">
                 No encontramos stickers con esos filtros.
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {stickers.map((s) => (
                 <StickerCard key={s.id} sticker={s} />
               ))}

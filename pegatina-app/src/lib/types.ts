@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import type { PedidoEstado } from "./pedidos";
 
 export type Role = "comprador" | "ilustrador";
 
@@ -34,7 +35,7 @@ export interface Pedido {
   usuario_id: string;
   items: { sticker_id: string; nombre: string; precio: number; cantidad: number }[];
   total: number;
-  estado: "pendiente" | "en_progreso" | "enviado" | "entregado";
+  estado: PedidoEstado;
   fecha: string;
 }
 
@@ -45,7 +46,10 @@ export interface DBSticker {
   precio: number;
   ilustrador: string;
   categoria: string;
+  /** Primera foto (compatibilidad) — siempre es fotos[0] o "". */
   foto: string;
+  /** Hasta 4 fotos del sticker. */
+  fotos?: string[];
   material: string;
   resistente_al_agua: boolean;
   acabado: string;
@@ -59,24 +63,8 @@ export interface Sticker {
   ilustrador: string;
   categoria: string;
   foto: string;
+  fotos?: string[];
   material: string;
   acabado?: string;
   resistente_al_agua?: boolean;
 }
-
-export interface Order {
-  orderNo: string;
-  items: string;
-  status: "in_progress" | "pending" | "shipped" | "delivered";
-  trackingId: string;
-  deliveryDate: string;
-  expected: boolean;
-  price: number;
-  imagen: string | null;
-}
-
-export type OrderStatus =
-  | "pendiente"
-  | "en_progreso"
-  | "enviado"
-  | "entregado";

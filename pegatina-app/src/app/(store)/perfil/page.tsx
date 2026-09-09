@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { getSession, getUsuarioById } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import type { ObjectId } from "mongodb";
+import LogoutButton from "@/components/LogoutButton";
+import { ESTADO_LABEL, normalizarEstado } from "@/lib/pedidos";
 
 /**
  * Perfil del COMPRADOR.
@@ -38,12 +40,6 @@ export default async function PerfilPage() {
 
   const pedidos = await getPedidos(session.sub);
   const inicial = usuario.nombre.charAt(0).toUpperCase();
-  const estadoTexto: Record<string, string> = {
-    pendiente: "Pendiente",
-    entregado: "Entregado",
-    enviado: "Enviado",
-    en_progreso: "En progreso",
-  };
 
   return (
     <div className="mx-auto max-w-3xl py-12">
@@ -61,13 +57,15 @@ export default async function PerfilPage() {
             {inicial}
           </span>
         )}
-        <div>
+        <div className="flex-1">
           <h1 className="text-3xl font-bold text-ink">{usuario.nombre}</h1>
           <p className="text-muted">{usuario.email}</p>
           <span className="mt-1 inline-block rounded-full bg-primario/10 px-3 py-0.5 text-xs font-semibold uppercase tracking-wide text-primario">
             Comprador
           </span>
         </div>
+        {/* Cerrar sesión con confirmación */}
+        <LogoutButton />
       </div>
 
       {/* Últimas compras */}
@@ -76,7 +74,12 @@ export default async function PerfilPage() {
 
         {pedidos.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-line bg-white p-10 text-center">
-            <span className="text-5xl">🛍️</span>
+            <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-crema text-muted">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7H21V21H3V7Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M8 10V5.5C8 3.5 10 2 12 2C14 2 16 3.5 16 5.5V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </span>
             <p className="mt-4 text-lg font-semibold text-ink">
               Todavía no compraste nada
             </p>
@@ -98,11 +101,14 @@ export default async function PerfilPage() {
                 className="rounded-2xl border border-line bg-white p-6"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-muted">
+                  <Link
+                    href={`/pedidos/${p.id}`}
+                    className="text-lg font-bold text-primario underline hover:text-ink"
+                  >
                     #{p.id.slice(-8).toUpperCase()}
-                  </span>
+                  </Link>
                   <span className="rounded-full bg-primario/10 px-3 py-1 text-sm font-semibold text-primario">
-                    {estadoTexto[p.estado] ?? p.estado}
+                    {ESTADO_LABEL[normalizarEstado(p.estado)]}
                   </span>
                 </div>
                 <div className="mt-3 flex flex-col gap-1 text-sm text-muted">
@@ -126,6 +132,12 @@ export default async function PerfilPage() {
                     })}
                   </span>
                 </div>
+                <Link
+                  href={`/pedidos/${p.id}`}
+                  className="mt-4 inline-block text-sm font-semibold text-primario underline hover:text-ink"
+                >
+                  Ver seguimiento →
+                </Link>
               </li>
             ))}
           </ul>

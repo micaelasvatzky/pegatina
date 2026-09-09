@@ -1,33 +1,42 @@
-import { orders } from "@/lib/mock-data";
+import { redirect } from "next/navigation";
+import { getSession, getUsuarioById } from "@/lib/auth";
+import { getPedidosDelVendedor } from "@/lib/data";
+import CambiarEstadoPedido from "./CambiarEstadoPedido";
 
 /**
- * Gestión de Pedidos — pedidos del ilustrador con estado de envío.
- * (Los datos reales desde Mongo llegan en la próxima entrega;
- * el diseño ya queda alineado al sistema de la marca.)
+ * Gestión de Pedidos — datos REALES desde Mongo.
+ * Muestra los pedidos que contienen stickers del ilustrador logueado
+ * y permite avanzar su estado de envío (PATCH /api/pedidos/[id]).
  */
+export const dynamic = "force-dynamic";
 
-/** Color por estado, usando la paleta de Pegatina. */
-const estadoEstilo: Record<string, string> = {
-  pending: "bg-ink/10 text-ink/70",
-  in_progress: "bg-acento/20 text-ink",
-  shipped: "bg-primario/15 text-primario",
-  delivered: "bg-secundario/20 text-ink",
-};
+const MONTHS = [
+  "ene", "feb", "mar", "abr", "may", "jun",
+  "jul", "ago", "sep", "oct", "nov", "dic",
+];
 
-/** Etiqueta por estado. */
-const estadoLabel: Record<string, string> = {
-  pending: "Pendiente",
-  in_progress: "En progreso",
-  shipped: "Enviado",
-  delivered: "Entregado",
-};
+function formatFecha(iso: string | null): string {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+}
 
-export default function PedidosPage() {
+export default async function PedidosPage() {
+  const session = await getSession();
+  if (!session) redirect("/login");
+
+  const usuario = await getUsuarioById(session.sub);
+  if (!usuario) redirect("/login");
+
+  // El handle en la DB se guarda CON @ (igual que en stickers y signup).
+  const handle = usuario.usuario ?? "";
+  const pedidos = handle ? await getPedidosDelVendedor(handle) : [];
+
   return (
     <div>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-ink">Pedidos</h1>
+        <h1 className="text-3xl font-bold text-ink md:text-4xl">Pedidos</h1>
         <p className="mt-1 text-muted">
           Seguí el estado de tus pedidos y administrá los envíos.
         </p>
@@ -36,62 +45,92 @@ export default function PedidosPage() {
       {/* Tabla */}
       <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
         {/* Header tabla */}
-        <div className="flex bg-primario px-7 py-4 text-base font-bold text-white">
-          <span className="w-24">Pedido</span>
-          <span className="w-40">Items</span>
-          <span className="flex-1">Estado</span>
-          <span className="w-44">Tracking</span>
-          <span className="w-36">Entrega</span>
-          <span className="w-28">Precio</span>
+        <div className="hidden gap-4 bg-primario px-7 py-4 text-base font-bold text-white lg:flex">
+          <span className="w-24 shrink-0">Pedido</span>
+          <span className="w-56 shrink-0">Items</span>
+          <span className="w-64 shrink-0">Estado</span>
+          <span className="w-44 shrink-0">Cliente</span>
+          <span className="w-20 shrink-0">Fecha</span>
+          <span className="flex-1 text-right">Total</span>
         </div>
 
         {/* Filas */}
-        {orders.map((order, idx) => (
+        {pedidos.map((p) => (
           <div
-            key={idx}
-            className="flex items-center border-t border-line bg-white px-7 py-5 text-base"
+            key={p.id}
+            className="flex flex-col gap-3 border-t border-line bg-white px-6 py-5 text-base lg:flex-row lg:items-center lg:gap-4 lg:px-7"
           >
-            <span className="w-24 font-bold text-ink/70">
-              #{order.orderNo}
+            {/* Pedido */}
+            <span className="font-bold text-ink/70">
+              #{p.id.slice(-6).toUpperCase()}
             </span>
-            <div className="flex w-40 items-center gap-2">
-              <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-xl bg-primario/10 text-xl">
-                📦
+
+            {/* Items */}
+            <div className="flex w-full flex-col gap-1 lg:w-56 lg:shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-xl bg-primario/10 text-xl">
+                  🎨
+                </div>
+                <span className="flex-1 truncate text-ink">
+                  {p.items.map((it) => it.nombre).join(", ")}
+                </span>
               </div>
-              <span className="truncate text-ink">{order.items}</span>
-            </div>
-            <div className="flex-1">
-              <span
-                className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-bold ${
-                  estadoEstilo[order.status] ?? "bg-ink/10 text-ink/70"
-                }`}
-              >
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                  <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.6" />
-                  <path d="M10 5V10L13 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
-                {estadoLabel[order.status] ?? "Pendiente"}
+              <span className="ml-12 text-sm text-muted">
+                {p.items
+                  .map((it) => `${it.cantidad} × ${it.nombre}`)
+                  .join(" · ")}
               </span>
             </div>
-            <span className="w-44 text-ink/70">
-              <span className="underline">{order.trackingId}</span> ↗
+
+            {/* Estado + selector */}
+            <div className="flex items-center lg:w-64 lg:shrink-0">
+              <CambiarEstadoPedido pedidoId={p.id} estado={p.estado} />
+            </div>
+
+            {/* Cliente */}
+            <div className="min-w-0 lg:w-44 lg:shrink-0">
+              <span className="truncate text-ink">{p.cliente?.nombre ?? "Cliente"}</span>
+              <span className="block truncate text-sm text-muted">
+                {p.cliente?.email ?? ""}
+              </span>
+            </div>
+
+            {/* Fecha */}
+            <span className="text-ink/70 lg:w-20 lg:shrink-0">
+              {formatFecha(p.fecha)}
             </span>
-            <span className="w-36 text-ink/70">
-              {order.deliveryDate}
-              <br />
-              <span className="text-sm">(Estimada)</span>
-            </span>
-            <span className="w-28 font-semibold text-ink">
-              ${order.price.toLocaleString("es-AR")}
+
+            {/* Total */}
+            <span className="font-semibold text-ink lg:flex-1 lg:text-right">
+              {p.total.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}
             </span>
           </div>
         ))}
       </div>
 
-      {/* Pie */}
-      {orders.length === 0 && (
-        <p className="mt-8 text-center text-muted">
-          Todavía no tenés pedidos. Cuando alguien compre tus stickers, los vas a ver acá. 📦
+      {/* Estado vacío */}
+      {pedidos.length === 0 && (
+        <p className="mt-8 flex items-center justify-center gap-2 text-center text-muted">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M4 5.5H20V19.5H4V5.5Z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8 3.5V7.5M16 3.5V7.5M4 10.5H20"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+          Todavía no tenés pedidos. Cuando alguien compre tus stickers, los vas
+          a ver acá.
         </p>
       )}
     </div>

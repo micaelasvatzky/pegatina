@@ -2,10 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
 /**
- * Middleware global de Pegatina.
+ * Proxy global de Pegatina (antes "middleware" — convención renombrada en Next 16).
  * Protege rutas privadas por rol usando la cookie de sesión (JWT).
  *
- * - /perfil  → requiere sesión (comprador o ilustrador)
+ * - /perfil, /checkout, /pedidos/:id* → requieren sesión
  * - /dashboard* → requiere rol "ilustrador"
  * - sin sesión → redirige a /login
  */
@@ -26,7 +26,7 @@ async function getSessionRole(request: NextRequest): Promise<string | null> {
   }
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Rutas del ilustrador
@@ -40,8 +40,12 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Perfil del comprador (también accesible para ilustradores por ahora)
-  if (pathname.startsWith("/perfil")) {
+  // Perfil, checkout y seguimiento del comprador
+  if (
+    pathname.startsWith("/perfil") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/pedidos/")
+  ) {
     const rol = await getSessionRole(request);
     if (!rol) {
       const loginUrl = new URL("/login", request.url);
@@ -54,5 +58,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/perfil"],
+  matcher: [
+    "/dashboard/:path*",
+    "/perfil",
+    "/checkout",
+    "/pedidos/:path*",
+  ],
 };

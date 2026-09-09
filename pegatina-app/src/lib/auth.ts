@@ -58,13 +58,16 @@ export function verifyToken(token: string): SessionPayload | null {
 }
 
 /** Escribe la cookie de sesión (httpOnly + secure en producción). */
-export async function setSessionCookie(token: string): Promise<void> {
+export async function setSessionCookie(
+  token: string,
+  maxAge?: number
+): Promise<void> {
   const store = await cookies();
   store.set(COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    maxAge: SESSION_MAX_AGE_SEC,
+    maxAge: maxAge ?? SESSION_MAX_AGE_SEC,
     path: "/",
   });
 }

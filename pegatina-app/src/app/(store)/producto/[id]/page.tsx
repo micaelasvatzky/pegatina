@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getStickerById } from "@/lib/data";
+import { getSession, getUsuarioById } from "@/lib/auth";
 import AddToCartButton from "@/components/AddToCartButton";
 
 // Dinámica: consulta MongoDB en runtime, no en build time.
@@ -39,11 +40,18 @@ export default async function ProductoPage({
 
   if (!sticker) notFound();
 
+  // Si el visitante logueado ES el dueño del sticker, no le ofrecemos
+  // comprar su propio producto: solo puede editarlo desde el dashboard.
+  const sesion = await getSession();
+  const esDueño = sesion
+    ? (await getUsuarioById(sesion.sub))?.usuario === sticker.ilustrador
+    : false;
+
   const bg = catBg[sticker.categoria] ?? "bg-acento/15";
   const emoji = catEmoji[sticker.categoria] ?? "\u2B50";
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8">
+    <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
       {/* Breadcrumb */}
       <nav className="mb-8 flex items-center gap-1 text-base text-muted">
         <Link href="/catalogo" className="hover:text-primario">
@@ -53,23 +61,47 @@ export default async function ProductoPage({
         <span className="text-ink">{sticker.nombre}</span>
       </nav>
 
-      <div className="flex items-start gap-12">
+      <div className="flex flex-col items-start gap-8 lg:flex-row lg:gap-12">
         {/* Galería */}
-        <div className="flex gap-7">
-          <div className="flex flex-col justify-between gap-7">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className={`flex h-[194px] w-[141px] items-center justify-center rounded-xl ${bg}`}
-              >
-                <span className="text-3xl">{emoji}</span>
-              </div>
-            ))}
+        <div className="flex w-full gap-3 lg:w-auto lg:gap-7">
+          {/* Miniaturas (solo desktop) */}
+          <div className="hidden flex-col justify-between gap-7 lg:flex">
+            {sticker.fotos && sticker.fotos.length > 0
+              ? sticker.fotos.slice(0, 3).map((f, i) => (
+                  <div
+                    key={i}
+                    className={`flex h-[194px] w-[141px] items-center justify-center overflow-hidden rounded-xl ${bg}`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={f}
+                      alt={`${sticker.nombre} ${i + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))
+              : [0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className={`flex h-[194px] w-[141px] items-center justify-center rounded-xl ${bg}`}
+                  >
+                    <span className="text-3xl">{emoji}</span>
+                  </div>
+                ))}
           </div>
           <div
-            className={`flex h-[627px] w-[498px] items-center justify-center rounded-2xl ${bg}`}
+            className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl lg:h-[627px] lg:w-[498px] lg:aspect-auto ${bg}`}
           >
-            <span className="text-8xl">{emoji}</span>
+            {sticker.foto ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={sticker.foto}
+                alt={sticker.nombre}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <span className="text-8xl">{emoji}</span>
+            )}
           </div>
         </div>
 
@@ -129,29 +161,48 @@ export default async function ProductoPage({
 
           {/* Acciones */}
           <div className="flex flex-col gap-4">
-            <AddToCartButton sticker={sticker} />
-            <button className="rounded-full border border-primario bg-white px-6 py-4 font-bold text-primario transition-colors hover:bg-primario hover:text-white">
-              Comprar ahora
-            </button>
+            {esDueño ? (
+              <Link
+                href={`/dashboard/stickers/${sticker.id}`}
+                className="rounded-full bg-primario px-6 py-4 text-center text-xl font-bold text-white transition-colors hover:bg-ink"
+              >
+                Editar sticker
+              </Link>
+            ) : (
+              <AddToCartButton sticker={sticker} />
+            )}
           </div>
 
           {/* Envío */}
           <div className="rounded-2xl border border-line bg-white p-5">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <span className="text-lg">📦</span>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primario/10 text-primario">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 5.5H20V19.5H4V5.5Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8 3.5V7.5M16 3.5V7.5M4 10.5H20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                </span>
                 <span className="text-sm text-ink">
                   Envío gratis en compras superiores a $2.000
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-lg">🚚</span>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secundario/15 text-secundario">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 7H14V17H3V7ZM10 7V17M10 12H19M19 12V17H21V10L19 12Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
                 <span className="text-sm text-ink">
                   Envío a todo el país en 3 a 7 días hábiles
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-lg">↩️</span>
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-acento/20 text-[#c99400]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 8H20M4 8L4 20H20V8M4 8V4H20V8M9 12H15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
                 <span className="text-sm text-ink">
                   Devoluciones sin cargo dentro de los 10 días
                 </span>

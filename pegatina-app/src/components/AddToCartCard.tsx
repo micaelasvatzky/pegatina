@@ -12,13 +12,22 @@ import AuthModal from "@/components/AuthModal";
  * si no está logueado).
  */
 export default function AddToCartCard({ sticker }: { sticker: Sticker }) {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, usuario } = useAuth();
   const { add } = useCart();
   const [cantidad, setCantidad] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
   const restar = () => setCantidad((c) => Math.max(1, c - 1));
   const sumar = () => setCantidad((c) => Math.min(99, c + 1));
+
+  // El ilustrador solo vende: su cuenta no puede comprar stickers.
+  if (isLoggedIn && usuario?.rol === "ilustrador") {
+    return (
+      <p className="mt-3 rounded-full border border-line bg-crema px-3 py-2 text-center text-xs font-semibold text-muted">
+        Modo vendedor: no podés comprar
+      </p>
+    );
+  }
 
   const handleClick = () => {
     if (isLoggedIn) {

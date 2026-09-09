@@ -88,8 +88,10 @@ export async function POST() {
     }
 
     const id = usuario._id.toString();
+    // Cookie demo: 1 hora (3600s). Si querés que dure más, subilo.
     await setSessionCookie(
-      signSession({ sub: id, nombre: usuario.nombre, rol: usuario.rol })
+      signSession({ sub: id, nombre: usuario.nombre, rol: usuario.rol }),
+      60 * 60
     );
 
     return NextResponse.json({ usuario: publicUsuario(usuario) });

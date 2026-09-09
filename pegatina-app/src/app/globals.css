@@ -32,3 +32,62 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* ============================================================
+   Animaciones (hero de la landing)
+   ============================================================ */
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(6deg);
+  }
+}
+
+@keyframes flotar-suave {
+  0%,
+  100% {
+    transform: translateY(0) rotate(4deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-4deg);
+  }
+}
+
+@keyframes aparecer-arriba {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anim-flotar {
+  animation: flotar 6s ease-in-out infinite;
+}
+
+.anim-flotar-suave {
+  animation: flotar-suave 7s ease-in-out infinite;
+}
+
+.anim-aparecer-arriba {
+  animation: aparecer-arriba 0.8s ease-out both;
+}
+
+.anim-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.anim-delay-2 {
+  animation-delay: 0.3s;
+}
+
+.anim-delay-3 {
+  animation-delay: 0.45s;
+}

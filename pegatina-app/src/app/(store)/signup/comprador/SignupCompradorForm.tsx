@@ -36,12 +36,13 @@ export default function SignupCompradorForm() {
       return;
     }
 
-    router.push(redirect ?? "/");
+    // Comprador nuevo → directo al catálogo (excepto si venía de un redirect).
+    router.push(redirect ?? "/catalogo");
   };
 
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center py-16">
-      <div className="w-full rounded-xl border border-line bg-white p-10 shadow-sm">
+      <div className="w-full rounded-xl border border-line bg-white p-6 shadow-sm md:p-10">
         <h1 className="mb-2 text-4xl font-bold text-ink">Crear cuenta</h1>
         <p className="mb-8 text-muted">Comprá arte local original.</p>
 

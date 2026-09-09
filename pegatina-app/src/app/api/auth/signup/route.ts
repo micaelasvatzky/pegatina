@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     const email = (body.email ?? "").toString().trim().toLowerCase();
     const password = (body.password ?? "").toString();
     const rol: Role = body.rol === "ilustrador" ? "ilustrador" : "comprador";
+    const usuario = (body.usuario ?? "").toString().trim();
 
     // ---- Validaciones ----
     if (!nombre || nombre.length < 2) {
@@ -35,6 +36,22 @@ export async function POST(request: Request) {
       );
     }
 
+    // Handle @usuario: solo para ilustradores (compradores no venden).
+    let handle: string | null = null;
+    if (rol === "ilustrador") {
+      const limpio = usuario.replace(/^@/, "").toLowerCase();
+      if (!/^[a-z0-9_]{3,24}$/.test(limpio)) {
+        return NextResponse.json(
+          {
+            error:
+              "El @usuario debe tener 3 a 24 caracteres (letras, números o _), sin espacios.",
+          },
+          { status: 400 }
+        );
+      }
+      handle = `@${limpio}`;
+    }
+
     const db = await getDb();
     const usuarios = db.collection<DBUsuario>("usuarios");
 
@@ -47,6 +64,17 @@ export async function POST(request: Request) {
       );
     }
 
+    // Handle único (solo si aplica)
+    if (handle) {
+      const handleExistente = await usuarios.findOne({ usuario: handle });
+      if (handleExistente) {
+        return NextResponse.json(
+          { error: "Ese @usuario ya está en uso. Elegí otro." },
+          { status: 409 }
+        );
+      }
+    }
+
     const password_hash = await hashPassword(password);
     const now = new Date();
 
@@ -55,6 +83,7 @@ export async function POST(request: Request) {
       email,
       password_hash,
       rol,
+      usuario: handle,
       foto: null,
       direccion: null,
       bio: null,
@@ -70,7 +99,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        usuario: { id, nombre, email, rol, foto: null },
+        usuario: { id, nombre, email, rol, usuario: handle, foto: null },
       },
       { status: 201 }
     );

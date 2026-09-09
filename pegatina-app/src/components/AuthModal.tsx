@@ -49,7 +49,11 @@ export default function AuthModal({
           </button>
 
           <div className="mb-6 text-center">
-            <span className="text-5xl">🎨</span>
+            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primario/10 text-primario">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                <path d="M6 8H18M6 8H3V21H21V8H18M6 8V6C6 4.5 7 3 9 3C9 3 10.5 3 12 5.5C13.5 3 15 3 15 3C17 3 18 4.5 18 6V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
             <h2 className="mt-2 text-2xl font-bold text-ink">
               Iniciá sesión para comprar
             </h2>

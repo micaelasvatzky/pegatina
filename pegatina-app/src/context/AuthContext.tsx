@@ -26,9 +26,13 @@ interface AuthContextValue {
     email: string;
     password: string;
     rol: Role;
+    /** Handle @usuario — requerido para ilustradores. */
+    usuario?: string;
     direccion?: string;
   }) => Promise<{ error?: string } & { usuario?: Usuario | null }>;
   logout: () => Promise<void>;
+  /** Re-chequea la sesión contra /api/auth/me (para refrescar datos del perfil). */
+  refreshMe: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -92,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: string;
       password: string;
       rol: Role;
+      usuario?: string;
       direccion?: string;
     }) => {
       const res = await fetch("/api/auth/signup", {
@@ -118,6 +123,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUsuario(null);
   }, []);
 
+  const refreshMe = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/me");
+      const data = await res.json();
+      setUsuario(data.usuario ?? null);
+    } catch {
+      setUsuario(null);
+    }
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -128,6 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         demoLogin,
         signup,
         logout,
+        refreshMe,
       }}
     >
       {children}

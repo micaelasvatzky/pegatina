@@ -16,6 +16,7 @@ export default function SignupIlustradorPage() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [usuario, setUsuario] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -24,7 +25,13 @@ export default function SignupIlustradorPage() {
     setError(null);
     setSubmitting(true);
 
-    const result = await signup({ nombre, email, password, rol: "ilustrador" });
+    const result = await signup({
+      nombre,
+      email,
+      password,
+      rol: "ilustrador",
+      usuario,
+    });
 
     if (result.error) {
       setError(result.error);
@@ -37,7 +44,7 @@ export default function SignupIlustradorPage() {
 
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center py-16">
-      <div className="w-full rounded-xl border border-line bg-white p-10 shadow-sm">
+      <div className="w-full rounded-xl border border-line bg-white p-6 shadow-sm md:p-10">
         <h1 className="mb-2 text-4xl font-bold text-ink">Abrí tu tienda</h1>
         <p className="mb-8 text-muted">
           Vende tus stickers. No pagás nada por tener tu tienda activa.
@@ -73,6 +80,25 @@ export default function SignupIlustradorPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-full border border-line bg-white px-5 py-3 focus:border-primario focus:outline-none"
             />
+          </div>
+          <div>
+            <label className="mb-2 block text-[17px] capitalize text-ink">
+              @usuario (el nombre de tu tienda)
+            </label>
+            <input
+              type="text"
+              required
+              minLength={3}
+              maxLength={24}
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              className="w-full rounded-full border border-line bg-white px-5 py-3 focus:border-primario focus:outline-none"
+              placeholder="ej: matesconmili"
+            />
+            <p className="mt-1 text-xs text-muted">
+              Sin espacios, letras/números/_. Va a ser la URL pública de tu
+              tienda: pegatina.com/artista/matesconmili
+            </p>
           </div>
           <div>
             <label className="mb-2 block text-[17px] capitalize text-ink">

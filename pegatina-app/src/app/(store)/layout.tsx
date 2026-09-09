@@ -19,9 +19,8 @@ export default function StoreLayout({
       <footer className="border-t border-line bg-crema">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 py-12">
           {/* Logo */}
-          <span className="text-4xl font-bold text-primario">
-            Pegatina
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Pegatina" className="h-14 w-auto" />
 
           {/* Links */}
           <div className="flex gap-10 text-sm text-muted">

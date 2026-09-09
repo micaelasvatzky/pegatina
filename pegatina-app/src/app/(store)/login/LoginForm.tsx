@@ -45,7 +45,8 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
     } else if (rol === "ilustrador") {
       router.push("/dashboard");
     } else {
-      router.push("/");
+      // El comprador va directo al catálogo (no a la home).
+      router.push("/catalogo");
     }
   };
 
@@ -65,10 +66,10 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl items-center justify-center py-16">
+    <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-16 md:px-6">
       <div className="grid w-full overflow-hidden rounded-2xl border border-line shadow-sm md:grid-cols-2">
         {/* Formulario */}
-        <div className="bg-white p-10">
+        <div className="bg-white p-6 md:p-10">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-ink">Iniciar sesión</h1>
             <p className="text-muted">
@@ -131,7 +132,7 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
           </form>
 
           {/* Links a signups por rol */}
-          <div className="mt-8 flex gap-3">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href={`/signup/comprador${redirect ? `?redirect=${redirect}` : ""}`}
               className="flex-1 rounded-full border border-line py-3 text-center font-medium text-ink transition-colors hover:bg-crema"
@@ -162,7 +163,17 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
                 disabled={demoSubmitting}
                 className="w-full rounded-full border-2 border-dashed border-acento bg-acento/10 py-4 text-[20px] font-bold text-ink transition-colors hover:bg-acento/20 disabled:opacity-60"
               >
-                {demoSubmitting ? "Entrando..." : "🎨 Entrar como ilustrador demo"}
+                {demoSubmitting ? (
+                  "Entrando..."
+                ) : (
+                  <>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="inline-block align-[-4px]">
+                      <path d="M4 20C4 20 4.5 15 9 12C13.5 9 18 5 20 4C21 7.5 17 13 13 17.5C10.5 20 4 20 4 20Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M4 20L10 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    </svg>{" "}
+                    Entrar como ilustrador demo
+                  </>
+                )}
               </button>
             </div>
           )}
@@ -171,7 +182,10 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
         {/* Lado derecho - ilustración decorativa */}
         <div className="flex items-center justify-center bg-primario p-10">
           <div className="flex flex-col items-center gap-4 text-center">
-            <span className="text-7xl">🎨</span>
+            <svg width="88" height="88" viewBox="0 0 24 24" fill="none" className="text-white/90">
+              <path d="M12 3L15 6H19V10L22 13L19 16V20H15L12 23L9 20H5V16L2 13L5 10V6H9L12 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M12 8V16M8 12H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
             <p className="text-3xl font-bold text-white">Pegatina</p>
             <p className="max-w-xs text-base text-white/80">
               Tu marketplace de stickers de artistas argentinos

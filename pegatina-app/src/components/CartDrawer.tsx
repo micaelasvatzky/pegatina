@@ -43,7 +43,12 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {items.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-16 text-center">
-              <span className="text-5xl">🛒</span>
+              <span className="flex h-20 w-20 items-center justify-center rounded-full bg-crema text-muted">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 7H21V21H3V7Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M8 10V5.5C8 3.5 10 2 12 2C14 2 16 3.5 16 5.5V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </span>
               <p className="text-muted">Tu carrito está vacío.</p>
               <Link
                 href="/catalogo"

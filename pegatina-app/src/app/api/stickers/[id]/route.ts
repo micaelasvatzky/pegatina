@@ -63,10 +63,34 @@ export async function PATCH(
     const material = (body.material ?? sticker.material).toString().trim();
     const acabado = (body.acabado ?? "Mate").toString().trim();
     const resistente_al_agua = body.resistente_al_agua !== false;
+    const fotos =
+      typeof body.fotos !== "undefined"
+        ? Array.isArray(body.fotos)
+          ? body.fotos.map((f: unknown) => String(f).trim()).filter(Boolean)
+          : [sticker.foto]
+        : sticker.fotos && sticker.fotos.length > 0
+          ? sticker.fotos
+          : sticker.foto
+            ? [sticker.foto]
+            : [];
 
     if (!nombre || !precio || precio <= 0) {
       return NextResponse.json(
         { error: "Ingresá un nombre y un precio válido." },
+        { status: 400 }
+      );
+    }
+
+    if (fotos.length > 4) {
+      return NextResponse.json(
+        { error: "Máximo 4 fotos por sticker." },
+        { status: 400 }
+      );
+    }
+
+    if (fotos.some((f: string) => !/^https?:\/\//.test(f))) {
+      return NextResponse.json(
+        { error: "Las URLs de las fotos deben empezar con http:// o https://." },
         { status: 400 }
       );
     }
@@ -85,7 +109,16 @@ export async function PATCH(
       .updateOne(
         { _id: new ObjectId(id) },
         {
-          $set: { nombre, precio, categoria, material, acabado, resistente_al_agua },
+          $set: {
+            nombre,
+            precio,
+            categoria,
+            material,
+            acabado,
+            resistente_al_agua,
+            foto: fotos[0] ?? "",
+            fotos,
+          },
         }
       );
 

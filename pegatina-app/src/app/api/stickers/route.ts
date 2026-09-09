@@ -39,10 +39,27 @@ export async function POST(request: Request) {
     const material = (body.material ?? "Vinilo").toString().trim();
     const acabado = (body.acabado ?? "Mate").toString().trim();
     const resistente_al_agua = body.resistente_al_agua !== false;
+    const fotos = Array.isArray(body.fotos)
+      ? body.fotos.map((f: unknown) => String(f).trim()).filter(Boolean)
+      : [];
 
     if (!nombre || !precio || precio <= 0) {
       return NextResponse.json(
         { error: "Ingresá un nombre y un precio válido." },
+        { status: 400 }
+      );
+    }
+
+    if (fotos.length > 4) {
+      return NextResponse.json(
+        { error: "Máximo 4 fotos por sticker." },
+        { status: 400 }
+      );
+    }
+
+    if (fotos.some((f: string) => !/^https?:\/\//.test(f))) {
+      return NextResponse.json(
+        { error: "Las URLs de las fotos deben empezar con http:// o https://." },
         { status: 400 }
       );
     }
@@ -63,7 +80,8 @@ export async function POST(request: Request) {
       precio,
       ilustrador: handle,
       categoria,
-      foto: "",
+      foto: fotos[0] ?? "",
+      fotos,
       material,
       resistente_al_agua,
       acabado,
