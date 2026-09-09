@@ -90,13 +90,17 @@ export default function Navbar({ mode = "store" }: { mode?: "store" | "dashboard
             </>
           ) : (
             <>
-              {/* Navegación del store */}
-              <Link
-                href="/catalogo"
-                className="text-base font-medium text-ink transition-colors hover:text-primario"
-              >
-                Explorar
-              </Link>
+              {/* Navegación del store — un ilustrador logueado SOLO vende:
+                  no ve Explorar ni carrito (su única ventana al store es su
+                  tienda pública, y el proxy bloquea el resto). */}
+              {!(isLoggedIn && usuario?.rol === "ilustrador") && (
+                <Link
+                  href="/catalogo"
+                  className="text-base font-medium text-ink transition-colors hover:text-primario"
+                >
+                  Explorar
+                </Link>
+              )}
 
               {/* Perfil / Login */}
               {!loading &&

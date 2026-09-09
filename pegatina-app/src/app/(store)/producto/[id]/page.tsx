@@ -76,7 +76,7 @@ export default async function ProductoPage({
                     <img
                       src={f}
                       alt={`${sticker.nombre} ${i + 1}`}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain p-1"
                     />
                   </div>
                 ))
@@ -97,7 +97,7 @@ export default async function ProductoPage({
               <img
                 src={sticker.foto}
                 alt={sticker.nombre}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-contain p-4"
               />
             ) : (
               <span className="text-8xl">{emoji}</span>

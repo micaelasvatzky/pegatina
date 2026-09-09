@@ -25,7 +25,7 @@ export default function StickerCard({
 
   const imagen = (
     <div
-      className={`relative flex aspect-[4/3] w-full items-center justify-center bg-crema ${
+      className={`relative flex aspect-square w-full items-center justify-center bg-crema ${
         readOnly ? "" : "transition-transform duration-300 group-hover:scale-110"
       }`}
     >
@@ -34,7 +34,7 @@ export default function StickerCard({
         <img
           src={sticker.foto}
           alt={sticker.nombre}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain p-2"
         />
       ) : (
         <span className="text-6xl">🎨</span>

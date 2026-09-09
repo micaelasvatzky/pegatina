@@ -208,7 +208,7 @@ export default function StickerEditorForm({
                     onLoad={(e) => {
                       (e.target as HTMLImageElement).style.opacity = "1";
                     }}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                   />
                 ) : (
                   <span className="text-xl">🎨</span>

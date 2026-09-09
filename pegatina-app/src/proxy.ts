@@ -7,6 +7,8 @@ import { jwtVerify } from "jose";
  *
  * - /perfil, /checkout, /pedidos/:id* → requieren sesión
  * - /dashboard* → requiere rol "ilustrador"
+ * - store público (/, /catalogo, /producto, /carrito, /login, /signup, /checkout, /pedidos, /perfil)
+ *   → PROHIBIDO para ilustradores (son SOLO vendedores). Única excepción: /artista/[usuario] (su tienda pública).
  * - sin sesión → redirige a /login
  */
 
@@ -26,12 +28,33 @@ async function getSessionRole(request: NextRequest): Promise<string | null> {
   }
 }
 
+/** El lado comprador del store (todo lo que NO es dashboard ni tienda pública). */
+function esRutaStore(pathname: string) {
+  return (
+    pathname === "/" ||
+    pathname === "/catalogo" ||
+    pathname.startsWith("/producto") ||
+    pathname === "/carrito" ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/pedidos") ||
+    pathname === "/perfil"
+  );
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const rol = await getSessionRole(request);
+
+  // Un ilustrador SOLO vende: no puede entrar al store del comprador.
+  // La única ventana al otro lado es su tienda pública (/artista/[usuario]).
+  if (rol === "ilustrador" && esRutaStore(pathname)) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
 
   // Rutas del ilustrador
   if (pathname.startsWith("/dashboard")) {
-    const rol = await getSessionRole(request);
     if (!rol) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
@@ -44,9 +67,8 @@ export async function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/perfil") ||
     pathname.startsWith("/checkout") ||
-    pathname.startsWith("/pedidos/")
+    pathname.startsWith("/pedidos")
   ) {
-    const rol = await getSessionRole(request);
     if (!rol) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
@@ -63,5 +85,11 @@ export const config = {
     "/perfil",
     "/checkout",
     "/pedidos/:path*",
+    "/",
+    "/catalogo",
+    "/producto/:path*",
+    "/carrito",
+    "/login",
+    "/signup/:path*",
   ],
 };

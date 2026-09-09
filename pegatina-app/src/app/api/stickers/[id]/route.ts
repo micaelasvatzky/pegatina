@@ -9,6 +9,72 @@ import type { DBSticker, Sticker } from "@/lib/types";
  * PATCH /api/stickers/[id]
  * Edita UN sticker. Solamente su dueño (mismo @usuario) puede editarlo.
  */
+/**
+ * DELETE /api/stickers/[id]
+ * Elimina UN sticker. Solamente su dueño (mismo @usuario) puede borrarlo.
+ * Los pedidos existentes conservan nombre/precio como snapshot (no se rompen).
+ */
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    const sesion = await getSession();
+    if (!sesion) {
+      return NextResponse.json({ error: "Iniciá sesión." }, { status: 401 });
+    }
+    if (sesion.rol !== "ilustrador") {
+      return NextResponse.json(
+        { error: "Solo ilustradores pueden eliminar stickers." },
+        { status: 403 }
+      );
+    }
+
+    const usuario = await getUsuarioById(sesion.sub);
+    const handle = usuario?.usuario;
+    if (!handle) {
+      return NextResponse.json(
+        { error: "Tu cuenta todavía no tiene @usuario." },
+        { status: 400 }
+      );
+    }
+
+    let sticker: Sticker | null = null;
+    try {
+      sticker = await getStickerById(id);
+    } catch {
+      sticker = null;
+    }
+    if (!sticker) {
+      return NextResponse.json(
+        { error: "No encontramos ese sticker." },
+        { status: 404 }
+      );
+    }
+    if (sticker.ilustrador !== handle) {
+      return NextResponse.json(
+        { error: "No podés eliminar un sticker que no es tuyo." },
+        { status: 403 }
+      );
+    }
+
+    const db = await getDb();
+    await db
+      .collection<DBSticker>("stickers")
+      .deleteOne({ _id: new ObjectId(id) });
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("eliminar sticker error", err);
+    return NextResponse.json(
+      { error: "No pudimos eliminar el sticker." },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
