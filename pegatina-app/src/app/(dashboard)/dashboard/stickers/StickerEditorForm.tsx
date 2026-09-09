@@ -37,11 +37,32 @@ export default function StickerEditorForm({
   });
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [subiendoIdx, setSubiendoIdx] = useState<number | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const esEdicion = sticker !== null;
 
   const actualizarFoto = (idx: number, valor: string) =>
     setFotos((prev) => prev.map((f, i) => (i === idx ? valor : f)));
+
+  const subirFoto = async (idx: number, file: File) => {
+    setSubiendoIdx(idx);
+    setUploadError(null);
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "No pudimos subir la imagen.");
+      actualizarFoto(idx, data.url);
+    } catch (e) {
+      setUploadError(
+        e instanceof Error ? e.message : "No pudimos subir la imagen."
+      );
+    } finally {
+      setSubiendoIdx(null);
+    }
+  };
 
   const agregarFoto = () => {
     if (fotos.length < 4) setFotos((prev) => [...prev, ""]);
@@ -161,11 +182,16 @@ export default function StickerEditorForm({
         </select>
       </div>
 
-      {/* Fotos del sticker (URLs por ahora — Cloudinary en el futuro) */}
+      {/* Fotos del sticker (upload a Cloudinary o URL directa) */}
       <div>
         <label className={labelCls}>
           Fotos del sticker ({fotos.length}/4)
         </label>
+        {uploadError && (
+          <p className="mb-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+            {uploadError}
+          </p>
+        )}
         <div className="flex flex-col gap-3">
           {fotos.map((f, idx) => (
             <div key={idx} className="flex items-center gap-3">
@@ -195,6 +221,56 @@ export default function StickerEditorForm({
                 placeholder={`Link de la foto ${idx + 1}`}
                 className={`${inputCls} min-w-0 flex-1`}
               />
+
+              {/* Subir desde la compu */}
+              <label
+                title="Subir desde tu computadora"
+                aria-label="Subir imagen desde tu computadora"
+                className={`flex h-[46px] w-[46px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-line transition-colors hover:border-primario hover:text-primario ${
+                  subiendoIdx === idx ? "pointer-events-none opacity-50" : ""
+                }`}
+              >
+                {subiendoIdx === idx ? (
+                  <svg
+                    className="animate-spin"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M12 3C7 3 3 7 3 12M3 12L6 9M3 12L6 15M12 21C17 21 21 17 21 12M21 12L18 15M21 12L18 9"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 16V4M12 4L7 9M12 4L17 9M4 20H20"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                <input
+                  type="file"
+                  id={`foto-file-${idx}`}
+                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  className="hidden"
+                  disabled={subiendoIdx !== null}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    e.target.value = "";
+                    if (file) subirFoto(idx, file);
+                  }}
+                />
+              </label>
+
               {fotos.length > 1 && (
                 <button
                   type="button"

@@ -38,6 +38,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# scripts
+/scripts/cloudinary-map.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
