@@ -96,7 +96,7 @@ export default async function DashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-line bg-white p-6 shadow-sm"
+            className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow nb-lift"
           >
             <span
               className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${stat.bg}`}
@@ -110,16 +110,16 @@ export default async function DashboardPage() {
       </div>
 
       {/* CTA subir sticker */}
-      <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-2xl bg-primario p-8 text-white sm:flex-row">
+      <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-2xl border-2 border-line bg-primario p-8 text-white nb-shadow-md sm:flex-row">
         <div className="text-center sm:text-left">
-          <p className="text-xl font-bold">¿Tenés un diseño nuevo?</p>
+          <p className="text-xl font-bold uppercase tracking-tight">¿Tenés un diseño nuevo?</p>
           <p className="mt-1 text-white/80">
             Subilo a tu tienda y empezá a vender hoy mismo.
           </p>
         </div>
         <Link
           href="/dashboard/stickers/nuevo"
-          className="shrink-0 rounded-full bg-white px-6 py-3 font-bold text-primario transition-colors hover:bg-crema"
+          className="shrink-0 rounded-full border-2 border-line bg-card px-6 py-3 font-bold text-ink transition-colors hover:bg-lilac/40 nb-lift"
         >
           Subir sticker
         </Link>

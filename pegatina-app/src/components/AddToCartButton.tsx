@@ -40,7 +40,7 @@ export default function AddToCartButton({ sticker }: { sticker: Sticker }) {
     <>
       <div className="flex gap-4">
         {/* Selector de cantidad */}
-        <div className="flex items-center gap-4 rounded-full border border-line bg-white px-4">
+        <div className="flex items-center gap-4 rounded-full border-2 border-line bg-card px-4">
           <button
             aria-label="Restar"
             onClick={restar}
@@ -64,7 +64,7 @@ export default function AddToCartButton({ sticker }: { sticker: Sticker }) {
 
         <button
           onClick={handleClick}
-          className="flex-1 rounded-full bg-primario px-6 py-4 font-bold text-white transition-colors hover:bg-ink"
+          className="flex-1 rounded-full border-2 border-line bg-primario px-6 py-4 font-bold text-white transition-colors hover:bg-ink nb-shadow-sm nb-lift"
         >
           Agregar al carrito
         </button>

@@ -29,8 +29,8 @@ export default function CheckoutForm() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-24 text-center md:px-6">
-        <div className="flex flex-col items-center gap-4">
-          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-crema text-muted">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border-2 border-line bg-card px-8 py-16 nb-shadow">
+          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-lilac/60 text-muted">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
               <path d="M3 7H21V21H3V7Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M8 10V5.5C8 3.5 10 2 12 2C14 2 16 3.5 16 5.5V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -39,7 +39,7 @@ export default function CheckoutForm() {
           <p className="text-lg text-muted">Tu carrito está vacío.</p>
           <Link
             href="/catalogo"
-            className="rounded-full bg-primario px-8 py-3 font-bold text-white hover:bg-ink"
+            className="rounded-full border-2 border-line bg-primario px-8 py-3 font-bold text-white nb-lift hover:bg-ink"
           >
             Explorar stickers
           </Link>
@@ -87,7 +87,7 @@ export default function CheckoutForm() {
       className="flex flex-col gap-8 lg:flex-row lg:items-start"
     >
       {/* Datos de envío */}
-      <div className="flex-1 rounded-2xl border border-line bg-white p-6 shadow-sm md:p-8">
+      <div className="flex-1 rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-8">
         <h2 className="mb-5 text-lg font-bold text-ink">Datos de envío</h2>
         {error && (
           <p className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
@@ -181,7 +181,7 @@ export default function CheckoutForm() {
       </div>
 
       {/* Resumen + pago */}
-      <div className="w-full rounded-2xl border border-line bg-white p-6 shadow-sm md:p-8 lg:w-96 lg:shrink-0">
+      <div className="w-full rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-8 lg:w-96 lg:shrink-0">
         <h2 className="mb-5 text-lg font-bold text-ink">Tu compra</h2>
         <ul className="flex flex-col gap-3">
           {items.map(({ sticker, cantidad }) => (
@@ -214,7 +214,7 @@ export default function CheckoutForm() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-5 w-full rounded-full bg-primario py-4 font-bold text-white transition-colors hover:bg-ink disabled:opacity-50"
+          className="mt-5 w-full rounded-full border-2 border-line bg-primario py-4 font-bold text-white transition-colors hover:bg-ink disabled:opacity-50 nb-shadow-sm nb-lift"
         >
           {loading ? "Procesando..." : "Confirmar compra"}
         </button>

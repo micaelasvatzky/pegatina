@@ -75,7 +75,7 @@ export default function CambiarEstadoPedido({ pedidoId, estado }: Props) {
         onChange={cambiar}
         disabled={loading}
         title="Cambiar estado del pedido"
-        className="h-9 cursor-pointer rounded-full border border-line bg-white px-3 text-sm font-semibold text-ink focus:border-primario focus:outline-none disabled:opacity-50"
+        className="h-9 cursor-pointer rounded-full border-2 border-line bg-card px-3 text-sm font-semibold text-ink transition-colors hover:border-primario focus:border-primario focus:outline-none disabled:opacity-50"
       >
         {ESTADOS_VALIDOS.map((s) => (
           <option key={s} value={s}>

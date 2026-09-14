@@ -127,7 +127,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-full bg-primario py-3.5 text-lg font-bold text-white transition-colors hover:bg-ink disabled:opacity-50"
+          className="w-full rounded-full border-2 border-line bg-primario py-3.5 text-lg font-bold text-white transition-colors hover:bg-ink disabled:opacity-50 nb-shadow-sm nb-lift"
         >
           {loading ? "Guardando..." : "Guardar cambios"}
         </button>

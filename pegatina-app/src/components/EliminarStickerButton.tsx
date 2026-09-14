@@ -49,14 +49,14 @@ export default function EliminarStickerButton({
           <button
             onClick={handleEliminar}
             disabled={loading}
-            className="rounded-full bg-red-600 px-4 py-2.5 text-center text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-50"
+            className="rounded-full border-2 border-line bg-red-600 px-4 py-2.5 text-center text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-50 nb-shadow-sm nb-lift"
           >
             {loading ? "Eliminando..." : "Sí, eliminar"}
           </button>
           <button
             onClick={() => setConfirming(false)}
             disabled={loading}
-            className="rounded-full border border-line px-4 py-2.5 text-center text-sm font-semibold text-muted transition hover:text-ink disabled:opacity-50"
+            className="rounded-full border-2 border-line bg-card px-4 py-2.5 text-center text-sm font-semibold text-muted transition hover:text-ink disabled:opacity-50 nb-lift"
           >
             Cancelar
           </button>
@@ -64,7 +64,7 @@ export default function EliminarStickerButton({
       ) : (
         <button
           onClick={() => setConfirming(true)}
-          className="rounded-full border border-red-200 px-4 py-2.5 text-center text-sm font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-50"
+          className="rounded-full border-2 border-line bg-card px-4 py-2.5 text-center text-sm font-semibold text-red-600 transition hover:bg-red-50 nb-lift"
         >
           Eliminar
         </button>

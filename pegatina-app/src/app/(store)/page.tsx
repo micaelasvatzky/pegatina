@@ -33,20 +33,20 @@ export default async function HomePage() {
 
         {/* Stickers flotando (decorativos, no interactivos) */}
         <div aria-hidden className="pointer-events-none absolute inset-0 hidden md:block">
-          <span className="anim-flotar absolute left-[8%] top-[18%] flex h-16 w-16 items-center justify-center rounded-2xl bg-acento text-3xl shadow-lg">
+          <span className="anim-flotar absolute left-[8%] top-[18%] flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-line bg-acento text-3xl nb-shadow-sm">
             ⭐
           </span>
-          <span className="anim-flotar-suave absolute right-[10%] top-[22%] flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-lg">
+          <span className="anim-flotar-suave absolute right-[10%] top-[22%] flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-line bg-card text-2xl nb-shadow-sm">
             🎨
           </span>
           <span
-            className="anim-flotar absolute bottom-[16%] left-[16%] flex h-12 w-12 items-center justify-center rounded-xl bg-secundario text-xl shadow-lg"
+            className="anim-flotar absolute bottom-[16%] left-[16%] flex h-12 w-12 items-center justify-center rounded-xl border-2 border-line bg-secundario text-xl nb-shadow-sm"
             style={{ animationDelay: "1.2s" }}
           >
             ✂️
           </span>
           <span
-            className="anim-flotar-suave absolute bottom-[20%] right-[14%] flex h-14 w-14 items-center justify-center rounded-2xl bg-acento text-2xl shadow-lg"
+            className="anim-flotar-suave absolute bottom-[20%] right-[14%] flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-line bg-acento text-2xl nb-shadow-sm"
             style={{ animationDelay: "0.6s" }}
           >
             💛
@@ -54,7 +54,10 @@ export default async function HomePage() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center gap-6 px-4 py-16 text-center">
-          <h1 className="anim-aparecer-arriba max-w-3xl text-4xl font-bold text-white drop-shadow-sm md:text-6xl">
+          <span className="nb-stamp nb-shadow-sm anim-aparecer-arriba rounded-full border-2 border-line bg-acento px-3 py-1.5 text-white">
+            Hecho a mano en Argentina
+          </span>
+          <h1 className="anim-aparecer-arriba max-w-3xl text-4xl font-bold uppercase tracking-tight text-white drop-shadow-sm md:text-6xl">
             Arte local en stickers
           </h1>
           <p className="anim-aparecer-arriba anim-delay-1 max-w-xl text-base text-white/85 md:text-lg">
@@ -65,7 +68,7 @@ export default async function HomePage() {
           <form
             action="/catalogo"
             method="get"
-            className="anim-aparecer-arriba anim-delay-2 flex w-full max-w-md items-center justify-between gap-2 rounded-full bg-white py-2 pl-6 pr-2 shadow-lg"
+            className="anim-aparecer-arriba anim-delay-2 flex w-full max-w-md items-center justify-between gap-2 rounded-full border-2 border-line bg-card py-2 pl-6 pr-2 nb-shadow"
           >
             <input
               type="text"
@@ -76,7 +79,7 @@ export default async function HomePage() {
             <button
               type="submit"
               aria-label="Buscar"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primario text-white transition-colors hover:bg-ink"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-line bg-primario text-white nb-lift"
             >
               <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
                 <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.6" />
@@ -89,7 +92,7 @@ export default async function HomePage() {
 
       {/* PRODUCTOS DESTACADOS */}
       <section className="mx-auto max-w-7xl px-4 py-14 md:px-6">
-        <h2 className="mb-2 text-center text-3xl font-bold text-ink md:text-4xl">
+        <h2 className="mb-2 text-center text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
           Destacados
         </h2>
         <p className="mb-10 text-center text-muted">
@@ -105,7 +108,7 @@ export default async function HomePage() {
 
       {/* CATEGORÍAS */}
       <section className="mx-auto max-w-7xl px-4 pb-14 md:px-6">
-        <h2 className="mb-2 text-center text-3xl font-bold text-ink md:text-4xl">
+        <h2 className="mb-2 text-center text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
           Explorá por categoría
         </h2>
         <p className="mb-10 text-center text-muted">
@@ -117,9 +120,9 @@ export default async function HomePage() {
             <a
               key={cat}
               href={`/catalogo?categoria=${encodeURIComponent(cat)}`}
-              className="flex h-28 items-center justify-center rounded-2xl bg-primario transition-transform hover:scale-[1.02] md:h-36"
+              className="nb-lift nb-shadow flex h-28 items-center justify-center rounded-2xl border-2 border-line bg-card transition-all hover:-translate-y-0.5 md:h-36"
             >
-              <span className="text-2xl font-bold text-white md:text-3xl">
+              <span className="text-2xl font-bold uppercase tracking-tight text-primario md:text-3xl">
                 {cat}
               </span>
             </a>

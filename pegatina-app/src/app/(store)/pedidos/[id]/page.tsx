@@ -129,14 +129,14 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
       )}
 
       {/* Timeline */}
-      <div className="rounded-2xl border border-line bg-white p-6 shadow-sm md:p-8">
+      <div className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow md:p-8">
         <Timeline estado={pedido.estado} />
       </div>
 
       {/* Detalle */}
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Items */}
-        <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow">
           <h2 className="mb-4 text-lg font-bold text-ink">Detalle</h2>
           <ul className="flex flex-col gap-2">
             {pedido.items.map((it, i) => (
@@ -165,7 +165,7 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
         </div>
 
         {/* Envío */}
-        <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow">
           <h2 className="mb-4 text-lg font-bold text-ink">Envío a</h2>
           {pedido.envio ? (
             <div className="flex flex-col gap-1 text-sm text-ink">

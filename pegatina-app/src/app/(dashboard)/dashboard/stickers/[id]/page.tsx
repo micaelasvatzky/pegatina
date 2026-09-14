@@ -32,7 +32,7 @@ export default async function EditarStickerPage({
     <div className="mx-auto max-w-2xl">
       <h1 className="mb-8 text-4xl font-bold text-ink">Editar sticker</h1>
 
-      <div className="rounded-2xl border border-line bg-white p-8 shadow-sm">
+      <div className="rounded-2xl border-2 border-line bg-card p-8 nb-shadow-md">
         <StickerEditorForm sticker={sticker} categorias={categorias} />
       </div>
     </div>

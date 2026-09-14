@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Epilogue, Work_Sans } from "next/font/google";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const epilogue = Epilogue({
+  variable: "--font-epilogue",
+  subsets: ["latin"],
+});
+
+const workSans = Work_Sans({
+  variable: "--font-worksans",
   subsets: ["latin"],
 });
 
@@ -20,7 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${montserrat.variable} h-full antialiased`}>
+    <html
+      lang="es"
+      className={`${epilogue.variable} ${workSans.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col bg-crema text-ink font-sans">
         <Providers>{children}</Providers>
       </body>

@@ -85,8 +85,8 @@ export default async function CatalogoPage({
         {/* SIDEBAR FILTROS */}
         <aside className="flex w-full shrink-0 flex-col gap-6 lg:w-64">
           {/* Categorías */}
-          <div className="rounded-2xl border border-line bg-white p-6">
-            <h3 className="mb-5 flex items-center gap-3 text-xl font-bold text-ink">
+          <div className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow">
+            <h3 className="mb-5 flex items-center gap-3 text-xl font-bold uppercase tracking-tight text-ink">
               <span className="h-6 w-1 rounded-full bg-primario" />
               Categorías
             </h3>
@@ -97,7 +97,7 @@ export default async function CatalogoPage({
                   className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-base transition-colors ${
                     !categoria
                       ? "bg-primario/10 font-semibold text-primario"
-                      : "text-ink hover:bg-crema"
+                      : "text-ink hover:bg-lilac/30"
                   }`}
                 >
                   <span className="h-3 w-3 rounded-full bg-ink" />
@@ -119,7 +119,7 @@ export default async function CatalogoPage({
                       className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-base transition-colors ${
                         isActive
                           ? "bg-primario/10 font-semibold text-primario"
-                          : "text-ink hover:bg-crema"
+                          : "text-ink hover:bg-lilac/30"
                       }`}
                     >
                       <span
@@ -137,8 +137,8 @@ export default async function CatalogoPage({
           </div>
 
           {/* Rango de precios */}
-          <div className="rounded-2xl border border-line bg-white p-6">
-            <h3 className="mb-5 flex items-center gap-3 text-xl font-bold text-ink">
+          <div className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow">
+            <h3 className="mb-5 flex items-center gap-3 text-xl font-bold uppercase tracking-tight text-ink">
               <span className="h-6 w-1 rounded-full bg-secundario" />
               Precio
             </h3>
@@ -148,7 +148,7 @@ export default async function CatalogoPage({
                 className={`rounded-xl px-3 py-2 text-base transition-colors ${
                   !rango || isNaN(rangoIdx)
                     ? "bg-secundario/10 font-semibold text-secundario"
-                    : "text-ink hover:bg-crema"
+                    : "text-ink hover:bg-wash/60"
                 }`}
               >
                 Todos los precios
@@ -162,7 +162,7 @@ export default async function CatalogoPage({
                     className={`rounded-xl px-3 py-2 text-base transition-colors ${
                       isActive
                         ? "bg-secundario/10 font-semibold text-secundario"
-                        : "text-ink hover:bg-crema"
+                        : "text-ink hover:bg-wash/60"
                     }`}
                   >
                     {r.label}
@@ -173,14 +173,14 @@ export default async function CatalogoPage({
           </div>
 
           {/* CTA */}
-          <div className="rounded-2xl bg-primario p-6 text-center">
-            <p className="text-xl font-bold text-white">
+          <div className="rounded-2xl border-2 border-line bg-primario p-6 text-center nb-shadow">
+            <p className="text-xl font-bold uppercase tracking-tight text-white">
               ¿Sos ilustrador?
             </p>
             <p className="mt-1 text-sm text-white/80">
               Abrí tu tienda gratis
             </p>
-            <button className="mt-4 w-full rounded-full bg-white py-2.5 text-sm font-bold text-primario transition-colors hover:bg-crema">
+            <button className="mt-4 w-full rounded-full border-2 border-line bg-card py-2.5 text-sm font-bold text-ink nb-lift hover:bg-lilac/40">
               Crear mi tienda
             </button>
           </div>
@@ -189,7 +189,7 @@ export default async function CatalogoPage({
         {/* GRID PRODUCTOS */}
         <section className="flex-1">
           <div className="mb-8 flex flex-col items-center gap-3">
-            <h1 className="text-center text-3xl font-bold text-ink md:text-4xl">
+            <h1 className="text-center text-3xl font-bold uppercase tracking-tight text-ink md:text-4xl">
               Catálogo
             </h1>
 
@@ -197,7 +197,7 @@ export default async function CatalogoPage({
             <form
               action="/catalogo"
               method="get"
-              className="flex w-full max-w-xl items-center justify-between gap-2 rounded-full border border-line bg-white py-2 pl-6 pr-2"
+              className="flex w-full max-w-xl items-center justify-between gap-2 rounded-full border-2 border-line bg-card py-2 pl-6 pr-2 nb-shadow-sm"
             >
               <input
                 type="text"
@@ -209,7 +209,7 @@ export default async function CatalogoPage({
               <button
                 type="submit"
                 aria-label="Buscar"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primario text-white transition-colors hover:bg-ink"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-line bg-primario text-white nb-lift"
               >
                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                   <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.6" />
@@ -231,8 +231,8 @@ export default async function CatalogoPage({
           </div>
 
           {stickers.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 py-20 text-center">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-crema text-muted">
+            <div className="flex flex-col items-center gap-3 rounded-2xl border-2 border-line bg-card py-20 text-center nb-shadow">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-lilac/60 text-muted">
                 <svg width="30" height="30" viewBox="0 0 20 20" fill="none">
                   <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.6" />
                   <path d="M14 14L18 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />

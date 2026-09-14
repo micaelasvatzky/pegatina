@@ -31,7 +31,7 @@ export default function Navbar({ mode = "store" }: { mode?: "store" | "dashboard
   const primerNombre = usuario?.nombre?.split(" ")[0] ?? "";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-line bg-crema/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b-2 border-line bg-paper/95 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
         {/* Logo */}
         <Link href={logoHref} className="flex items-center">

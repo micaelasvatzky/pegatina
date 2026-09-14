@@ -25,8 +25,8 @@ export default function LogoutButton() {
   };
 
   const confirmStyles = confirming
-    ? "bg-red-600 text-white hover:bg-red-700"
-    : "border border-line bg-white text-ink hover:border-red-300 hover:text-red-600";
+    ? "border-2 border-line bg-red-600 text-white hover:bg-red-700 nb-shadow-sm nb-lift"
+    : "border-2 border-line bg-card text-ink hover:border-red-300 hover:text-red-600 nb-lift";
 
   return (
     <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
@@ -35,14 +35,14 @@ export default function LogoutButton() {
           <button
             onClick={handleLogout}
             disabled={loading}
-            className="rounded-full bg-red-600 px-5 py-2 text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-50"
+            className="rounded-full border-2 border-line bg-red-600 px-5 py-2 text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-50 nb-shadow-sm nb-lift"
           >
             {loading ? "Saliendo..." : "Sí, salir"}
           </button>
           <button
             onClick={() => setConfirming(false)}
             disabled={loading}
-            className="rounded-full border border-line bg-white px-5 py-2 text-sm font-semibold text-muted transition hover:text-ink disabled:opacity-50"
+            className="rounded-full border-2 border-line bg-card px-5 py-2 text-sm font-semibold text-muted transition hover:text-ink disabled:opacity-50 nb-lift"
           >
             Cancelar
           </button>

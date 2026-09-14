@@ -31,7 +31,7 @@ export default async function MisStickersPage() {
         </div>
         <Link
           href="/dashboard/stickers/nuevo"
-          className="rounded-full bg-primario px-6 py-3 font-semibold text-white transition-colors hover:bg-ink"
+          className="rounded-full border-2 border-line bg-primario px-6 py-3 font-semibold text-white transition-colors hover:bg-ink nb-shadow-sm nb-lift"
         >
           + Subir sticker
         </Link>
@@ -39,7 +39,7 @@ export default async function MisStickersPage() {
 
       {stickers.length === 0 ? (
         /* Estado vacío */
-        <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-line bg-white px-8 py-16 text-center">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-line bg-card px-8 py-16 text-center nb-shadow">
           <span className="text-6xl">🎨</span>
           <p className="text-xl font-bold text-ink">Todavía no tenés stickers</p>
           <p className="max-w-sm text-muted">
@@ -47,7 +47,7 @@ export default async function MisStickersPage() {
           </p>
           <Link
             href="/dashboard/stickers/nuevo"
-            className="mt-2 rounded-full bg-primario px-6 py-3 font-semibold text-white transition-colors hover:bg-ink"
+            className="mt-2 rounded-full border-2 border-line bg-primario px-6 py-3 font-semibold text-white transition-colors hover:bg-ink nb-shadow-sm nb-lift"
           >
             Subir sticker
           </Link>
@@ -60,7 +60,7 @@ export default async function MisStickersPage() {
             return (
               <div
                 key={sticker.id}
-                className="flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-shadow hover:shadow-md"
+                className="flex flex-col overflow-hidden rounded-2xl border-2 border-line bg-card nb-shadow nb-lift"
               >
                 {/* Imagen (sin link: el ilustrador no navega el store) */}
                 <div className="relative flex aspect-square w-full items-center justify-center bg-crema">
@@ -86,14 +86,14 @@ export default async function MisStickersPage() {
                     <p className="text-sm font-bold text-primario">
                       ${sticker.precio.toLocaleString("es-AR")} ARS
                     </p>
-                    <span className="rounded-full bg-secundario/15 px-3 py-1 text-xs font-semibold text-ink">
+                    <span className="nb-stamp rounded-full border-2 border-line bg-wash/60 px-3 py-1 text-xs text-ink">
                       {vendidos} vendidos
                     </span>
                   </div>
 
                   <Link
                     href={`/dashboard/stickers/${sticker.id}`}
-                    className="rounded-full border border-primario/30 py-2 text-center text-sm font-semibold text-primario transition-colors hover:bg-primario hover:text-white"
+                    className="rounded-full border-2 border-line bg-card py-2 text-center text-sm font-semibold text-ink transition-colors hover:bg-lilac/40 nb-lift"
                   >
                     Editar
                   </Link>

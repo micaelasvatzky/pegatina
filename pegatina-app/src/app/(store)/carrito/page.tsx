@@ -15,8 +15,8 @@ export default function CarritoPage() {
       <h1 className="mb-8 text-3xl font-bold text-ink md:text-4xl">Tu carrito</h1>
 
       {items.length === 0 ? (
-        <div className="flex flex-col items-center gap-4 rounded-2xl border border-line bg-white py-16 text-center">
-          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-crema text-muted">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border-2 border-line bg-card py-16 text-center nb-shadow">
+          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-lilac/60 text-muted">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
               <path d="M3 7H21V21H3V7Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M8 10V5.5C8 3.5 10 2 12 2C14 2 16 3.5 16 5.5V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -25,7 +25,7 @@ export default function CarritoPage() {
           <p className="text-lg text-muted">Tu carrito está vacío.</p>
           <Link
             href="/catalogo"
-            className="mt-2 rounded-full bg-primario px-8 py-3 font-bold text-white hover:bg-ink"
+            className="mt-2 rounded-full border-2 border-line bg-primario px-8 py-3 font-bold text-white nb-lift hover:bg-ink"
           >
             Explorar stickers
           </Link>
@@ -37,7 +37,7 @@ export default function CarritoPage() {
             {items.map(({ sticker, cantidad }) => (
               <div
                 key={sticker.id}
-                className="flex flex-wrap items-center gap-4 rounded-2xl border border-line bg-white p-5 md:flex-nowrap md:gap-5"
+                className="flex flex-wrap items-center gap-4 rounded-2xl border-2 border-line bg-card p-5 nb-shadow-sm md:flex-nowrap md:gap-5"
               >
                 <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-crema md:h-24 md:w-24">
                   <span className="text-4xl">🎨</span>
@@ -94,7 +94,7 @@ export default function CarritoPage() {
           </div>
 
 {/* Resumen */}
-            <div className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-6">
+            <div className="flex flex-col gap-4 rounded-2xl border-2 border-line bg-card p-6 nb-shadow">
               <div className="flex items-center justify-between">
                 <span className="text-lg text-ink">
                   Total ({count} ítems)
@@ -106,7 +106,7 @@ export default function CarritoPage() {
               {/* Sin sesión, el proxy manda al login con ?redirect=/checkout */}
               <Link
                 href="/checkout"
-                className="w-full rounded-full bg-primario py-4 text-center font-bold text-white transition-colors hover:bg-ink"
+                className="w-full rounded-full border-2 border-line bg-primario py-4 text-center font-bold text-white transition-colors hover:bg-ink nb-shadow-sm nb-lift"
               >
                 Finalizar compra
               </Link>

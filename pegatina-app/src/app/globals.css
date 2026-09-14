@@ -2,35 +2,145 @@
 
 /* ============================================================
    Pegatina — Design Tokens (Tailwind v4 via @theme)
-   Paleta: Naranja #ea7f20, Crema #fbfae1, Amarillo #fdc623, Azul #71a5ca
+   Sistema "Estilo Lúdico & Bold" (Google Stitch)
+   Paleta estirada: naranja #ea7f20, amarillo #fec724, azul #2c6385
+   Neutros papel: canvas #faf6ee, ink #1b1b1c, contorno #1e1e1e
    ============================================================ */
 
 @theme {
   /* Brand colors */
-  --color-primario: #ea7f20;   /* naranja — primario */
-  --color-crema: #fbfae1;      /* fondo */
-  --color-acento: #fdc623;     /* amarillo/dorado */
-  --color-secundario: #71a5ca; /* azul */
+  --color-primario: #ea7f20;  /* primary-container orange */
+  --color-crema: #faf6ee;     /* paper-canvas — fondo */
+  --color-paper: #faf6ee;     /* alias crema */
+  --color-card: #ffffff;      /* paper-card */
+  --color-acento: #fec724;    /* secondary-container yellow */
+  --color-secundario: #2c6385;/* tertiary deep blue */
+
+  /* Acentos extra del sistema Stitch */
+  --color-terracotta: #944a00;
+  --color-secondary: #775a00;
+  --color-tertiary: #2c6385;
+  --color-lilac: #eadef7;
+  --color-mint: #d7ebd9;
+  --color-wash: #e5eef5;
 
   /* Neutros */
-  --color-ink: #2c2c2c;
+  --color-ink: #1b1b1c;
   --color-ink-soft: #3c3c3c;
-  --color-muted: #939393;
-  --color-line: #e2e2e2;
+  --color-muted: #4f4633;
+  --color-line: #1e1e1e;
 
   /* Tipografías */
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Work Sans", var(--font-worksans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Epilogue", var(--font-epilogue), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --background: #fbfae1;
-  --foreground: #2c2c2c;
+  --background: #faf6ee;
+  --foreground: #1b1b1c;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* Titulares estilo Stitch: Epilogue, ajuste de tracking. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   Neo-brutalismo: sombras duras desplazadas + lift hover
+   ============================================================ */
+
+.nb-shadow {
+  box-shadow: 4px 4px 0 0 #1e1e1e;
+}
+
+.nb-shadow-sm {
+  box-shadow: 2px 2px 0 0 #1e1e1e;
+}
+
+.nb-shadow-md {
+  box-shadow: 6px 6px 0 0 #1e1e1e;
+}
+
+.nb-shadow-lg {
+  box-shadow: 8px 8px 0 0 #1e1e1e;
+}
+
+/* Interacción de "tarjeta papel": se levanta en hover, se aplasta en click. */
+.nb-lift {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.nb-lift:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 0 #1e1e1e;
+}
+
+.nb-lift:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 #1e1e1e;
+}
+
+/* ============================================================
+   Stamps: labels chicos en mayúscula con tracking ancho
+   ============================================================ */
+
+.nb-stamp {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Washi tape: tira decorativa que "pega" sobre el borde.
+   Usá: <span className="nb-washi nb-washi--yellow" />
+   dentro de un contenedor con position: relative.
+   ============================================================ */
+
+.nb-washi {
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  height: 18px;
+  width: 96px;
+  background: var(--washi-bg, rgba(254, 199, 36, 0.85));
+  border-bottom: 2px solid rgba(30, 30, 30, 0.12);
+  border-radius: 3px;
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+.nb-washi--yellow {
+  --washi-bg: rgba(254, 199, 36, 0.85);
+}
+
+.nb-washi--orange {
+  --washi-bg: rgba(234, 127, 32, 0.85);
+}
+
+.nb-washi--blue {
+  --washi-bg: rgba(44, 99, 133, 0.85);
+}
+
+.nb-washi--lilac {
+  --washi-bg: rgba(234, 222, 247, 0.9);
+}
+
+.nb-washi--mint {
+  --washi-bg: rgba(215, 235, 217, 0.9);
 }
 
 /* ============================================================

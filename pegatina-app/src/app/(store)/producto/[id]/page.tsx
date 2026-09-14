@@ -70,7 +70,7 @@ export default async function ProductoPage({
               ? sticker.fotos.slice(0, 3).map((f, i) => (
                   <div
                     key={i}
-                    className={`flex h-[194px] w-[141px] items-center justify-center overflow-hidden rounded-xl ${bg}`}
+                    className={`flex h-[194px] w-[141px] items-center justify-center overflow-hidden rounded-xl border-2 border-line ${bg}`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -90,7 +90,7 @@ export default async function ProductoPage({
                 ))}
           </div>
           <div
-            className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl lg:h-[627px] lg:w-[498px] lg:aspect-auto ${bg}`}
+            className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-line nb-shadow-lg lg:h-[627px] lg:w-[498px] lg:aspect-auto ${bg}`}
           >
             {sticker.foto ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -174,7 +174,7 @@ export default async function ProductoPage({
           </div>
 
           {/* Envío */}
-          <div className="rounded-2xl border border-line bg-white p-5">
+          <div className="rounded-2xl border-2 border-line bg-card p-5 nb-shadow">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primario/10 text-primario">

@@ -22,7 +22,7 @@ export default async function MiPerfilPage() {
     <div className="mx-auto max-w-2xl">
       <h1 className="mb-8 text-4xl font-bold text-ink">Mi perfil</h1>
 
-      <div className="rounded-2xl border border-line bg-white p-8 shadow-sm">
+      <div className="rounded-2xl border-2 border-line bg-card p-8 nb-shadow-md">
         {/* Identidad */}
         <div className="mb-8 flex items-center gap-6">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primario text-4xl font-bold text-white">

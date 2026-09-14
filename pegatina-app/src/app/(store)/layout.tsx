@@ -16,7 +16,7 @@ export default function StoreLayout({
       <main className="flex-1">{children}</main>
 
       {/* FOOTER */}
-      <footer className="border-t border-line bg-crema">
+      <footer className="border-t-2 border-line bg-paper">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 py-12">
           {/* Logo */}
           {/* eslint-disable-next-line @next/next/no-img-element */}

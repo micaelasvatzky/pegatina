@@ -37,7 +37,7 @@ export default function AuthModal({
         <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={onClose} />
 
         {/* Card */}
-        <div className="relative z-10 mx-4 w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
+        <div className="relative z-10 mx-4 w-full max-w-md rounded-3xl border-2 border-line bg-card p-8 nb-shadow-lg">
           <button
             aria-label="Cerrar"
             onClick={onClose}
@@ -49,7 +49,7 @@ export default function AuthModal({
           </button>
 
           <div className="mb-6 text-center">
-            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primario/10 text-primario">
+            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-2 border-line bg-primario/10 text-primario">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
                 <path d="M6 8H18M6 8H3V21H21V8H18M6 8V6C6 4.5 7 3 9 3C9 3 10.5 3 12 5.5C13.5 3 15 3 15 3C17 3 18 4.5 18 6V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -63,7 +63,7 @@ export default function AuthModal({
           <div className="flex flex-col gap-3">
             <button
               onClick={goLogin}
-              className="w-full rounded-full bg-primario py-3.5 font-bold text-white transition-colors hover:bg-ink"
+              className="w-full rounded-full border-2 border-line bg-primario py-3.5 font-bold text-white transition-colors hover:bg-ink nb-shadow-sm nb-lift"
             >
               Ingresá
             </button>

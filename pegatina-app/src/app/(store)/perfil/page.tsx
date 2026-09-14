@@ -44,7 +44,7 @@ export default async function PerfilPage() {
   return (
     <div className="mx-auto max-w-3xl py-12">
       {/* Encabezado del perfil */}
-      <div className="flex items-center gap-6 rounded-2xl border border-line bg-white p-8">
+      <div className="flex items-center gap-6 rounded-2xl border-2 border-line bg-card p-8 nb-shadow">
         {usuario.foto ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -73,8 +73,8 @@ export default async function PerfilPage() {
         <h2 className="mb-4 text-2xl font-bold text-ink">Últimas compras</h2>
 
         {pedidos.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-line bg-white p-10 text-center">
-            <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-crema text-muted">
+          <div className="rounded-2xl border-2 border-dashed border-line bg-card p-10 text-center nb-shadow">
+            <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-lilac/60 text-muted">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
                 <path d="M3 7H21V21H3V7Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M8 10V5.5C8 3.5 10 2 12 2C14 2 16 3.5 16 5.5V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -88,7 +88,7 @@ export default async function PerfilPage() {
             </p>
             <Link
               href="/catalogo"
-              className="mt-6 inline-block rounded-full bg-primario px-6 py-3 font-bold text-white transition-colors hover:bg-ink"
+              className="mt-6 inline-block rounded-full border-2 border-line bg-primario px-6 py-3 font-bold text-white transition-colors hover:bg-ink nb-lift"
             >
               Explorar catálogo
             </Link>
@@ -98,7 +98,7 @@ export default async function PerfilPage() {
             {pedidos.map((p) => (
               <li
                 key={p.id}
-                className="rounded-2xl border border-line bg-white p-6"
+                className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow-sm"
               >
                 <div className="flex items-center justify-between">
                   <Link

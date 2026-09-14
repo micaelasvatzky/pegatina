@@ -43,7 +43,7 @@ export default async function PedidosPage() {
       </div>
 
       {/* Tabla */}
-      <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border-2 border-line bg-card nb-shadow">
         {/* Header tabla */}
         <div className="hidden gap-4 bg-primario px-7 py-4 text-base font-bold text-white lg:flex">
           <span className="w-24 shrink-0">Pedido</span>
@@ -58,7 +58,7 @@ export default async function PedidosPage() {
         {pedidos.map((p) => (
           <div
             key={p.id}
-            className="flex flex-col gap-3 border-t border-line bg-white px-6 py-5 text-base lg:flex-row lg:items-center lg:gap-4 lg:px-7"
+            className="flex flex-col gap-3 border-t border-line px-6 py-5 text-base lg:flex-row lg:items-center lg:gap-4 lg:px-7"
           >
             {/* Pedido */}
             <span className="font-bold text-ink/70">

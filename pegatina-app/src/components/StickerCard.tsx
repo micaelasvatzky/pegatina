@@ -53,7 +53,7 @@ export default function StickerCard({
   );
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-shadow hover:shadow-md">
+    <div className="group nb-lift nb-shadow relative flex flex-col overflow-hidden rounded-2xl border-2 border-line bg-white">
       {/* Zona imagen → producto */}
       {readOnly ? (
         <div className="w-full">{imagen}</div>
@@ -62,6 +62,11 @@ export default function StickerCard({
           {imagen}
         </Link>
       )}
+
+      {/* Badge de categoría tipo stamp */}
+      <span className="nb-stamp absolute left-3 top-3 rounded-full border-2 border-line bg-card px-2.5 py-1 text-[10px] text-ink">
+        {sticker.categoria}
+      </span>
 
       {/* Info compacta */}
       <div className="flex flex-col gap-1 px-4 py-3">

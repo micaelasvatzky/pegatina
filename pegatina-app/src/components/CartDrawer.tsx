@@ -22,7 +22,7 @@ export default function CartDrawer() {
       />
 
       {/* Panel */}
-      <div className="fixed right-0 top-0 z-50 flex h-full w-[400px] max-w-full flex-col bg-white shadow-2xl">
+      <div className="fixed right-0 top-0 z-50 flex h-full w-[400px] max-w-full flex-col border-l-2 border-line bg-card shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-line px-6 py-4">
           <h2 className="text-xl font-bold text-ink">
@@ -53,7 +53,7 @@ export default function CartDrawer() {
               <Link
                 href="/catalogo"
                 onClick={closeCart}
-                className="mt-2 rounded-full bg-primario px-6 py-2.5 font-bold text-white hover:bg-ink"
+                className="mt-2 rounded-full border-2 border-line bg-primario px-6 py-2.5 font-bold text-white nb-lift hover:bg-ink"
               >
                 Explorar stickers
               </Link>
@@ -126,7 +126,7 @@ export default function CartDrawer() {
             <Link
               href="/carrito"
               onClick={closeCart}
-              className="block w-full rounded-full bg-primario py-4 text-center font-bold text-white transition-colors hover:bg-ink"
+              className="block w-full rounded-full border-2 border-line bg-primario py-4 text-center font-bold text-white transition-colors hover:bg-ink nb-shadow-sm nb-lift"
             >
               Ir a pagar
             </Link>

@@ -41,7 +41,7 @@ export default function RoleModal({
       />
 
       {/* Card */}
-      <div className="relative z-10 mx-4 w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
+      <div className="relative z-10 mx-4 w-full max-w-md rounded-3xl border-2 border-line bg-card p-8 nb-shadow-lg">
         <button
           aria-label="Cerrar"
           onClick={onClose}
@@ -53,7 +53,7 @@ export default function RoleModal({
         </button>
 
         <div className="mb-6 text-center">
-          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primario/10 text-primario">
+          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-2 border-line bg-primario/10 text-primario">
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
               <path d="M12 3L15 6H19V10L22 13L19 16V20H15L12 23L9 20H5V16L2 13L5 10V6H9L12 3Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M12 8V16M8 12H16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />

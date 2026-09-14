@@ -42,7 +42,7 @@ export default function SignupCompradorForm() {
 
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center py-16">
-      <div className="w-full rounded-xl border border-line bg-white p-6 shadow-sm md:p-10">
+      <div className="w-full rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-10">
         <h1 className="mb-2 text-4xl font-bold text-ink">Crear cuenta</h1>
         <p className="mb-8 text-muted">Comprá arte local original.</p>
 
@@ -97,7 +97,7 @@ export default function SignupCompradorForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-2 w-full rounded-full bg-primario py-4 text-[20px] font-bold text-white transition-colors hover:bg-ink disabled:opacity-60"
+            className="mt-2 w-full rounded-full border-2 border-line bg-primario py-4 text-[20px] font-bold text-white transition-colors hover:bg-ink disabled:opacity-60 nb-shadow-sm nb-lift"
           >
             {submitting ? "Creando..." : "Crear cuenta"}
           </button>

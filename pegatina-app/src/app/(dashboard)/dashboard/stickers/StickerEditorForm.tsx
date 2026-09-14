@@ -329,7 +329,7 @@ export default function StickerEditorForm({
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-full bg-primario py-4 text-xl font-bold text-white transition-colors hover:bg-ink disabled:opacity-60"
+          className="w-full rounded-full border-2 border-line bg-primario py-4 text-xl font-bold text-white transition-colors hover:bg-ink disabled:opacity-60 nb-shadow-sm nb-lift"
         >
           {submitting
             ? "Guardando..."

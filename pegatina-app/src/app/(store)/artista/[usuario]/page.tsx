@@ -27,8 +27,9 @@ export default async function ArtistaPage({
   return (
     <div className="mx-auto max-w-7xl px-6 py-10">
       {/* Header del artista */}
-      <div className="mb-10 flex flex-col items-center gap-4 text-center">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primario text-white">
+      <div className="relative mb-10 flex flex-col items-center gap-4 text-center">
+        <span className="nb-washi nb-washi--yellow" />
+        <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-line bg-primario text-white nb-shadow-sm">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.8" />
             <path d="M4 21C4 16.5 7.5 14 12 14C16.5 14 20 16.5 20 21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -44,7 +45,7 @@ export default async function ArtistaPage({
       </div>
 
       {/* Stickers del artista — read-only, sin carrito ni links */}
-      <h2 className="mb-6 text-center text-2xl font-bold text-ink">Sus stickers</h2>
+      <h2 className="mb-6 text-center text-2xl font-bold uppercase tracking-tight text-ink">Sus stickers</h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {stickers.map((s) => (
           <StickerCard key={s.id} sticker={s} readOnly />

@@ -67,9 +67,9 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
 
   return (
     <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-16 md:px-6">
-      <div className="grid w-full overflow-hidden rounded-2xl border border-line shadow-sm md:grid-cols-2">
+      <div className="grid w-full overflow-hidden rounded-2xl border-2 border-line nb-shadow-lg md:grid-cols-2">
         {/* Formulario */}
-        <div className="bg-white p-6 md:p-10">
+        <div className="p-6 md:p-10">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-ink">Iniciar sesión</h1>
             <p className="text-muted">
@@ -125,7 +125,7 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-full bg-primario py-4 text-[20px] font-bold text-white transition-colors hover:bg-ink disabled:opacity-60"
+              className="w-full rounded-full border-2 border-line bg-primario py-4 text-[20px] font-bold text-white transition-colors hover:bg-ink disabled:opacity-60 nb-shadow-sm nb-lift"
             >
               {submitting ? "Ingresando..." : "Entrar"}
             </button>

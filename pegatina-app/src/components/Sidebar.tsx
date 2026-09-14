@@ -85,7 +85,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className="flex w-20 shrink-0 flex-col border-r border-line bg-white md:w-72">
+      <aside className="flex w-20 shrink-0 flex-col border-r-2 border-line bg-white md:w-72">
         {/* Identidad de la tienda */}
         <div className="flex flex-col items-center gap-3 border-b border-line px-2 py-8 md:px-6">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primario text-xl font-bold text-white md:h-16 md:w-16 md:text-3xl">
@@ -158,7 +158,7 @@ export default function Sidebar() {
             className="absolute inset-0 bg-ink/50 backdrop-blur-sm"
             onClick={() => setConfirmandoSalida(false)}
           />
-          <div className="relative z-10 mx-4 w-full max-w-sm rounded-3xl bg-white p-8 text-center shadow-2xl">
+          <div className="relative z-10 mx-4 w-full max-w-sm rounded-3xl border-2 border-line bg-card p-8 text-center nb-shadow-lg">
             <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-500">
               {IconSalir}
             </span>
@@ -170,13 +170,13 @@ export default function Sidebar() {
             <div className="mt-6 flex flex-col gap-2">
               <button
                 onClick={cerrarSesion}
-                className="w-full rounded-full bg-red-600 py-3 font-bold text-white transition-colors hover:bg-red-700"
+                className="w-full rounded-full border-2 border-line bg-red-600 py-3 font-bold text-white transition-colors hover:bg-red-700 nb-shadow-sm nb-lift"
               >
                 Sí, cerrar sesión
               </button>
               <button
                 onClick={() => setConfirmandoSalida(false)}
-                className="w-full rounded-full border border-line bg-white py-3 font-semibold text-ink transition-colors hover:bg-crema"
+                className="w-full rounded-full border-2 border-line bg-card py-3 font-semibold text-ink transition-colors hover:bg-crema nb-lift"
               >
                 Cancelar
               </button>
