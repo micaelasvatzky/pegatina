@@ -62,9 +62,18 @@ export default function CartDrawer() {
             <div className="flex flex-col gap-6">
               {items.map(({ sticker, cantidad }) => (
                 <div key={sticker.id} className="flex gap-4">
-                  {/* Thumb */}
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-crema">
-                    <span className="text-3xl">🎨</span>
+                  {/* Thumb — imagen real del sticker */}
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-crema">
+                    {sticker.foto ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={sticker.foto}
+                        alt={sticker.nombre}
+                        className="h-full w-full object-contain p-1"
+                      />
+                    ) : (
+                      <span className="text-3xl">🎨</span>
+                    )}
                   </div>
 
                   <div className="flex flex-1 flex-col">

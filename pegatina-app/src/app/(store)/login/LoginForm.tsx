@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import RoleModal from "@/components/RoleModal";
+import ColorBlobs from "@/components/ColorBlobs";
 
 /**
  * Formulario de login real de Pegatina.
@@ -66,8 +67,10 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-16 md:px-6">
-      <div className="grid w-full overflow-hidden rounded-2xl border-2 border-line nb-shadow-lg md:grid-cols-2">
+    <div className="relative overflow-hidden px-4 py-16 md:px-6">
+      <ColorBlobs />
+      <div className="relative z-10 mx-auto flex max-w-6xl items-center justify-center">
+        <div className="grid w-full overflow-hidden rounded-2xl border-2 border-line nb-shadow-lg md:grid-cols-2">
         {/* Formulario */}
         <div className="p-6 md:p-10">
           <div className="mb-8">
@@ -197,6 +200,7 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
       {showRoleModal && (
         <RoleModal onClose={() => setShowRoleModal(false)} />
       )}
+      </div>
     </div>
   );
 }

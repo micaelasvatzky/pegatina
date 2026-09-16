@@ -110,6 +110,25 @@ export async function getUsuarioById(
   }
 }
 
+/**
+ * Trae un usuario por su @usuario (handle público).
+ * Útil para el perfil público del artista y el spotlight del producto.
+ * El handle debe incluir el "@" (ej: "@demoilustrador").
+ */
+export async function getUsuarioPorHandle(
+  handle: string
+): Promise<DBUsuario | null> {
+  try {
+    const db = await getDb();
+    const doc = await db
+      .collection<DBUsuario>("usuarios")
+      .findOne({ usuario: handle });
+    return doc ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /** Serializa un usuario de DB a la forma segura de exponer al cliente. */
 export function publicUsuario(u: DBUsuario) {
   return {

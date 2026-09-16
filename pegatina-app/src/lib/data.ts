@@ -75,6 +75,42 @@ export async function getCategorias(): Promise<string[]> {
 }
 
 /**
+ * Categorías con conteo de stickers.
+ * Devuelve [{_id: "Bebidas", count: 4}, ...].
+ */
+export async function getCategoriasConConteo(): Promise<
+  { id: string; count: number }[]
+> {
+  const db = await getDb();
+  const rows = await db
+    .collection<DBSticker>("stickers")
+    .aggregate<{ _id: string; count: number }>([
+      { $group: { _id: "$categoria", count: { $sum: 1 } } },
+      { $sort: { _id: 1 } },
+    ])
+    .toArray();
+  return rows.map((r) => ({ id: r._id, count: r.count }));
+}
+
+/**
+ * Devuelve handles únicos de ilustradores que tengan al menos un sticker.
+ * Cada objeto trae handle + cantidad de stickers activos.
+ */
+export async function getIlustradoresUnicos(): Promise<
+  { handle: string; count: number }[]
+> {
+  const db = await getDb();
+  const rows = await db
+    .collection<DBSticker>("stickers")
+    .aggregate<{ _id: string; count: number }>([
+      { $group: { _id: "$ilustrador", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ])
+    .toArray();
+  return rows.map((r) => ({ handle: r._id, count: r.count }));
+}
+
+/**
  * Trae las unidades vendidas por sticker (sumando cantidades de todos los
  * pedidos). Devuelve un Map<sticker_id, unidades>.
  */

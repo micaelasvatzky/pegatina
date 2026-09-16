@@ -28,6 +28,7 @@ export async function PATCH(req: Request) {
     typeof body.nombre === "string" ? body.nombre.trim() : undefined;
   const email = typeof body.email === "string" ? body.email.trim() : undefined;
   const bio = typeof body.bio === "string" ? body.bio.trim() : undefined;
+  const foto = typeof body.foto === "string" ? body.foto.trim() : undefined;
 
   if (nombre !== undefined && nombre.length < 2) {
     return NextResponse.json(
@@ -53,10 +54,28 @@ export async function PATCH(req: Request) {
     );
   }
 
-  const update: { nombre?: string; email?: string; bio?: string } = {};
+  const update: { nombre?: string; email?: string; bio?: string; foto?: string } = {};
   if (nombre !== undefined) update.nombre = nombre;
   if (email !== undefined) update.email = email;
   if (bio !== undefined) update.bio = bio;
+
+  // Foto: solo ilustradores pueden poner foto de perfil
+  if (foto !== undefined) {
+    const user = await getUsuarioById(session.sub);
+    if (user?.rol !== "ilustrador") {
+      return NextResponse.json(
+        { error: "Solo los ilustradores pueden tener foto de perfil." },
+        { status: 403 }
+      );
+    }
+    if (foto !== "" && !/^https?:\/\//.test(foto)) {
+      return NextResponse.json(
+        { error: "La URL de la foto no es válida." },
+        { status: 400 }
+      );
+    }
+    update.foto = foto || "";
+  }
 
   if (Object.keys(update).length === 0) {
     return NextResponse.json(

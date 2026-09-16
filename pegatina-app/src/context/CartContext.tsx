@@ -22,7 +22,17 @@ interface CartContextValue {
   total: number;
   count: number;
   isOpen: boolean;
-  add: (sticker: Sticker, cantidad?: number) => void;
+  /**
+   * Agrega un sticker al carrito. Regla: el carrito solo puede contener
+   * stickers de UN MISMO artista (el envío lo hace el ilustrador).
+   * Devuelve { ok: true } si se agregó, o
+   * { ok: false, otroArtista: string } si el carrito ya tiene stickers
+   * de otro artista.
+   */
+  add: (
+    sticker: Sticker,
+    cantidad?: number
+  ) => { ok: boolean; otroArtista?: string };
   remove: (id: string) => void;
   setCantidad: (id: string, cantidad: number) => void;
   empty: () => void;
@@ -98,6 +108,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items, hydrated]);
 
   const add = useCallback((sticker: Sticker, cantidad = 1) => {
+    // El carrito pertenece a UN artista: no mezclar mesones.
+    if (items.length > 0 && items[0].sticker.ilustrador !== sticker.ilustrador) {
+      return { ok: false, otroArtista: items[0].sticker.ilustrador };
+    }
     setItems((prev) => {
       const exist = prev.find((i) => i.sticker.id === sticker.id);
       if (exist) {
@@ -110,7 +124,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [...prev, { sticker, cantidad }];
     });
     setIsOpen(true);
-  }, []);
+    return { ok: true };
+  }, [items]);
 
   const remove = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.sticker.id !== id));

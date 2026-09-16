@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import ColorBlobs from "@/components/ColorBlobs";
 
 /**
  * Layout del área de ilustrador (Dashboard).
@@ -15,7 +16,10 @@ export default function DashboardLayout({
       <Navbar mode="dashboard" />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="flex-1 bg-crema p-4 md:p-8">{children}</main>
+        <main className="relative flex-1 overflow-hidden bg-crema p-4 md:p-8">
+          <ColorBlobs />
+          <div className="relative z-10">{children}</div>
+        </main>
       </div>
     </div>
   );

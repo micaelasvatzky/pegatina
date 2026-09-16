@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import ColorBlobs from "@/components/ColorBlobs";
 
 /**
  * Página de carrito — a la que se llega desde el panel lateral ("Ir a pagar").
@@ -11,8 +12,21 @@ export default function CarritoPage() {
   const { items, total, count, setCantidad, remove } = useCart();
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-      <h1 className="mb-8 text-3xl font-bold text-ink md:text-4xl">Tu carrito</h1>
+    <div>
+      {/* Header con color (sistema de la landing) */}
+      <section className="relative overflow-hidden border-b-2 border-line bg-primario px-4 py-10 md:px-6">
+        <ColorBlobs />
+        <div className="relative z-10 mx-auto max-w-5xl">
+          <h1 className="font-display text-4xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
+            Tu carrito
+          </h1>
+          <p className="mt-2 font-bold text-white/85">
+            {count} sticker{count !== 1 ? "s" : ""} listo{count !== 1 ? "s" : ""} para pegar
+          </p>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-4 rounded-2xl border-2 border-line bg-card py-16 text-center nb-shadow">
@@ -119,6 +133,7 @@ export default function CarritoPage() {
             </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

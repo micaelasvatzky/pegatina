@@ -88,9 +88,18 @@ export default function Sidebar() {
       <aside className="flex w-20 shrink-0 flex-col border-r-2 border-line bg-white md:w-72">
         {/* Identidad de la tienda */}
         <div className="flex flex-col items-center gap-3 border-b border-line px-2 py-8 md:px-6">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primario text-xl font-bold text-white md:h-16 md:w-16 md:text-3xl">
-            {inicial}
-          </span>
+          {usuario?.foto ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={usuario.foto}
+              alt={usuario.nombre ?? "Foto de perfil"}
+              className="h-12 w-12 rounded-full border-2 border-line object-cover shadow-[2px_2px_0px_var(--color-line)] md:h-16 md:w-16"
+            />
+          ) : (
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primario text-xl font-bold text-white md:h-16 md:w-16 md:text-3xl">
+              {inicial}
+            </span>
+          )}
           <div className="hidden text-center md:block">
             <p className="truncate text-lg font-bold text-ink">
               {usuario?.nombre ?? "Tu tienda"}

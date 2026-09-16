@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import ColorBlobs from "@/components/ColorBlobs";
 
 /**
  * Formulario de registro de COMPRADOR.
@@ -41,8 +42,10 @@ export default function SignupCompradorForm() {
   };
 
   return (
-    <div className="mx-auto flex max-w-lg flex-col items-center py-16">
-      <div className="w-full rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-10">
+    <div className="relative overflow-hidden py-16">
+      <ColorBlobs />
+      <div className="relative z-10 mx-auto flex max-w-lg flex-col items-center">
+        <div className="w-full rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-10">
         <h1 className="mb-2 text-4xl font-bold text-ink">Crear cuenta</h1>
         <p className="mb-8 text-muted">Comprá arte local original.</p>
 
@@ -109,6 +112,7 @@ export default function SignupCompradorForm() {
             Iniciá sesión
           </Link>
         </p>
+      </div>
       </div>
     </div>
   );

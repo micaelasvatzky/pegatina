@@ -15,6 +15,7 @@
   --color-card: #ffffff;      /* paper-card */
   --color-acento: #fec724;    /* secondary-container yellow */
   --color-secundario: #2c6385;/* tertiary deep blue */
+  --color-azul-soft: #4a82a8; /* azul medio para franjas de sección (menos fuerte que secundario) */
 
   /* Acentos extra del sistema Stitch */
   --color-terracotta: #944a00;
@@ -176,6 +177,19 @@ h6 {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.anim-girar-lento {
+  animation: girar 18s linear infinite;
 }
 
 .anim-flotar {

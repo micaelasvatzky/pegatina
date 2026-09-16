@@ -25,9 +25,18 @@ export default async function MiPerfilPage() {
       <div className="rounded-2xl border-2 border-line bg-card p-8 nb-shadow-md">
         {/* Identidad */}
         <div className="mb-8 flex items-center gap-6">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primario text-4xl font-bold text-white">
-            {inicial}
-          </div>
+          {usuario.foto ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={usuario.foto}
+              alt={usuario.nombre}
+              className="h-24 w-24 shrink-0 rounded-full border-2 border-line object-cover shadow-[2px_2px_0px_var(--color-line)]"
+            />
+          ) : (
+            <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-line bg-primario text-4xl font-bold text-white shadow-[2px_2px_0px_var(--color-line)]">
+              {inicial}
+            </div>
+          )}
           <div>
             <p className="text-2xl font-bold text-ink">
               {usuario.usuario ? `@${usuario.usuario.replace(/^@/, "")}` : usuario.nombre}
@@ -47,6 +56,7 @@ export default async function MiPerfilPage() {
             nombre: usuario.nombre,
             email: usuario.email,
             bio: usuario.bio ?? null,
+            foto: usuario.foto ?? null,
           }}
           handle={usuario.usuario ?? null}
         />

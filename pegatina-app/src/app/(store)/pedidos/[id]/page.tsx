@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getPedidoDelComprador } from "@/lib/data";
 import { ESTADO_LABEL, ESTADO_STYLE, type PedidoEstado } from "@/lib/pedidos";
+import ColorBlobs from "@/components/ColorBlobs";
 
 interface RouteCtx {
   params: Promise<{ id: string }>;
@@ -98,23 +99,28 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
     : "";
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 md:px-6">
-      {/* Encabezado */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-ink md:text-4xl">
-          Tu pedido <span className="text-primario">#{id.slice(-8).toUpperCase()}</span>
-        </h1>
-        <div className="mt-2 flex items-center gap-3">
-          <span
-            className={`rounded-full px-3 py-1 text-sm font-bold ${
-              ESTADO_STYLE[pedido.estado]
-            }`}
-          >
-            {ESTADO_LABEL[pedido.estado]}
-          </span>
-          <span className="text-sm text-muted">{fecha}</span>
+    <div>
+      {/* Header con color (sistema de la landing) */}
+      <section className="relative overflow-hidden border-b-2 border-line bg-primario px-4 py-10 md:px-6">
+        <ColorBlobs />
+        <div className="relative z-10 mx-auto max-w-3xl">
+          <h1 className="font-display text-4xl font-black uppercase leading-none tracking-tight text-white md:text-5xl">
+            Tu pedido <span className="text-acento">#{id.slice(-8).toUpperCase()}</span>
+          </h1>
+          <div className="mt-3 flex items-center gap-3">
+            <span
+              className={`rounded-full px-3 py-1 text-sm font-bold ${
+                ESTADO_STYLE[pedido.estado]
+              }`}
+            >
+              {ESTADO_LABEL[pedido.estado]}
+            </span>
+            <span className="text-sm font-semibold text-white/80">{fecha}</span>
+          </div>
         </div>
-      </div>
+      </section>
+
+      <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 md:px-6">
 
       {/* Banner compra confirmada (solo justo después del checkout) */}
       {comprado === "1" && (
@@ -193,6 +199,7 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
       >
         ← Volver a mis compras
       </Link>
+      </div>
     </div>
   );
 }

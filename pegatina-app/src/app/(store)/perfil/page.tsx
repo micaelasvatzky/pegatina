@@ -5,6 +5,7 @@ import { getDb } from "@/lib/mongodb";
 import type { ObjectId } from "mongodb";
 import LogoutButton from "@/components/LogoutButton";
 import { ESTADO_LABEL, normalizarEstado } from "@/lib/pedidos";
+import ColorBlobs from "@/components/ColorBlobs";
 
 /**
  * Perfil del COMPRADOR.
@@ -42,8 +43,22 @@ export default async function PerfilPage() {
   const inicial = usuario.nombre.charAt(0).toUpperCase();
 
   return (
-    <div className="mx-auto max-w-3xl py-12">
-      {/* Encabezado del perfil */}
+    <div>
+      {/* Header con color (sistema de la landing) */}
+      <section className="relative overflow-hidden border-b-2 border-line bg-azul-soft px-4 py-10 md:px-6">
+        <ColorBlobs />
+        <div className="relative z-10 mx-auto max-w-3xl">
+          <h1 className="font-display text-4xl font-black uppercase leading-none tracking-tight text-white md:text-5xl">
+            Mi perfil
+          </h1>
+          <p className="mt-2 font-bold text-white/85">
+            Tus datos y tus últimas compras
+          </p>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-3xl py-12">
+        {/* Encabezado del perfil */}
       <div className="flex items-center gap-6 rounded-2xl border-2 border-line bg-card p-8 nb-shadow">
         {usuario.foto ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -142,6 +157,7 @@ export default async function PerfilPage() {
             ))}
           </ul>
         )}
+      </div>
       </div>
     </div>
   );

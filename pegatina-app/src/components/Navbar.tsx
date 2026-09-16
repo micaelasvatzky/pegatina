@@ -51,9 +51,18 @@ export default function Navbar({ mode = "store" }: { mode?: "store" | "dashboard
                     className="flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pl-1.5 pr-4 transition-colors hover:border-primario"
                     title={usuario.nombre}
                   >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
-                      {inicial}
-                    </span>
+                    {usuario?.foto ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={usuario.foto}
+                        alt={usuario.nombre}
+                        className="h-8 w-8 rounded-full border border-line object-cover"
+                      />
+                    ) : (
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
+                        {inicial}
+                      </span>
+                    )}
                     <span className="hidden max-w-[7rem] truncate text-sm font-semibold text-ink md:block">
                       {primerNombre}
                     </span>
@@ -110,9 +119,18 @@ export default function Navbar({ mode = "store" }: { mode?: "store" | "dashboard
                     className="flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pl-1.5 pr-4 transition-colors hover:border-primario"
                     title={usuario.nombre}
                   >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
-                      {inicial}
-                    </span>
+                    {usuario?.foto ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={usuario.foto}
+                        alt={usuario.nombre}
+                        className="h-8 w-8 rounded-full border border-line object-cover"
+                      />
+                    ) : (
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
+                        {inicial}
+                      </span>
+                    )}
                     <span className="hidden max-w-[7rem] truncate text-sm font-semibold text-ink md:block">
                       {primerNombre}
                     </span>

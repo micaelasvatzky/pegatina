@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 interface Props {
-  initial: { nombre: string; email: string; bio: string | null };
+  initial: { nombre: string; email: string; bio: string | null; foto: string | null };
   handle: string | null;
 }
 
@@ -19,6 +19,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
   const [nombre, setNombre] = useState(initial.nombre);
   const [email, setEmail] = useState(initial.email);
   const [bio, setBio] = useState(initial.bio ?? "");
+  const [foto, setFoto] = useState(initial.foto ?? "");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
       const res = await fetch("/api/usuarios/me", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, bio }),
+        body: JSON.stringify({ nombre, email, bio, foto }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -53,6 +54,38 @@ export default function MiPerfilForm({ initial, handle }: Props) {
 
   return (
     <form onSubmit={submit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      {/* Foto de perfil */}
+      <div className="sm:col-span-2">
+        <label className="mb-2 block text-sm font-semibold text-ink">
+          Foto de perfil
+        </label>
+        <div className="flex items-center gap-4">
+          {foto ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={foto}
+              alt="Foto de perfil"
+              className="h-16 w-16 shrink-0 rounded-full border-2 border-line object-cover shadow-[2px_2px_0px_var(--color-line)]"
+            />
+          ) : (
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-line bg-crema text-2xl font-black text-muted">
+              {(nombre || "P").charAt(0).toUpperCase()}
+            </span>
+          )}
+          <input
+            type="url"
+            className={inputClass}
+            placeholder="https://... (URL de tu foto)"
+            value={foto}
+            onChange={(e) => setFoto(e.target.value)}
+          />
+        </div>
+        <p className="mt-1.5 text-xs text-muted">
+          Se muestra en tu tienda pública y junto a tus stickers. Pegá la URL
+          de la imagen (por ahora sin subida directa).
+        </p>
+      </div>
+
       {/* Handle — identidad, solo lectura */}
       <div>
         <label className="mb-2 block text-sm font-semibold text-ink">
