@@ -1,205 +1,199 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
 /**
  * Navbar de Pegatina, con dos modos:
  *
- * - "store" (default): el de compradores — Explorar + carrito + avatar/login.
- * - "dashboard": el del ilustrador — SOLO su espacio: sin carrito, sin
- *   Explorar. Solo muestra el avatar. (La tienda pública se accede desde
- *   el Sidebar.)
+ * - "store" (default): el de compradores/invitados — announcement bar +
+ *   logo pill + nav pill (Catálogo) + buscador + "Abrí tu tienda" +
+ *   carrito con badge + avatar. Fiel a los refs Stitch "con acentos azules".
+ *   Un ilustrador logueado SOLO vende: ve una versión mínima (logo + avatar).
+ * - "dashboard": el del ilustrador — SOLO su espacio, sin carrito ni buscador.
  */
-export default function Navbar({ mode = "store" }: { mode?: "store" | "dashboard" }) {
+export default function Navbar({
+  mode = "store",
+}: {
+  mode?: "store" | "dashboard";
+}) {
   const { count, openCart } = useCart();
   const { usuario, isLoggedIn, loading } = useAuth();
+  const pathname = usePathname();
 
   const isDashboard = mode === "dashboard";
+  const esIlustrador = isLoggedIn && usuario?.rol === "ilustrador";
 
   // En el dashboard, el logo lleva al espacio del ilustrador.
   // En el store: si el logueado es ilustrador, el logo también lo lleva
   // al dashboard (el vendedor no navega la tienda para comprar).
   const logoHref =
-    isDashboard || (isLoggedIn && usuario?.rol === "ilustrador")
-      ? "/dashboard"
-      : "/";
+    isDashboard || esIlustrador ? "/dashboard" : "/";
 
-  const perfilHref = usuario?.rol === "ilustrador" ? "/dashboard" : "/perfil";
+  const perfilHref = esIlustrador ? "/dashboard" : "/perfil";
+  const enCatalogo =
+    pathname === "/catalogo" || pathname.startsWith("/catalogo/");
+
   const inicial = usuario?.nombre?.charAt(0).toUpperCase() ?? "";
   const primerNombre = usuario?.nombre?.split(" ")[0] ?? "";
 
+  /** Avatar (foto si existe, sino inicial en círculo cobalt) o botón login. */
+  const avatar =
+    !loading &&
+    (isLoggedIn && usuario ? (
+      <Link
+        href={perfilHref}
+        title={usuario.nombre}
+        className="flex items-center gap-2 rounded-full border-2 border-line bg-card py-1.5 pl-1.5 pr-3 shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--color-line)]"
+      >
+        {usuario.foto ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={usuario.foto}
+            alt={usuario.nombre}
+            className="h-8 w-8 rounded-full border border-line object-cover"
+          />
+        ) : (
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cobalt text-sm font-bold text-white">
+            {inicial}
+          </span>
+        )}
+        <span className="hidden max-w-[7rem] truncate text-sm font-bold text-ink md:block">
+          {primerNombre}
+        </span>
+      </Link>
+    ) : (
+      <Link
+        href="/login"
+        aria-label="Iniciar sesión"
+        className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-line bg-cobalt text-white shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-cobalt-dark"
+      >
+        <span className="icon text-2xl" aria-hidden>
+          person
+        </span>
+      </Link>
+    ));
+
+  // ─────────────────────────── DASHBOARD ───────────────────────────
+  if (isDashboard) {
+    return (
+      <header className="sticky top-0 z-50 w-full border-b-2 border-line bg-paper/95 backdrop-blur-md">
+        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
+          <Link href="/dashboard" className="flex items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Pegatina" className="h-10 w-auto md:h-12" />
+          </Link>
+          <div className="flex items-center gap-3 md:gap-5">{avatar}</div>
+        </nav>
+      </header>
+    );
+  }
+
+  // ─────────────────────────── STORE ───────────────────────────
   return (
-    <header className="sticky top-0 z-50 w-full border-b-2 border-line bg-paper/95 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
-        {/* Logo */}
-        <Link href={logoHref} className="flex items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="Pegatina" className="h-10 w-auto md:h-12" />
-        </Link>
+    <header className="sticky top-0 z-50 w-full">
+      {/* Announcement bar */}
+      <div className="border-b-2 border-line bg-acento">
+        <p className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs font-bold uppercase tracking-wide text-ink">
+          <span className="icon hidden text-base sm:inline" aria-hidden>
+            local_shipping
+          </span>
+          Feria Activa · Envíos federales de cada ilustrador
+        </p>
+      </div>
 
-        {/* Lado derecho */}
-        <div className="flex items-center gap-3 md:gap-5">
-          {isDashboard ? (
-            <>
-              {/* Avatar (lleva al dashboard si es ilustrador) */}
-              {!loading &&
-                (isLoggedIn && usuario ? (
-                  <Link
-                    href={perfilHref}
-                    className="flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pl-1.5 pr-4 transition-colors hover:border-primario"
-                    title={usuario.nombre}
-                  >
-                    {usuario?.foto ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={usuario.foto}
-                        alt={usuario.nombre}
-                        className="h-8 w-8 rounded-full border border-line object-cover"
-                      />
-                    ) : (
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
-                        {inicial}
-                      </span>
-                    )}
-                    <span className="hidden max-w-[7rem] truncate text-sm font-semibold text-ink md:block">
-                      {primerNombre}
-                    </span>
-                  </Link>
-                ) : (
-                  <Link
-                    href="/login"
-                    aria-label="Iniciar sesión"
-                    className="flex h-9 w-9 items-center justify-center rounded-full text-ink transition-colors hover:bg-primario/10 hover:text-primario"
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle
-                        cx="10"
-                        cy="6"
-                        r="3.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M3 18C3 13.5 6 11 10 11C14 11 17 13.5 17 18"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </Link>
-                ))}
-            </>
-          ) : (
-            <>
-              {/* Navegación del store — un ilustrador logueado SOLO vende:
-                  no ve Explorar ni carrito (su única ventana al store es su
-                  tienda pública, y el proxy bloquea el resto). */}
-              {!(isLoggedIn && usuario?.rol === "ilustrador") && (
-                <Link
-                  href="/catalogo"
-                  className="text-base font-medium text-ink transition-colors hover:text-primario"
-                >
-                  Explorar
-                </Link>
-              )}
+      <div className="border-b-2 border-line bg-paper/95 backdrop-blur-md">
+        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
+          {/* Logo pill */}
+          <Link
+            href={logoHref}
+            className="flex shrink-0 items-center rounded-full border-2 border-line bg-card py-1.5 pl-1.5 pr-4 shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--color-line)]"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Pegatina" className="h-8 w-auto" />
+            <span
+              aria-hidden
+              className="ml-1 hidden font-display text-sm font-black text-primario transition-transform duration-300 group-hover:rotate-45 sm:inline"
+            >
+              *
+            </span>
+          </Link>
 
-              {/* Perfil / Login */}
-              {!loading &&
-                (isLoggedIn && usuario ? (
-                  <Link
-                    href={perfilHref}
-                    className="flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pl-1.5 pr-4 transition-colors hover:border-primario"
-                    title={usuario.nombre}
-                  >
-                    {usuario?.foto ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={usuario.foto}
-                        alt={usuario.nombre}
-                        className="h-8 w-8 rounded-full border border-line object-cover"
-                      />
-                    ) : (
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primario text-sm font-bold text-white">
-                        {inicial}
-                      </span>
-                    )}
-                    <span className="hidden max-w-[7rem] truncate text-sm font-semibold text-ink md:block">
-                      {primerNombre}
-                    </span>
-                  </Link>
-                ) : (
-                  <Link
-                    href="/login"
-                    aria-label="Iniciar sesión"
-                    className="flex h-9 w-9 items-center justify-center rounded-full text-ink transition-colors hover:bg-primario/10 hover:text-primario"
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle
-                        cx="10"
-                        cy="6"
-                        r="3.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M3 18C3 13.5 6 11 10 11C14 11 17 13.5 17 18"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </Link>
-                ))}
-
-              {/* Carrito — solo para compradores logueados (ilustradores venden, no compran; sin sesión no tiene sentido) */}
-              {isLoggedIn && usuario?.rol !== "ilustrador" && (
-                <button
-                  onClick={openCart}
-                  aria-label="Abrir carrito"
-                  className="relative flex h-9 w-9 items-center justify-center rounded-full text-ink transition-colors hover:bg-primario/10 hover:text-primario"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M2 3H4L5.5 13H15L17 5H5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle cx="8" cy="17" r="1.3" fill="currentColor" />
-                    <circle cx="14" cy="17" r="1.3" fill="currentColor" />
-                  </svg>
-                  {count > 0 && (
-                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primario text-[11px] font-bold text-white">
-                      {count}
-                    </span>
-                  )}
-                </button>
-              )}
-            </>
+          {/* Nav pills — SOLO rutas reales (Arte DIY / Ilustradores / Feria
+              Virtual del ref no existen en la app, ver AGENTS.md) */}
+          {!esIlustrador && (
+            <div className="hidden items-center gap-1 rounded-full border border-line/30 bg-paper p-1 lg:flex">
+              <Link
+                href="/catalogo"
+                className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
+                  enCatalogo
+                    ? "bg-cobalt text-white shadow-[2px_2px_0px_var(--color-line)]"
+                    : "text-ink hover:text-cobalt"
+                }`}
+              >
+                Catálogo
+              </Link>
+            </div>
           )}
-        </div>
-      </nav>
+
+          {/* Buscador — md+ */}
+          {!esIlustrador && (
+            <form
+              action="/catalogo"
+              method="get"
+              className="hidden max-w-md flex-1 items-center gap-2 rounded-full border-2 border-line bg-card px-4 py-2.5 shadow-[2px_2px_0px_var(--color-line)] transition-shadow focus-within:ring-2 focus-within:ring-cobalt md:flex"
+            >
+              <span className="icon text-lg text-muted" aria-hidden>
+                search
+              </span>
+              <input
+                type="text"
+                name="q"
+                placeholder="Buscar stickers, ilustradores…"
+                className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted"
+              />
+            </form>
+          )}
+
+          {/* Lado derecho */}
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* "Abrí tu tienda" — sm+ */}
+            {!esIlustrador && (
+              <Link
+                href="/signup/ilustrador"
+                className="hidden items-center gap-1.5 rounded-full border-2 border-line bg-primario px-4 py-2.5 text-xs font-extrabold uppercase tracking-wide text-white shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-ink sm:inline-flex"
+              >
+                <span className="icon text-base" aria-hidden>
+                  storefront
+                </span>
+                Abrí tu tienda
+              </Link>
+            )}
+
+            {/* Carrito — solo compradores logueados */}
+            {isLoggedIn && !esIlustrador && (
+              <button
+                onClick={openCart}
+                aria-label="Abrir carrito"
+                className="relative flex h-11 w-11 items-center justify-center rounded-full border-2 border-line bg-card text-ink shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-acento/30"
+              >
+                <span className="icon text-2xl" aria-hidden>
+                  shopping_bag
+                </span>
+                {count > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-line bg-acento px-1 text-[11px] font-black text-ink tabular-nums">
+                    {count}
+                  </span>
+                )}
+              </button>
+            )}
+
+            {avatar}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

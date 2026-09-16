@@ -2,124 +2,143 @@ import Link from "next/link";
 import type { Sticker } from "@/lib/types";
 import AddToCartCard from "@/components/AddToCartCard";
 
+type Variant = "catalogo" | "home";
+
 /**
- * Tarjeta de producto — estilo Stitch:
- * - Material (chip, sin categoría)
- * - Foto (object-contain, fondo neutro)
- * - Nombre, autor (link al perfil con ↗) y material
- * - Precio + "ARS" y bloque stepper/Agregar
+ * Tarjeta de producto — dos variantes fieles a los refs Stitch
+ * ("refinados con acentos azules"):
  *
- * Con `readOnly` (perfil público del artista) NO hay links ni carrito:
- * solo la ficha, nada es clickeable.
+ * - "catalogo" (product card del catálogo): rounded-2xl, sombra 3px,
+ *   imagen que en hover pasa a bg-cobalt-light/40, nombre → hover cobalt,
+ *   autor en COBALT con ↗ (north_east) y precio + stepper/Agregar.
+ *
+ * - "home" (community card de la landing): rounded-[24px], sombra 4px,
+ *   tag superior opcional, autor chico arriba, título + sub de material.
+ *
+ * Ambas linkean al detalle y tienen carrito real (con la regla de un solo
+ * artista por carrito).
  */
 export default function StickerCard({
   sticker,
-  readOnly = false,
+  variant = "catalogo",
+  tag,
+  tagClassName = "bg-acento text-ink",
+  botonCobalt = false,
 }: {
   sticker: Sticker;
-  readOnly?: boolean;
+  variant?: Variant;
+  /** Tag superior (solo variant "home"): ej. "MÁS PEDIDO" / "CLÁSICO". */
+  tag?: string;
+  tagClassName?: string;
+  /** Variedad visual: botón "Agregar" cobalt (los refs alternan colores). */
+  botonCobalt?: boolean;
 }) {
-  const handleSinAt = sticker.ilustrador.startsWith("@")
-    ? sticker.ilustrador.slice(1)
-    : sticker.ilustrador;
+  const handle = sticker.ilustrador.startsWith("@")
+    ? sticker.ilustrador
+    : `@${sticker.ilustrador}`;
+  const handleSinAt = handle.startsWith("@") ? handle.slice(1) : handle;
   const artistaUrl = `/artista/${encodeURIComponent(handleSinAt)}`;
+  const productoUrl = `/producto/${sticker.id}`;
 
-  const imagen = (
-    <div
-      className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg bg-paper ${
-        readOnly ? "" : "transition-transform duration-300 group-hover:scale-[1.03]"
-      }`}
+  const precio = (
+    <p className="font-display leading-none text-ink">
+      <span className="align-top text-sm font-black">$</span>
+      <span className={variant === "home" ? "text-xl font-black" : "text-lg font-black"}>
+        {sticker.precio.toLocaleString("es-AR")}
+      </span>
+      <span className="ml-1 text-xs font-bold text-muted">ARS</span>
+    </p>
+  );
+
+  const imagen = (extra: string, imgSize: string) => (
+    <Link
+      href={productoUrl}
+      className={`relative flex items-center justify-center overflow-hidden border border-line/5 bg-paper transition-colors group-hover:bg-cobalt-light/40 ${extra}`}
     >
       {sticker.foto ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={sticker.foto}
           alt={sticker.nombre}
-          className="absolute inset-0 h-full w-full object-contain p-3"
+          className={`${imgSize} object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] transition-transform duration-300 group-hover:scale-105`}
         />
       ) : (
-        <span className="text-6xl">🎨</span>
+        <span className={variant === "home" ? "text-6xl" : "text-5xl"}>🎨</span>
       )}
-    </div>
+    </Link>
   );
 
-  const nombre = (
-    <h3
-      className={`font-display truncate text-lg font-bold ${
-        readOnly ? "text-ink" : "text-ink transition-colors hover:text-primario"
-      }`}
-    >
-      {sticker.nombre}
-    </h3>
-  );
+  // ───────────────────────── VARIANTE CATÁLOGO ─────────────────────────
+  if (variant === "catalogo") {
+    return (
+      <article className="group flex flex-col justify-between gap-3 rounded-2xl border-2 border-line bg-card p-3 shadow-[3px_3px_0px_var(--color-line)] transition-all hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-line)] sm:p-4">
+        {imagen("aspect-square w-full rounded-xl p-3", "h-32 w-32")}
 
-  return (
-    <div className="group nb-lift nb-shadow relative flex flex-col gap-3 overflow-hidden rounded-2xl border-2 border-line bg-card p-3">
-      {/* Washi tape decorativa */}
-      <span
-        aria-hidden
-        className="nb-washi pointer-events-none absolute -top-1.5 left-1/2 z-10 h-5 w-16 -translate-x-1/2 -rotate-3"
-      />
-
-      {/* Zona imagen → producto */}
-      {readOnly ? (
-        <div className="w-full">{imagen}</div>
-      ) : (
-        <Link href={`/producto/${sticker.id}`} className="relative block w-full">
-          {imagen}
-        </Link>
-      )}
-
-      <div className="flex flex-col gap-2">
-        {/* Material */}
-        <div className="flex items-center justify-between gap-2">
-          {sticker.material && (
-            <span className="inline-flex items-center gap-1 rounded-full border border-line bg-paper px-2.5 py-1 text-[11px] font-bold text-ink">
-              {sticker.material}
-            </span>
-          )}
-        </div>
-
-        {/* Nombre → producto */}
-        {readOnly ? nombre : <Link href={`/producto/${sticker.id}`}>{nombre}</Link>}
-
-        {/* Autor → perfil del artista */}
-        <p className="truncate text-sm text-muted">
-          por{" "}
-          {readOnly ? (
-            <span className="font-semibold text-ink">{sticker.ilustrador}</span>
-          ) : (
+        <div className="flex flex-col gap-1">
+          <h3 className="font-display truncate text-base font-extrabold text-ink">
+            <Link href={productoUrl} className="transition-colors hover:text-cobalt">
+              {sticker.nombre}
+            </Link>
+          </h3>
+          <p className="truncate text-xs text-muted">
+            por{" "}
             <Link
               href={artistaUrl}
-              className="font-semibold text-secundario underline decoration-secundario/30 underline-offset-2 transition-colors hover:text-ink hover:decoration-ink"
-              title={`Ver el perfil de ${sticker.ilustrador}`}
+              title={`Ver el perfil de ${handle}`}
+              className="inline-flex items-center gap-0.5 font-semibold text-cobalt hover:underline"
             >
-              {sticker.ilustrador}
-              <span
-                aria-hidden
-                className="ml-0.5 inline-block text-xs opacity-60"
-              >
-                ↗
+              {handle}
+              <span className="icon text-[13px]" aria-hidden>
+                north_east
               </span>
             </Link>
-          )}
-        </p>
-
-        <div className="mt-1 flex items-end justify-between gap-3">
-          <p className="font-display text-lg font-black text-ink leading-none">
-            <span className="text-sm align-top">$</span>
-            {sticker.precio.toLocaleString("es-AR")}
-            <span className="ml-1 text-xs font-bold text-muted">ARS</span>
           </p>
         </div>
 
-        {/* En la tienda pública del ilustrador NO hay carrito */}
-        {!readOnly && (
-          <div className="mt-1">
-            <AddToCartCard sticker={sticker} />
-          </div>
-        )}
+        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+          {precio}
+          <AddToCartCard
+            sticker={sticker}
+            accent={botonCobalt ? "cobalt" : "primario"}
+          />
+        </div>
+      </article>
+    );
+  }
+
+  // ───────────────────────── VARIANTE HOME ─────────────────────────
+  return (
+    <article className="group flex flex-col gap-3 rounded-[24px] border-2 border-line bg-card p-5 shadow-[4px_4px_0px_var(--color-line)] transition-all hover:-translate-y-1.5 hover:shadow-[7px_7px_0px_var(--color-line)]">
+      {tag && (
+        <span
+          className={`w-fit rounded-full border-2 border-line px-2.5 py-1 text-[11px] font-black uppercase tracking-wide ${tagClassName}`}
+        >
+          {tag}
+        </span>
+      )}
+
+      {imagen("aspect-square w-full rounded-[18px] p-4", "h-36 w-36")}
+
+      <div className="flex flex-col gap-0.5">
+        <p className="text-[11px] font-bold text-muted">por {handle}</p>
+        <h3 className="font-display truncate text-base font-extrabold text-ink">
+          <Link href={productoUrl} className="transition-colors hover:text-cobalt">
+            {sticker.nombre}
+          </Link>
+        </h3>
+        <p className="truncate text-xs font-medium text-muted">
+          {sticker.material ?? "Vinilo"}
+          {sticker.acabado ? ` · ${sticker.acabado}` : ""}
+        </p>
       </div>
-    </div>
+
+      <div className="mt-auto flex items-end justify-between gap-3 pt-1">
+        {precio}
+        <AddToCartCard
+          sticker={sticker}
+          accent={botonCobalt ? "cobalt" : "acento"}
+        />
+      </div>
+    </article>
   );
 }

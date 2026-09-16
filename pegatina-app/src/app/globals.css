@@ -25,6 +25,11 @@
   --color-mint: #d7ebd9;
   --color-wash: #e5eef5;
 
+  /* Acento COBALT — refs "refinados con acentos azules" (nav activa, links autor, Comprar ahora, hover cards) */
+  --color-cobalt: #2563eb;
+  --color-cobalt-dark: #1d4ed8;
+  --color-cobalt-light: #eff6ff;
+
   /* Neutros */
   --color-ink: #1b1b1c;
   --color-ink-soft: #3c3c3c;
@@ -91,6 +96,27 @@ h6 {
 .nb-lift:active {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0 0 #1e1e1e;
+}
+
+/* ============================================================
+   Iconos Material Symbols (cargados por <link> en layout.tsx)
+   Uso: <span className="icon" aria-hidden>north_east</span>
+   ============================================================ */
+
+.icon {
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.25em;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  vertical-align: -0.18em;
+  user-select: none;
 }
 
 /* ============================================================

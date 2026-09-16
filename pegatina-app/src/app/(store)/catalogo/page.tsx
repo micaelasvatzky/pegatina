@@ -4,7 +4,6 @@ import {
   getVentasPorStickerId,
 } from "@/lib/data";
 import StickerCard from "@/components/StickerCard";
-import ColorBlobs from "@/components/ColorBlobs";
 import OrdenarSelect from "@/components/OrdenarSelect";
 import Link from "next/link";
 
@@ -21,10 +20,10 @@ const RANGOS_PRECIO: { label: string; min: number; max: number }[] = [
 type SortKey = "destacados" | "precio-asc" | "precio-desc" | "nombres";
 
 /**
- * Catálogo — fiel al sistema Stitch:
- * breadcrumbs + title bar "Feria de Stickers" + sidebar de filtros reales
- * (categorías con conteo, rangos de precio) + sort funcional + grid StickerCard
- * + pagination real + banner "conocer a los dibujantes".
+ * Catálogo — fiel al ref Stitch "catálogo refinado con acentos azules":
+ * breadcrumbs con badge cobalt, hero banner naranja con círculo amarillo,
+ * sidebar única (buscador, categorías, costo en feria, callout ilustrador,
+ * trust) y grid de product cards con paginación en card.
  * Params: ?q= (texto), ?categoria=, ?precio= (índice), ?sort=
  */
 export default async function CatalogoPage({
@@ -48,8 +47,7 @@ export default async function CatalogoPage({
   const total = allStickers.length;
 
   const rangoIdx = precio !== undefined ? parseInt(precio, 10) : 0;
-  const rango =
-    RANGOS_PRECIO[rangoIdx] ?? RANGOS_PRECIO[0];
+  const rango = RANGOS_PRECIO[rangoIdx] ?? RANGOS_PRECIO[0];
   const sortKey: SortKey = ["destacados", "precio-asc", "precio-desc", "nombres"].includes(
     sort ?? ""
   )
@@ -112,164 +110,233 @@ export default async function CatalogoPage({
     return s ? `/catalogo?${s}` : "/catalogo";
   };
 
-  const primeraCategoria = categorias[0]?.id ?? "Bebidas";
+  const badgeCategoria = categoria ?? "Todos los stickers";
 
   return (
     <div>
-      {/* ───────────────────────── TITLE BAR ───────────────────────── */}
-      <section className="relative overflow-hidden border-b-2 border-line bg-primario px-4 py-10 md:px-6">
-        <ColorBlobs />
-        <div className="relative z-10 mx-auto max-w-7xl">
-          {/* Breadcrumbs */}
-          <nav className="mb-4 text-sm font-bold text-white/75" aria-label="Breadcrumb">
-            <Link href="/" className="hover:underline">
-              Inicio
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href="/catalogo" className="hover:underline">
-              Catálogo
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-acento">TODOS LOS STICKERS</span>
-          </nav>
+      <div className="mx-auto max-w-7xl px-4 pt-8 md:px-6">
+        {/* ───────────────────── BREADCRUMBS ───────────────────── */}
+        <nav
+          className="mb-4 flex flex-wrap items-center gap-1.5 text-sm font-bold text-muted"
+          aria-label="Breadcrumb"
+        >
+          <Link href="/" className="hover:text-cobalt">
+            Inicio
+          </Link>
+          <span aria-hidden>/</span>
+          <Link href="/catalogo" className="hover:text-cobalt">
+            Catálogo
+          </Link>
+          <span aria-hidden>/</span>
+          <span className="rounded-full border-2 border-line bg-cobalt px-3 py-0.5 text-xs font-black uppercase text-white shadow-[1.5px_1.5px_0px_var(--color-line)]">
+            {badgeCategoria}
+          </span>
+          <span className="ml-auto hidden items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1 text-xs font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] md:inline-flex">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primario" />
+            Stock físico garantizado por cada ilustrador
+          </span>
+        </nav>
 
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <span className="mb-3 inline-flex items-center gap-2 rounded-full border-2 border-line bg-acento px-3 py-1 text-xs font-black text-ink">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-primario" />
-                FERIA ACTIVA
+        {/* ───────────────────── HERO BANNER ───────────────────── */}
+        <div className="relative overflow-hidden rounded-2xl border-2 border-line bg-primario px-6 py-8 shadow-[4px_4px_0px_var(--color-line)] md:px-10 md:py-10">
+          <div
+            aria-hidden
+            className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full border-4 border-acento/60 opacity-60"
+          />
+          <div className="relative z-10">
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1 text-[11px] font-black uppercase tracking-wide text-ink shadow-[2px_2px_0px_var(--color-line)]">
+              <span className="icon text-sm text-primario" aria-hidden>
+                storefront
               </span>
-              <h1 className="font-display text-4xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
-                Feria de
-                <br />
-                Stickers
-              </h1>
+              Feria Federal Autogestiva
+            </span>
+            <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h1 className="font-display text-4xl font-black uppercase leading-none text-white md:text-5xl">
+                  Feria de Stickers
+                </h1>
+                <p className="mt-2 max-w-xl text-base font-semibold text-white/90">
+                  {total} piezas originales en exposición directa de
+                  ilustradores independientes de Argentina.
+                </p>
+              </div>
+              <OrdenarSelect value={sortKey} baseUrl={buildUrl({})} />
             </div>
-
-            <p className="font-display text-lg font-bold text-white/90">
-              {total} piezas originales de ilustradores independientes de Argentina.
-            </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ───────────────────────── FILTROS + GRID ───────────────────────── */}
+      {/* ───────────────────── FILTROS + GRID ───────────────────── */}
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
-        <div className="flex flex-col gap-8 lg:flex-row lg:gap-10">
+        <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
           {/* SIDEBAR */}
-          <aside className="flex w-full shrink-0 flex-col gap-5 lg:w-72">
-            {/* Buscador */}
-            <form
-              action="/catalogo"
-              method="get"
-              className="flex items-center gap-2 rounded-xl border-2 border-line bg-card px-4 py-3 shadow-[2px_2px_0px_var(--color-line)]"
-            >
-              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" className="shrink-0 text-muted">
-                <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.8" />
-                <path d="M14 14L18 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-              <input
-                type="text"
-                name="q"
-                defaultValue={q ?? ""}
-                placeholder="Buscar artistas o dibujos…"
-                className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted"
-              />
-            </form>
+          <aside className="lg:col-span-3">
+            <div className="flex flex-col gap-6 rounded-2xl border-2 border-line bg-card p-5 shadow-[3px_3px_0px_var(--color-line)] lg:sticky lg:top-32">
+              {/* Buscador */}
+              <form action="/catalogo" method="get" className="relative">
+                <span
+                  className="icon absolute left-3 top-1/2 -translate-y-1/2 text-lg text-muted"
+                  aria-hidden
+                >
+                  search
+                </span>
+                <input
+                  type="text"
+                  name="q"
+                  defaultValue={q ?? ""}
+                  placeholder="Buscar en la feria…"
+                  className="w-full rounded-xl border-2 border-line bg-paper py-2.5 pl-10 pr-3 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-cobalt"
+                />
+              </form>
 
-            {/* Categorías con conteo real */}
-            <div className="rounded-2xl border-2 border-line bg-card p-5 shadow-[2px_2px_0px_var(--color-line)]">
-              <h2 className="mb-3 font-display text-sm font-black uppercase tracking-wider text-ink">
-                Categorías
-              </h2>
-              <ul className="flex flex-col">
-                <li>
-                  <Link
-                    href={buildUrl({ categoria: null })}
-                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
-                      !categoria ? "bg-primario/10 text-primario" : "text-ink hover:bg-wash"
-                    }`}
-                  >
-                    Todas
-                    <span className="rounded-full border border-line bg-paper px-2 py-0.5 text-[11px] text-ink-soft">
-                      {total}
-                    </span>
-                  </Link>
-                </li>
-                {categorias.map(({ id, count }) => {
-                  const active = categoria === id;
-                  return (
-                    <li key={id}>
-                      <Link
-                        href={buildUrl({ categoria: id })}
-                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
-                          active ? "bg-primario/10 text-primario" : "text-ink hover:bg-wash"
+              {/* Categorías */}
+              <div>
+                <h2 className="mb-2 flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-ink">
+                  <span className="icon text-base text-cobalt" aria-hidden>
+                    category
+                  </span>
+                  Categorías
+                </h2>
+                <ul className="flex flex-col gap-0.5">
+                  <li>
+                    <Link
+                      href={buildUrl({ categoria: null })}
+                      className={`flex w-full items-center justify-between rounded-lg border-2 px-2.5 py-1.5 text-sm font-semibold transition-all ${
+                        !categoria
+                          ? "border-line bg-cobalt text-white shadow-[2px_2px_0px_var(--color-line)]"
+                          : "border-transparent text-ink hover:bg-paper"
+                      }`}
+                    >
+                      Todas
+                      <span
+                        className={`rounded-full border px-2 py-0.5 text-[11px] font-bold ${
+                          !categoria
+                            ? "border-white/40 bg-white/15 text-white"
+                            : "border-line/40 bg-paper text-muted"
                         }`}
                       >
-                        {id}
-                        <span className="rounded-full border border-line bg-paper px-2 py-0.5 text-[11px] text-ink-soft">
-                          {count}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            {/* Rango de precios (radio) */}
-            <div className="rounded-2xl border-2 border-line bg-card p-5 shadow-[2px_2px_0px_var(--color-line)]">
-              <h2 className="mb-3 font-display text-sm font-black uppercase tracking-wider text-ink">
-                Precio
-              </h2>
-              <ul className="flex flex-col gap-0.5">
-                {RANGOS_PRECIO.map((r, i) => {
-                  const active = rangoIdx === i;
-                  return (
-                    <li key={i}>
-                      <Link
-                        href={buildUrl({ precio: i === 0 ? null : String(i) })}
-                        className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
-                          active ? "bg-secundario/10 font-bold text-secundario" : "text-ink hover:bg-wash"
-                        }`}
-                      >
-                        <span
-                          className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
-                            active ? "border-secundario" : "border-muted"
+                        {total}
+                      </span>
+                    </Link>
+                  </li>
+                  {categorias.map(({ id, count }) => {
+                    const active = categoria === id;
+                    return (
+                      <li key={id}>
+                        <Link
+                          href={buildUrl({ categoria: id })}
+                          className={`flex w-full items-center justify-between rounded-lg border-2 px-2.5 py-1.5 text-sm font-semibold transition-all ${
+                            active
+                              ? "border-line bg-cobalt text-white shadow-[2px_2px_0px_var(--color-line)]"
+                              : "border-transparent text-ink hover:bg-paper"
                           }`}
                         >
-                          {active && <span className="h-2 w-2 rounded-full bg-secundario" />}
-                        </span>
-                        {r.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
+                          {id}
+                          <span
+                            className={`rounded-full border px-2 py-0.5 text-[11px] font-bold ${
+                              active
+                                ? "border-white/40 bg-white/15 text-white"
+                                : "border-line/40 bg-paper text-muted"
+                            }`}
+                          >
+                            {count}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              <hr className="border-line/20" />
+
+              {/* Costo en feria (ARS) */}
+              <div>
+                <h2 className="mb-2 flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-ink">
+                  <span className="icon text-base text-cobalt" aria-hidden>
+                    payments
+                  </span>
+                  Costo en feria (ARS)
+                </h2>
+                <ul className="flex flex-col gap-0.5">
+                  {RANGOS_PRECIO.map((r, i) => {
+                    const active = rangoIdx === i;
+                    return (
+                      <li key={i}>
+                        <Link
+                          href={buildUrl({ precio: i === 0 ? null : String(i) })}
+                          className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors ${
+                            active
+                              ? "font-bold text-cobalt"
+                              : "text-ink hover:bg-paper"
+                          }`}
+                        >
+                          <span
+                            className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
+                              active
+                                ? "border-cobalt"
+                                : "border-muted"
+                            }`}
+                          >
+                            {active && (
+                              <span className="h-2 w-2 rounded-full bg-cobalt" />
+                            )}
+                          </span>
+                          {r.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              <hr className="border-line/20" />
+
+              {/* Callout ilustrador */}
+              <div className="rounded-2xl border-2 border-line bg-acento p-4">
+                <p className="flex items-center gap-1.5 text-sm font-black text-ink">
+                  <span className="icon text-lg" aria-hidden>
+                    draw
+                  </span>
+                  ¿Sos ilustrador o hacés fanzines?
+                </p>
+                <p className="mt-1 text-xs font-semibold text-ink-soft">
+                  Abrí tu tienda sin costo de mantenimiento y vendé directo en
+                  la feria.
+                </p>
+                <Link
+                  href="/signup/ilustrador"
+                  className="mt-3 inline-flex w-full items-center justify-center gap-1 rounded-lg border-2 border-line bg-card px-3 py-2 text-xs font-extrabold uppercase tracking-wide shadow-[2px_2px_0px_var(--color-line)] transition-all hover:bg-ink hover:text-white"
+                >
+                  Crear mi tienda
+                  <span className="icon text-sm" aria-hidden>
+                    arrow_forward
+                  </span>
+                </Link>
+              </div>
+
+              {/* Trust */}
+              <div className="flex items-start gap-3 rounded-2xl border border-line/30 bg-paper p-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cobalt text-white">
+                  <span className="icon text-lg" aria-hidden>
+                    water_drop
+                  </span>
+                </span>
+                <p className="text-xs font-semibold leading-relaxed text-ink-soft">
+                  Calidad termo & té: a prueba de agua, mate y rayones.
+                </p>
+              </div>
             </div>
           </aside>
 
           {/* GRID */}
-          <section className="flex-1">
-            {/* Toolbar: resultado + sort */}
-            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-              <p className="rounded-full border border-line bg-card px-4 py-2 text-sm font-bold text-ink">
-                {stickers.length} sticker{stickers.length !== 1 ? "s" : ""}
-                {q ? ` · "${q}"` : ""}
-                {categoria ? ` · ${categoria}` : ""}
-                {rangoIdx !== 0 ? ` · ${rango.label}` : ""}
-              </p>
-
-              <OrdenarSelect value={sortKey} baseUrl={buildUrl({})} />
-            </div>
-
+          <section className="lg:col-span-9">
             {stickers.length === 0 ? (
               <div className="flex flex-col items-center gap-3 rounded-2xl border-2 border-line bg-card py-20 text-center shadow-[3px_3px_0px_var(--color-line)]">
                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-lilac/60 text-muted">
-                  <svg width="30" height="30" viewBox="0 0 20 20" fill="none">
-                    <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.6" />
-                    <path d="M14 14L18 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                  </svg>
+                  <span className="icon text-3xl" aria-hidden>
+                    search_off
+                  </span>
                 </span>
                 <p className="text-lg font-semibold text-ink-soft">
                   No encontramos stickers con esos filtros.
@@ -289,28 +356,36 @@ export default async function CatalogoPage({
               </div>
             )}
 
-            {/* Pagination real */}
-            <div className="mt-10 flex flex-col items-center gap-2 border-t border-line pt-6">
-              <p className="text-sm font-bold text-ink-soft">
-                Mostrando {stickers.length} de {total} diseños
+            {/* Paginación — card estilo ref */}
+            <div className="mt-10 flex flex-col items-center gap-3 rounded-2xl border-2 border-line bg-card p-5 shadow-[3px_3px_0px_var(--color-line)]">
+              <p className="flex items-center gap-2 text-sm font-bold text-ink-soft">
+                <span className="icon text-base text-cobalt" aria-hidden>
+                  fiber_manual_record
+                </span>
+                Mostrando {stickers.length} de {total} stickers de la feria
+                independiente
               </p>
               <div className="flex items-center gap-2">
                 <button
                   disabled
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-line bg-card text-muted shadow-[2px_2px_0px_var(--color-line)]"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-line bg-paper text-muted"
                   aria-label="Página anterior"
                 >
-                  ‹
+                  <span className="icon text-lg" aria-hidden>
+                    chevron_left
+                  </span>
                 </button>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-line bg-primario font-black text-white shadow-[2px_2px_0px_var(--color-line)]">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-line bg-cobalt font-black text-white shadow-[2px_2px_0px_var(--color-line)]">
                   1
                 </span>
                 <button
                   disabled
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-line bg-card text-muted shadow-[2px_2px_0px_var(--color-line)]"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-line bg-paper text-muted"
                   aria-label="Página siguiente"
                 >
-                  ›
+                  <span className="icon text-lg" aria-hidden>
+                    chevron_right
+                  </span>
                 </button>
               </div>
             </div>
@@ -318,51 +393,26 @@ export default async function CatalogoPage({
         </div>
       </div>
 
-      {/* ───────────────────────── BANNER DIBUJANTES ───────────────────────── */}
-      <section className="relative overflow-hidden border-t-2 border-line bg-azul-soft">
-        <ColorBlobs />
-        <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-14 text-center md:px-6">
-          <span
-            aria-hidden
-            className="nb-washi pointer-events-none h-6 w-24 -rotate-2"
-          />
-          <h2 className="font-display max-w-2xl text-3xl font-black uppercase leading-tight text-white md:text-4xl">
-            Cada calco es de un ilustrador real: conocé quién está detrás
+      {/* ───────────────────── BANNER DIBUJANTES ───────────────────── */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 md:px-6">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border-2 border-line bg-card p-8 text-center shadow-[4px_4px_0px_var(--color-line)]">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-cobalt/10 text-cobalt">
+            <span className="icon text-2xl" aria-hidden>
+              volunteer_activism
+            </span>
+          </span>
+          <h2 className="font-display max-w-xl text-2xl font-black uppercase leading-tight text-ink md:text-3xl">
+            Cada calco es de un ilustrador real
           </h2>
-          <p className="max-w-xl text-lg text-white/85">
-            Los stickers de la feria los hacen ilustradores reales de todo el
-            país. Entrá a sus perfiles y descubrí más de su arte.
+          <p className="max-w-lg text-sm text-ink-soft">
+            Conocé quién está detrás de cada pieza de la feria y descubrí más
+            del arte que se vende por acá.
           </p>
           <Link
             href={`/artista/${firstHandle(allStickers)}`}
-            className="rounded-xl border-2 border-line bg-acento px-8 py-4 font-bold text-ink shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-ink hover:text-white active:translate-x-[1px] active:translate-y-[1px]"
+            className="rounded-full border-2 border-line bg-acento px-8 py-3 font-bold text-ink shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-ink hover:text-white active:translate-x-[1px] active:translate-y-[1px]"
           >
-            Conocer a los dibujantes →
-          </Link>
-        </div>
-      </section>
-
-      {/* ───────────────────────── CTA ILUSTRADOR ─────────────────────────
-          (fiel a Stitch — Mica indicó qué sacar después de la pasada) */}
-      <section className="relative overflow-hidden border-t-2 border-line bg-acento">
-        <ColorBlobs />
-        <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-14 text-center md:px-6">
-          <p className="text-xs font-black uppercase tracking-widest text-secundario">
-            Feria federal abierta
-          </p>
-          <h2 className="font-display max-w-2xl text-3xl font-black uppercase leading-tight text-ink md:text-4xl">
-            ¿Sos ilustrador o hacés tus propios diseños?
-          </h2>
-          <p className="max-w-xl text-lg text-ink-soft">
-            Abrí tu tienda gratis en la feria. Sin costo fijo y con tu
-            catálogo en las manos: vos ponés el arte, el precio y el ritmo.
-            {` ${primeraCategoria} y +`} temáticas esperando tu arte.
-          </p>
-          <Link
-            href="/signup/ilustrador"
-            className="rounded-xl border-2 border-line bg-primario px-8 py-4 font-bold text-white shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-ink active:translate-x-[1px] active:translate-y-[1px]"
-          >
-            Crear mi tienda gratis
+            Conocer a los ilustradores
           </Link>
         </div>
       </section>

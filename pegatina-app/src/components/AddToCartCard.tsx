@@ -9,14 +9,26 @@ import type { Sticker } from "@/lib/types";
 
 type Props = {
   sticker: Sticker;
+  /** Color del botón "Agregar" (variedad visual de las cards Stitch). */
+  accent?: "primario" | "cobalt" | "acento";
+};
+
+const ACCENT_STYLES: Record<NonNullable<Props["accent"]>, string> = {
+  primario: "bg-primario text-white hover:bg-acento hover:text-ink",
+  cobalt: "bg-cobalt text-white hover:bg-cobalt-dark",
+  acento: "bg-acento text-ink hover:bg-primario hover:text-white",
 };
 
 /**
- * Bloque de compra de la card (catálogo/landing): stepper + botón Agregar.
- * - Si no hay sesión → modal centrado (createPortal) pidiendo login.
+ * Bloque de compra de la card (catálogo/landing): stepper chico + botón
+ * "Agregar" — estilo compacto de los refs Stitch.
+ * - Sin sesión → modal centrado (createPortal) pidiendo login.
  * - Si el carrito ya tiene stickers de OTRO artista → modal de aviso.
  */
-export default function AddToCartCard({ sticker }: Props) {
+export default function AddToCartCard({
+  sticker,
+  accent = "primario",
+}: Props) {
   const { add, openCart } = useCart();
   const { isLoggedIn, usuario } = useAuth();
   const router = useRouter();
@@ -42,15 +54,14 @@ export default function AddToCartCard({ sticker }: Props) {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [showLoginModal, otroArtista]);
 
-  // Ilustrador no puede comprar
+  // El ilustrador solo vende: su cuenta no puede comprar stickers.
   if (isLoggedIn && usuario?.rol === "ilustrador") {
     return (
-      <div className="flex items-center gap-2 rounded-xl border border-line bg-card px-4 py-3 text-sm italic text-muted">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-          <path d="M8 12h8"/>
-        </svg>
-        <span className="text-ink-soft">Modo vendedor — agregar al carrito no aplica aquí</span>
+      <div className="flex items-center gap-1.5 rounded-lg border border-line/40 bg-paper px-2.5 py-1.5 text-[11px] font-semibold italic text-muted">
+        <span className="icon text-sm" aria-hidden>
+          info
+        </span>
+        Modo vendedor — no compra por acá
       </div>
     );
   }
@@ -71,24 +82,24 @@ export default function AddToCartCard({ sticker }: Props) {
 
   return (
     <>
-      {/* Stepper + Botón Agregar — estilo Stitch */}
-      <div className="flex items-center gap-3">
-        {/* Stepper */}
-        <div className="flex items-center rounded-xl border-2 border-line bg-paper shadow-[2px_2px_0px_var(--color-line)]">
+      {/* Stepper + Botón Agregar — compacto estilo Stitch */}
+      <div className="flex items-center gap-1.5">
+        {/* Stepper chico */}
+        <div className="flex items-center rounded-lg border border-line/30 bg-paper px-0.5 py-0.5">
           <button
             onClick={() => setCantidad((c) => Math.max(1, c - 1))}
             aria-label="Disminuir cantidad"
-            className="flex h-9 w-9 items-center justify-center rounded-l-xl text-lg font-bold text-ink transition-colors hover:bg-wash"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-base font-bold text-ink transition-colors hover:text-cobalt"
           >
             −
           </button>
-          <span className="w-10 select-none text-center font-bold text-ink tabular-nums">
+          <span className="w-7 select-none text-center text-sm font-bold text-ink tabular-nums">
             {cantidad}
           </span>
           <button
             onClick={() => setCantidad((c) => Math.min(99, c + 1))}
             aria-label="Aumentar cantidad"
-            className="flex h-9 w-9 items-center justify-center rounded-r-xl text-lg font-bold text-ink transition-colors hover:bg-wash"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-base font-bold text-ink transition-colors hover:text-cobalt"
           >
             +
           </button>
@@ -97,13 +108,13 @@ export default function AddToCartCard({ sticker }: Props) {
         {/* Botón Agregar */}
         <button
           onClick={handleAgregar}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-line bg-acento px-4 py-3 text-sm font-bold text-ink shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-primario hover:text-white active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_var(--color-line)]"
+          className={`flex items-center gap-1 rounded-lg border-2 border-line px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide shadow-[1.5px_1.5px_0px_var(--color-line)] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none ${
+            ACCENT_STYLES[accent]
+          }`}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="9" cy="21" r="1" />
-            <circle cx="20" cy="21" r="1" />
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-          </svg>
+          <span className="icon text-sm" aria-hidden>
+            add_shopping_cart
+          </span>
           Agregar
         </button>
       </div>

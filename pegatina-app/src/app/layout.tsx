@@ -29,6 +29,15 @@ export default function RootLayout({
       lang="es"
       className={`${epilogue.variable} ${workSans.variable} h-full antialiased`}
     >
+      <head>
+        {/* Iconografía del sistema (los refs Stitch usan Material Symbols Outlined).
+            next/font/google NO incluye icon fonts, así que se carga por link
+            como en los HTML de referencia. */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-crema text-ink font-sans">
         <Providers>{children}</Providers>
       </body>

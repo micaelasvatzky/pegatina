@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pegatina* — Stickers &amp; Microediciones de Ilustradores Argentinos</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400..900;1,400..900&amp;family=Work+Sans:ital,wght@0,300..800;1,300..800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "cobalt": "#2563EB",
+            "cobalt-dark": "#1D4ED8",
+            "cobalt-light": "#EFF6FF",
+            "on-primary-container": "#532700",
+            "surface-container-high": "#eae7e8",
+            "on-surface-variant": "#564336",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#f0edee",
+            "on-tertiary-container": "#003751",
+            "paper-card": "#FFFFFF",
+            "on-background": "#1b1b1c",
+            "on-surface": "#1b1b1c",
+            "outline-variant": "#dcc1b1",
+            "lilac-soft": "#EADEF7",
+            "ink-black": "#1B1B1C",
+            "stamp-ink": "#1E1E1E",
+            "paper-warm": "#FFFDF8",
+            "surface-variant": "#e5e2e3",
+            "surface-container-low": "#f6f3f4",
+            "paper-canvas": "#FAF6EE",
+            "primary-container": "#ea7f20",
+            "surface": "#fcf8f9",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#fec724",
+            "secondary-fixed-dim": "#f5bf19",
+            "primary": "#944a00",
+            "outline": "#897364",
+            "wash-sky-muted": "#E5EEF5",
+            "mint-soft": "#D7EBD9",
+            "tertiary": "#2c6385"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.875rem",
+            "2xl": "1.25rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "headline-lg": ["Epilogue", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-sm": ["Epilogue", "sans-serif"],
+            "display-hero": ["Epilogue", "sans-serif"],
+            "body-lg": ["Work Sans", "sans-serif"],
+            "body-md": ["Work Sans", "sans-serif"],
+            "body-sm": ["Work Sans", "sans-serif"],
+            "label-lg": ["Work Sans", "sans-serif"],
+            "label-md": ["Work Sans", "sans-serif"],
+            "label-stamp": ["Epilogue", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-paper-canvas text-on-surface font-body-md text-body-md antialiased selection:bg-cobalt selection:text-white">
+<!-- TOP ANNOUNCEMENT BAR & NAVIGATION -->
+<div class="fixed top-0 left-0 right-0 z-50 flex flex-col shadow-sm">
+<div class="bg-secondary-container text-stamp-ink px-4 py-1.5 text-center font-label-stamp text-xs uppercase tracking-wider flex items-center justify-center gap-2 border-b border-stamp-ink">
+<span class="material-symbols-outlined text-base">local_shipping</span>
+<span>Feria de Otoño: Envíos gratis a todo el país desde $18.000 • Despacho colectivo de ilustradores: Viernes</span>
+</div>
+<header class="bg-paper-warm/95 backdrop-blur-md border-b border-stamp-ink/10">
+<div class="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+<div class="flex items-center gap-8">
+<a class="group flex items-center gap-1.5 bg-paper-card px-4 py-1.5 rounded-full border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] hover:-translate-y-0.5 transition-all" data-path="home" href="#">
+<span class="font-headline-md font-extrabold text-ink-black tracking-tight text-xl">Pegatina</span>
+<span class="font-display-hero text-xl text-primary-container leading-none group-hover:rotate-45 transition-transform inline-block">*</span>
+</a>
+<nav class="hidden lg:flex items-center gap-1 bg-paper-canvas p-1 rounded-full border border-stamp-ink/20">
+<a class="font-label-lg text-sm text-white font-bold bg-cobalt px-4 py-1.5 rounded-full shadow-[1.5px_1.5px_0px_#1E1E1E]" data-path="catalogo" href="#">Catálogo</a>
+<a class="font-label-lg text-sm text-on-surface-variant hover:text-stamp-ink font-semibold px-4 py-1.5 rounded-full transition-colors" data-path="arte-diy" href="#">Arte DIY</a>
+<a class="font-label-lg text-sm text-on-surface-variant hover:text-stamp-ink font-semibold px-4 py-1.5 rounded-full transition-colors" data-path="ilustradores" href="#">Ilustradores</a>
+<a class="font-label-lg text-sm text-on-surface-variant hover:text-stamp-ink font-semibold px-4 py-1.5 rounded-full transition-colors" data-path="feria-virtual" href="#">Feria Virtual</a>
+</nav>
+</div>
+<div class="hidden md:flex flex-1 max-w-sm mx-4">
+<div class="relative w-full flex items-center bg-white rounded-full px-4 py-2 border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] focus-within:ring-2 focus-within:ring-cobalt focus-within:ring-offset-1 transition-all">
+<span class="material-symbols-outlined text-outline text-xl mr-2">search</span>
+<input class="w-full bg-transparent text-sm text-ink-black placeholder:text-outline/70 focus:outline-none" placeholder="Buscar stickers, fanzines, artistas..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<a class="hidden sm:inline-flex items-center gap-2 bg-primary-container text-white font-label-lg font-bold text-sm px-4 py-2 rounded-full border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] hover:shadow-[3px_3px_0px_#1E1E1E] hover:-translate-y-0.5 transition-all" data-path="abri-tu-tienda" href="#">
+<span class="material-symbols-outlined text-lg">storefront</span>
+<span>Abrí tu tienda</span>
+</a>
+<button aria-label="Carrito de compras" class="relative p-2.5 rounded-full bg-white border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] hover:bg-cobalt-light transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-xl text-stamp-ink">shopping_bag</span>
+<span class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-secondary-container text-stamp-ink font-headline-sm text-xs rounded-full flex items-center justify-center border-2 border-stamp-ink font-bold">3</span>
+</button>
+<div class="w-9 h-9 rounded-full bg-cobalt border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] flex items-center justify-center text-white cursor-pointer hover:opacity-90">
+<span class="material-symbols-outlined text-lg">person</span>
+</div>
+</div>
+</div>
+</header>
+</div>
+<!-- MAIN CONTAINER -->
+<main class="w-full pt-32 pb-20 bg-paper-canvas min-h-screen">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8">
+<!-- SUBHEADER / BREADCRUMBS & BADGES -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-stamp-ink/80">
+<a class="hover:text-cobalt transition-colors" href="#">Inicio</a>
+<span class="text-outline/60">/</span>
+<a class="hover:text-cobalt transition-colors" href="#">Catálogo</a>
+<span class="text-outline/60">/</span>
+<span class="bg-cobalt text-white px-2.5 py-1 rounded-full border border-stamp-ink font-bold shadow-[1.5px_1.5px_0px_#1E1E1E]">TODOS LOS STICKERS</span>
+</div>
+<div class="flex items-center gap-2 bg-white px-3 py-1 rounded-full border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E]">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container border border-stamp-ink animate-pulse"></span>
+<span class="font-label-stamp text-xs uppercase tracking-wider text-stamp-ink font-bold">Stock físico garantizado por cada ilustrador/a</span>
+</div>
+</div>
+<!-- HERO BANNER -->
+<div class="bg-primary-container border-2 border-stamp-ink rounded-2xl p-6 sm:p-8 shadow-[4px_4px_0px_#1E1E1E] relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-secondary-container rounded-full opacity-60 pointer-events-none border-4 border-stamp-ink/10"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="max-w-2xl">
+<div class="inline-block bg-white text-stamp-ink font-label-stamp text-xs uppercase px-3 py-1 rounded-full border-2 border-stamp-ink font-bold mb-3 shadow-[2px_2px_0px_#1E1E1E]">
+              Feria Federal Autogestiva
+            </div>
+<h1 class="font-headline-xl text-3xl sm:text-4xl text-stamp-ink tracking-tight font-black">
+              Feria de Stickers
+            </h1>
+<p class="font-body-md text-stamp-ink/90 mt-2 font-medium">
+              22 piezas originales en exposición directa de autorxs independientes de Argentina.
+            </p>
+</div>
+<!-- Controls: Sort & Views -->
+<div class="flex items-center gap-3 flex-wrap">
+<div class="flex items-center bg-white rounded-full px-4 py-2 border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E]">
+<span class="material-symbols-outlined text-lg text-stamp-ink mr-2">swap_vert</span>
+<span class="text-xs font-bold uppercase tracking-wider text-stamp-ink mr-2">Ordenar:</span>
+<select class="bg-transparent text-sm font-semibold text-stamp-ink focus:outline-none cursor-pointer">
+<option>Más llevados en feria</option>
+<option>Menor precio</option>
+<option>Mayor precio</option>
+<option>Novedades del taller</option>
+</select>
+</div>
+<div class="hidden sm:flex items-center bg-white rounded-full p-1 border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E]">
+<button class="p-1.5 rounded-full bg-cobalt text-white shadow-sm" title="Vista de grilla">
+<span class="material-symbols-outlined text-lg block">grid_view</span>
+</button>
+<button class="p-1.5 rounded-full text-stamp-ink hover:bg-paper-canvas transition-colors" title="Vista compacta">
+<span class="material-symbols-outlined text-lg block">view_agenda</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MAIN TWO-COLUMN CONTENT -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- SIDEBAR -->
+<aside class="lg:col-span-3 flex flex-col gap-6">
+<div class="bg-white rounded-2xl p-5 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] flex flex-col gap-6">
+<!-- Filter Search -->
+<div class="relative">
+<input class="w-full bg-paper-canvas rounded-xl px-3.5 py-2.5 text-stamp-ink placeholder:text-outline text-sm font-medium border-2 border-stamp-ink focus:outline-none focus:border-cobalt transition-colors" placeholder="Filtrar por nombre o @autor..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-lg text-outline">search</span>
+</div>
+<!-- Categories -->
+<div>
+<span class="font-headline-sm text-sm uppercase tracking-wider text-stamp-ink font-bold mb-3 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-cobalt">category</span>
+                Categorías
+              </span>
+<div class="flex flex-col gap-1.5">
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl bg-cobalt text-white font-bold border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] text-sm transition-transform hover:translate-x-0.5" href="#">
+<span>Todas</span>
+<span class="bg-white text-cobalt px-2 py-0.5 rounded-full text-xs font-bold">22</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl text-stamp-ink hover:bg-paper-canvas font-medium text-sm transition-colors" href="#">
+<span>Bebidas</span>
+<span class="bg-paper-canvas text-outline px-2 py-0.5 rounded-full text-xs font-bold border border-stamp-ink/10">4</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl text-stamp-ink hover:bg-paper-canvas font-medium text-sm transition-colors" href="#">
+<span>Comida</span>
+<span class="bg-paper-canvas text-outline px-2 py-0.5 rounded-full text-xs font-bold border border-stamp-ink/10">5</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl text-stamp-ink hover:bg-paper-canvas font-medium text-sm transition-colors" href="#">
+<span>Buenos Aires</span>
+<span class="bg-paper-canvas text-outline px-2 py-0.5 rounded-full text-xs font-bold border border-stamp-ink/10">4</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl text-stamp-ink hover:bg-paper-canvas font-medium text-sm transition-colors" href="#">
+<span>Argentina</span>
+<span class="bg-paper-canvas text-outline px-2 py-0.5 rounded-full text-xs font-bold border border-stamp-ink/10">3</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl text-stamp-ink hover:bg-paper-canvas font-medium text-sm transition-colors" href="#">
+<span>Animales</span>
+<span class="bg-paper-canvas text-outline px-2 py-0.5 rounded-full text-xs font-bold border border-stamp-ink/10">3</span>
+</a>
+<a class="flex items-center justify-between px-3.5 py-2 rounded-xl text-stamp-ink hover:bg-paper-canvas font-medium text-sm transition-colors" href="#">
+<span>Cultura &amp; Fanzine</span>
+<span class="bg-paper-canvas text-outline px-2 py-0.5 rounded-full text-xs font-bold border border-stamp-ink/10">3</span>
+</a>
+</div>
+</div>
+<hr class="border-stamp-ink/15"/>
+<!-- Price filter -->
+<div>
+<span class="font-headline-sm text-sm uppercase tracking-wider text-stamp-ink font-bold mb-3 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-cobalt">payments</span>
+                Gasto en feria (ARS)
+              </span>
+<div class="space-y-2">
+<label class="flex items-center gap-2.5 text-sm font-semibold text-stamp-ink cursor-pointer">
+<input checked="" class="accent-cobalt w-4 h-4 cursor-pointer" name="price" type="radio"/>
+<span>Todos los presupuestos</span>
+</label>
+<label class="flex items-center gap-2.5 text-sm text-stamp-ink/80 hover:text-stamp-ink cursor-pointer">
+<input class="accent-cobalt w-4 h-4 cursor-pointer" name="price" type="radio"/>
+<span>Menos de $1.000</span>
+</label>
+<label class="flex items-center gap-2.5 text-sm text-stamp-ink/80 hover:text-stamp-ink cursor-pointer">
+<input class="accent-cobalt w-4 h-4 cursor-pointer" name="price" type="radio"/>
+<span>$1.000 a $1.500</span>
+</label>
+<label class="flex items-center gap-2.5 text-sm text-stamp-ink/80 hover:text-stamp-ink cursor-pointer">
+<input class="accent-cobalt w-4 h-4 cursor-pointer" name="price" type="radio"/>
+<span>Más de $1.500</span>
+</label>
+</div>
+</div>
+<hr class="border-stamp-ink/15"/>
+<!-- Support / Finish Filter -->
+<div>
+<span class="font-headline-sm text-sm uppercase tracking-wider text-stamp-ink font-bold mb-3 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-cobalt">texture</span>
+                Técnica &amp; Soporte
+              </span>
+<div class="flex flex-wrap gap-2">
+<span class="bg-cobalt text-white font-bold text-xs px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] cursor-pointer">Vinilo UV 500μ</span>
+<span class="bg-paper-canvas hover:bg-cobalt-light text-stamp-ink font-medium text-xs px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] cursor-pointer transition-colors">Holográfico</span>
+<span class="bg-paper-canvas hover:bg-cobalt-light text-stamp-ink font-medium text-xs px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] cursor-pointer transition-colors">Serigrafía</span>
+<span class="bg-paper-canvas hover:bg-cobalt-light text-stamp-ink font-medium text-xs px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] cursor-pointer transition-colors">Papel Kraft</span>
+</div>
+</div>
+</div>
+<!-- Side Callout: ¿Sos ilustrador? -->
+<div class="bg-secondary-container text-stamp-ink rounded-2xl p-6 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] flex flex-col gap-3">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E]">
+<span class="material-symbols-outlined text-stamp-ink text-xl">draw</span>
+</div>
+<h3 class="font-headline-sm text-lg font-black tracking-tight leading-snug">
+              ¿Sos ilustrador o hacés fanzines?
+            </h3>
+<p class="text-xs font-medium leading-relaxed text-stamp-ink/90">
+              Abrí tu mesón digital sin costo de mantenimiento. Despachamos tus stickers y cobrás semanalmente.
+            </p>
+<a class="inline-flex items-center justify-center gap-2 bg-white hover:bg-paper-canvas text-stamp-ink font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] transition-all hover:-translate-y-0.5 mt-1" href="#">
+<span class="material-symbols-outlined text-base">storefront</span>
+              Crear mi tienda
+            </a>
+</div>
+<!-- Trust Badge -->
+<div class="bg-white rounded-xl p-4 border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-cobalt text-white flex items-center justify-center flex-shrink-0 border border-stamp-ink">
+<span class="material-symbols-outlined text-lg">water_drop</span>
+</div>
+<div>
+<span class="font-label-stamp text-xs uppercase font-bold text-stamp-ink block">Calidad termo &amp; termo</span>
+<span class="text-xs text-on-surface-variant">A prueba de agua, mate y rayones.</span>
+</div>
+</div>
+</aside>
+<!-- PRODUCT CATALOG (22 EXACT ITEMS) -->
+<main class="lg:col-span-9 flex flex-col gap-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- 1: Matecito Argentino -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 group-hover:rotate-[-2deg] transition-transform duration-200" data-alt="Playful bold vector illustration sticker of an Argentine mate gourd with bombilla and steaming bubbles, vibrant pop art colors with thick clean outline in neo-brutalist cartoon style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLKUPWftyQVI8jknh3Yh5d9lar1mzvqkQpHG8iao_ASW2jZ3cx6GqIsCRa2LpSq34ggsA3cpTLNRbS1dYD5D5Jy7WBVO1sv0inISCukf0sHKUW-RmeyP4FrZ16DOSmgyiqiljalEKSF0y4M80PG9L8E9O0BQhHeDt_zoTHXykBkyJxJMZIzZWmRndyiilzRfD3AQCEqF9GQDMUGjqe7jE5W12tMOYaljUFeKlSB5VO2bZ2RgarSAAsXg"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Matecito Argentino</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @mateconmili <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.200 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 2: Empanada Criolla -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 group-hover:rotate-[2deg] transition-transform duration-200" data-alt="Cartoon sticker of a golden baked Argentine empanada with repulgue seam, steaming hot steam swirl, thick black ink contour, bright warm tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ3VIz2v40OhLMvO__Ku8pdKYh5aSVhYxWbzVluVCGcObh6UVKGYH-NvY3OJ3E31yJNUVQxC6tyQ1pHAld8wy6L0jpbJhZDIKHxAxgSshcQrXmXBvEBRefjwhFSzM2sBHK_ndrPQ7qxlyrITIwt6dFlCIhPi8gV9rPrCh_f9GCzcoVa53IlCFSAEK5mO6e77w0K-u1Avjom_UJm96iKGzJbg20HH8L7q_1EaqwsZcQ_c6TDJoDD_w5-Q"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Empanada Criolla</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujitosdefacu <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.000 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 3: Bondi de Buenos Aires -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Charming vintage Buenos Aires colectivo bus sticker illustration with colorful fileteado lines and number 60 sign, bold pop art aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwEVnRnSoJBu6ECBTzg8T-mpRJahYf9_6Mgo9LhR5rlOq3shk4aBFnHfZAeihERjxi7lwfoo6ph80pvJMYBsrRFrrf_ENGqRvXCkrFpNKFnoMduq4YNCeW2yGk6KHp1EmENqexf3cxDn9SbkL1_rmN8oWHJ41qh5ebAYwkD53MO1cy8zm2AkpnvC97gHR6pUyI6xMNRlRrd_8_1M308OLit0otEJFmRzy1M94Sr3ArjVHt0WcGz7kL9w"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Bondi de Buenos Aires</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @arteconsofi <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.500 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 4: Choripán -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Vibrant Argentine choripan sandwich with chimichurri sauce sticker illustration, juicy grilled sausage in French bread, thick outline comic art style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ5P9vNiZnE5OND4MPyV8M3p0Z444by-O3BtgWPpC57kMe77UJwL1TbcIG9oRxCJKxYntE4ydd6wID6qXtUHCn-DrlI0khWbV_3j8BItZkA_QRMTICQ9Eypt9P5x5Z2hIypQ-YyKzjdMqxPXSa2kdM5g75ewVunyNk7peN5LD0EXX2CIxI_9ds6k3vWieS2Ofrsml2SNUMLC8giMJa-iOODEqPJ6kDUcYq90m3cuKNbEyYAE8FuAfKTg"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Choripán</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujandoconlu <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.100 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 5: Termo y Mate -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Cute sticker pair of classic stainless steel water thermos and calabash mate with stickers on it, playful sticker-on-sticker indie zine design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1t5KohZH_ZnUS1B1uJnOpZINSeMHAm1l_PNdAb0aqFYyxQECFCUiDwbS63XPlHq3kcal8tryKhqPFpl5niDJQfMdEVYZlA074ZXrAsZtwJ_DgoE4YHehEG7qCHelUo-HMobTkPVhZTbk_tUNWeySL-HTh6wXJjI2HyLk11HpzG813KM-odasGgnauMVt_T3CseJpA51L0Bnyo27C7bO7W3zglsW1sqO1z-Raq5khYVLw_aqBx96UVRw"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Termo y Mate</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @soydibujito <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.800 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 6: Bandera Argentina -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Stylized waving Argentine flag with smiling sun of May in the center, bright sky blue and white, thick ink lines in bold sticker print design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa8vlFJwFhZu8QLUcEXivFaTupwYAleRXtOAqaOpWoEg-b2P-VUqzeHYGH0ugYahlYsDbwb4kJJqD7UGXWSuQGvFZhs3-_h0pwUxBSVSgU6p_Q5yn-ko4i6D5h4icAEEq2mOSeMYUvtCR3EnjtcqrJcYOzaFdaXFYF4RLqO4s-ZKomAy7g689Zmmj6MBpOgzmOiBg80zBl7c9Jull5y9xiEILpWG9tTRl1hV39jbd55L8CFJiZVQsRzQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Bandera Argentina</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @garabatosdeagus <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$900 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 7: Fernet con Coca -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Cut plastic bottle makeshift glass filled with dark fernet with cola and ice cubes and foam, classic Argentine street party illustration sticker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHC31kwBIfZjSEe2_AQyOf4FCI-7ovliiA1AeS77SrLidshAR8cX93eLGmPapDltbzASGBGD8P8xZjIfl74Ta5GttE3qAgHGOcoHadC5PyAStBDNCNrnZ66uHXSf8A5EKiHJvSKLSINTdzhwim7uQ9eJM0lQRtVT96s3rboHKZUgIuZsBBB5QJxv3BfWfTwmoWaJWMHdA2fuj6TU4kHVHvUGkbuEmOHbivG9WfNjgKonSRq2l4Q_dOqQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Fernet con Coca</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujaconvale <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.300 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 8: Capibara Argentino -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Chilled-out cute capybara sitting calmly wearing tiny sunglasses and sipping mate, adorable pastel-toned neo-brutalist animal illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArmuNS0vfsqnFZmpeCpnowq1NsUObCQg33W7Nyk5e5vF0abIdzSkO11ynyYV1QEKsFi9BSqxkU7tfFbtaeUtL8wYFXk_8wqHiqOVMHt4QYkRyBg4ktUqWt-oyeW049rExwLeU8SLEHzwrF14urYyVj2yYc8rNMhkQLRbEUjp-QSAb0bNBqw3uK5Hp5VLHpaRAmcHnQ142P_w_b2j3277Mils9TLEV4XGJ3LayQQ8QvWP1um9EhmNhiUQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Capibara Argentino</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @cosasdemora <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.400 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 9: Alfajor de Chocolate -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Delicious chocolate coated Argentine alfajor with a bite taken revealing luscious dulce de leche inside, cute comic eyes and sticker die-cut" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmvyg6xk0D-hr70DB0Z7SgEB-tuYF_uffrZqWzOkQR4Re7G3nbHxnTw_YwQuBlHwc4zlOrKs5MgukRHfraS8PF2aCiNoigV_g0q_Qyixj7e1HWjY5YukWNkmB5kKZr6AUMECBz4OdUWT4aXGlyugKwX4D6jRxZAKAeT6NtxZ3ivatGkuhL9C8UnIAp9Xtj0vEXp-Fn0wc_OkvQPgiV5LTPuRfXhTRvrZ-hSBJOWcxa4FJFc_KCxQReNg"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Alfajor de Chocolate</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujitosdemartina <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.000 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 10: Fileteado Buenos Aires -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Traditional Buenos Aires fileteado porteno decorative banner art sticker with acanthus leaves and swirl ornaments saying BUENOS AIRES in bold vintage script" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClx5P0eYArynDzClI3TOvkAiEQncLEjPSq9EcCQGGvPL0khULE0fPTD26d-ZBK6XHSnFNzblyPpGTznh505zO7_A9hGycv2Vxn_cy7AUfBzgU7PODt9rb8hQYHgTA1ee24n7VPhtPfhyJ44hRazm144375wm_wyMFx0TUsuQzYNGR6VmuRfhdnam9FIJb4-BrKkxqApCZ-VyCU9FNvc5WRBWHA3yhg2bLeWpZhSNPHjwA7LZIK5UlhJQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Fileteado Buenos Aires</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @ilustraconmaca <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.600 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 11: Gato con Camiseta Argentina -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Funny cartoon cat wearing Argentina national soccer team jersey number 10, cheering happily, cute indie illustration with bold contours" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTkmYwSugxlDAat4ruBeJhiz89CXulmhGn4L_qoYUTgVmUTjds7DCpJd94cylNfB4vxm6hphhUdxx6o7LkiCyJo3t1Ch-VYpgLbdm-OAZN7finXvWTuKGqGZ7duwxNhtDKE8rlolyI_fTrJu8CLQgUGElt40e-f3tQ4f1xt-Xqaja9GhGsFn_353FDXeYM_p1z6zI7kIQPVNXypATF_CqnWLVuFFfJm_jseJjIHUC739ZNCS9KrpYOQw"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Gato con Camiseta</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @gatitosconarte <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.500 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 12: Medialuna Porteña -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Golden glazed Argentine medialuna de manteca pastry sticker illustration, glossy finish, cute smiley face, warm golden yellow palette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCScI7MEJNU4sG_RP1ugg3D0xd95F2PlfEZv5e0_zx2NkGs6I2n9p7A6FD2baSOvNCcc-XGcL_uoCy5550KIe9blyWuqloOSal6V8xhxA7uX5VBgFsvoOec7Tqox0Maa2NX1MNplpXr2ygqHwYNDu8JinzRH3UIe47mWI-YjSmQVRG9RIfewBV6cFZ7WSsDnuKaw6X0aRG0yld-Jh4mC51zE2SXG-_AWNUzpqTnML5bW50dYaqwctDfWw"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Medialuna Porteña</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @lineasdecaro <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$950 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 13: Obelisco Porteño -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="The Buenos Aires Obelisk monument depicted playfully surrounded by jacaranda purple flowers and sunny skies, sticker pop art illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf5RChn5txRTiM2T9dQWx2laoKtW4vnf_wqFLQqFEU3fWH86kKfsYRojWQSjRfKfujhIN0OGRunLFXpLqc2RCTTSt84hvMIvY_YhGQfElV4mInsU8XmsON4RGLsy4T6IDOccJGpzJW14AeCyTZMiFOwhJKF5ZQJhgvkemd3oyn736LTx9rnlfieiNO3dTk9bgTJ3yndHC0lfcb14QNpe9ptILnnIveStBppvQPnG68BBDzsb8szAnYPQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Obelisco Porteño</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @arteconluli <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.700 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 14: Argentina en el Corazón -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Chunky anatomical heart painted with Argentine flag sky blue and white stripes with a radiant gold sun, clean vector sticker with white edge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP4CnGeo9qV9lYwHKkZYgdejFRAPbTWZYtFdhf0elyTO884XjrRSLBZOCCtFh6qdaVR1p4wvfuJg_pIBoguuA2WW356aipFfl8PS54B_NG5eRgnrvqnFJxQNYcr_aaXPO9xN9shsiXUULGeHfdI15EKFa1kQ2V_bE2uDLpX-A0fF4jWlC57Ah2Q7q-wcbfeGR7i-uZQabK59ndNewoNej9bbLOt_uh5AjSgWZZBtLzXO7t852cysI4ig"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Argentina en el Corazón</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @sofiilustra <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.200 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 15: Snoopy Matero -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Whimsical indie cartoon dog resting on doghouse roof sipping yerba mate with bombilla, Argentine underground zine mashup aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsQ4s3_4JRqKRvPD5eNKh8q5epUundC1vr7v1eZf0s4qxF9t-blw2JJzBP5MCRdWQp-FhGhQmjD6hsYX75_plSW4FQ6lm2XCa6IKue0a8itu-SbMtSUrqOvZrkrqI8G5tiyj3QOlMcw34Nth00bSJosL_O8yUV5xZHcfsHhVnDIiw4k0f2xPWF1UtsiqFcPW7f_WeWOAsGcUzCNBFM67wm-76dFxmlEX7Q0nSaHf77sAY-nkPixU9Z7Q"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Snoopy Matero</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujitosdeflor <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.350 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 16: Pizza de Guerrín -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Thick cheesy slice of Buenos Aires fugazzetta muzzarella pizza stretching melted cheese with an olive on top, retro comic book art style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkhVH_sztR9ETk6Pgtmp0cyEAjScipLpkWW3lBkoJTcmnqr6lVgdXaMYghwSVlyA68LveQeM6ZH7M1EsOSCjgJKnDwtyTXHkgmNNJIMpZ9z9ThndRlySMKKP8goJHQPWidQtlzdmUmiWM3Z1GkXduBIOBR_nwIjaAu_8RDXV7OMhj2V0uWwvzRuY71kG9UT6HPWzxXsz-js2CY5KoGxRfVVMg-Cs-Bxrl416hjnl2zYpQ8nP5mlmsnuQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Pizza de Guerrín</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @garabatosconjuli <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.450 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 17: Pochoclos del Cine -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Retro cinema striped bucket overflowing with buttery popped popcorn and floating popcorn kernels, cartoon indie sticker illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY-vM3QZY-JNOr4GET9JjSjV40nqgk1OOO6ZFD9rCTSBf0fzsxbwSCXnjA9qwd-Wx9KkYghrmXWbV7JJCGgBUGYBcCmq9rYQMA5mSuDhOkhQTC9EHOXBJAOLplBEem1dopLbB3OxtJK3pKO3TE7aKCT6zc0RecGWlUQZgB1q4KqTrkK2tJF0aaR_pa4GRN-wxvLFWCWlkjs_ZO8gYd7UmTmsz_u0y3FktYjvRaoQZOQCYN2o9PbDNlag"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Pochoclos del Cine</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujitosdenati <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.100 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 18: Sol de Mayo -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="The Sun of May emblem illustrated with bold expressive rays, mischievous smile, shiny yellow and deep orange tones, artistic graphic sticker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ9_AU37eYWJCnO_7Hi-QA5PDyHvQ6NgV8JyAUN7e0_x4QrDJAHniTlWZ2BZdEwPsALwbnCrMGcrulIEGepZNb2vmcvgvXjI8ObmUY_ZF0tnaeOvTqaHDC6-JrZqPwPRfF4rSfm0W08OatVt-wg6_9xmUWijyljWuhez0kaSEOQnpVvnXUPTole35OmnBwde6oHqO68Bnh_zWEYyDluNJFlmTHW9lJz51It8nT8-6tjcPv2fL8Y3AxzA"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Sol de Mayo</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @ilustraconjose <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.250 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 19: Ancho de Espada -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Spanish playing card 1 of Spades Ace Ancho de Espada illustrated in fierce neo-traditional tattoo inspired graphic design, sharp clean contours" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0jpWxdKLf0HwewCJcfaIzU_jR6zOfUQ-9zCZIKe3UupPAvCpiorANvpUUUM9LC6aG8Kdk7tDQHk0qI1WGikJxOBPTIuNTMkwG5Lx2QsoI2ZRKQ-JDyDS2PXzZaRVuilBPemOBlPBxlBfbvKlVpghh4I2VJMSVOedP9zL0t5w_ga41VGyueRoKwL6Pcy7rkWle4o0Y9EwODbQavjqZUsj9bHvRQVanbYfTMztuHbnA8sSMFZ7YhIhSXQ"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Ancho de Espada</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @arteconsofi <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.550 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 20: Messi Topo Gigio -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Iconic silhouette celebration of soccer legend doing the Topo Gigio gesture hands behind ears, sky blue jersey, world championship vibe sticker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrW1jFABSQK2IotKITUCw6nzgceo9qk8vNQkk16ru9XzWyimbW59lipFYHxbjgTRhzgrsdzNV1fBvlsDxyjPnUKUmJq7IRfhUQDNzCTuAdZQ_nuonaxCaI0w0lyjnXEZjqs8e-bQimqHsbOaWk-U5fJ-gt5_Uys7_13q8oBbDoygxnuR_cQ_rstkSL2pkhq93hT2ue6ti-Kw52eaZF_DzuLMboo-EbQIsaVEiB5yeVbM0dn3AN1kZjmw"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Messi Topo Gigio</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @dibujitosdeanto <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.400 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 21: Dibu atajando -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Cartoon goalkeeper in red making an incredible spread eagle miracle leg save with soccer ball bouncing away, dynamic comic action lines sticker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAaxFT1pBDR0hDk_WXR1ihJQVOgmcMsk0QAkP-BCoAy1c9u6MmUnUrXOg6QAaWaUF5miW8WIGgW0vWFzJ19zZdFPxuymc6YJj-NCNRQsxZbmCG1Y37_sm-D6t2KXADYXBC6wHKsvLbeIzhNZ1Ua3g95zeLtsmVx7bBkdxwLkDcqTz2yrYhbMvwbeMwXHtbr1OD0VzyNQJuL4bH4r6-Y2CZE2TelZISOENuyHxZytP2Ocx0ZpoIC3tWzA"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Dibu atajando</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @demoilustrador <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.500 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+<!-- 22: Escudo de River -->
+<article class="group bg-white rounded-2xl p-4 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] hover:shadow-[5px_5px_0px_#1E1E1E] hover:-translate-y-1 transition-all flex flex-col justify-between">
+<div>
+<div class="w-full h-48 bg-paper-canvas rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3 border border-stamp-ink/10 group-hover:bg-cobalt-light/40 transition-colors">
+<img class="w-32 h-32 object-contain drop-shadow-[2px_4px_6px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-200" data-alt="Stylized Argentine football club crest shield with red diagonal sash and vintage typography monogram, indie sticker with white die-cut border" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-1ukZd4W0aNKlngqRjsFu0QAP6kdcMs4tGJmG-6v9jIuHi75TS2lcy0ygsz7BSJ_WJ_TXueNz_ujCmXEVNXIdBDgWUv6pyHDn2Urluz7GkMEnrXz2BwiessLmB4hCnUM4RITsgr91TXf1LJWBK0Idb7DdIIWH3Eiq4dE263wN1Dc7iGSHZ-WOyyPiWEelrV9ZSVs0YNfErw8803tfw248no4PfqgB-yuqdofRggIF5WNKJfQvYp36sw"/>
+</div>
+<h3 class="font-headline-sm text-base text-stamp-ink font-extrabold">Escudo de River</h3>
+<a class="text-xs font-semibold text-cobalt hover:underline inline-flex items-center gap-0.5 mt-0.5" href="#">
+                  por @demoilustrador <span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between gap-2 border-t border-stamp-ink/10">
+<span class="font-headline-sm text-lg text-stamp-ink font-black">$1.800 <span class="text-xs font-medium text-outline">ARS</span></span>
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-paper-canvas rounded-lg border border-stamp-ink/30 px-1.5 py-0.5">
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">−</button>
+<span class="font-label-stamp text-xs px-1 font-bold">1</span>
+<button class="text-stamp-ink font-bold px-1 text-xs hover:text-cobalt">+</button>
+</div>
+<button class="bg-primary-container text-white hover:bg-secondary-container hover:text-stamp-ink font-label-stamp text-xs uppercase font-extrabold px-3 py-1.5 rounded-lg border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E] active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    Agregar
+                  </button>
+</div>
+</div>
+</article>
+</div>
+<!-- CLEAN PAGINATION -->
+<div class="bg-white rounded-2xl p-5 border-2 border-stamp-ink shadow-[3px_3px_0px_#1E1E1E] flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 bg-cobalt rounded-full inline-block border border-stamp-ink"></span>
+<span class="text-xs sm:text-sm font-medium text-stamp-ink">
+                Mostrando <strong>22</strong> de <strong>22</strong> stickers de la feria independiente
+              </span>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-9 h-9 rounded-xl bg-paper-canvas text-outline flex items-center justify-center cursor-not-allowed opacity-50 border-2 border-stamp-ink">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="w-9 h-9 rounded-xl bg-cobalt text-white font-bold flex items-center justify-center border-2 border-stamp-ink shadow-[1.5px_1.5px_0px_#1E1E1E]">
+                1
+              </button>
+<button class="w-9 h-9 rounded-xl bg-paper-canvas text-outline flex items-center justify-center cursor-not-allowed opacity-50 border-2 border-stamp-ink">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- COMMUNITY VALUE FOOTNOTE BANNER -->
+<div class="bg-white rounded-2xl p-6 border-2 border-stamp-ink shadow-[4px_4px_0px_#1E1E1E] flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl bg-cobalt text-white flex items-center justify-center flex-shrink-0 border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E]">
+<span class="material-symbols-outlined text-2xl">volunteer_activism</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-base text-stamp-ink font-black">Comprás directo al mesón de cada dibujante</h4>
+<p class="text-xs text-on-surface-variant max-w-xl mt-1 leading-relaxed">
+                  El 85% del valor de cada sticker va a quien lo pensó y dibujó. Empaquetamos todo junto en sobres de papel kraft sellados con lacre para unificar tu envío.
+                </p>
+</div>
+</div>
+<a class="bg-secondary-container text-stamp-ink hover:bg-primary-container hover:text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl border-2 border-stamp-ink shadow-[2.5px_2.5px_0px_#1E1E1E] hover:-translate-y-0.5 transition-all whitespace-nowrap flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-base">group</span>
+              Conocer a los colectivos
+            </a>
+</div>
+</main>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-paper-warm text-ink-black pt-16 pb-10 border-t-2 border-stamp-ink shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12">
+<div class="lg:col-span-4 flex flex-col items-start gap-4">
+<div class="inline-flex items-center gap-1.5 bg-paper-canvas px-4 py-1.5 rounded-full border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E]">
+<span class="font-headline-md font-extrabold text-ink-black text-lg">Pegatina</span>
+<span class="font-display-hero text-lg text-primary-container leading-none">*</span>
+</div>
+<p class="text-sm text-on-surface-variant max-w-sm leading-relaxed">
+            Comunidad y plataforma de microediciones gráficas, stickers artesanales y serigrafía directa de autoras y autores de Argentina.
+          </p>
+<div class="flex items-center gap-2 mt-2">
+<span class="bg-mint-soft text-ink-black text-xs font-bold px-3 py-1 rounded-full border border-stamp-ink/20">Hecho a mano</span>
+<span class="bg-lilac-soft text-ink-black text-xs font-bold px-3 py-1 rounded-full border border-stamp-ink/20">Tiradas cortas</span>
+<span class="bg-wash-sky-muted text-ink-black text-xs font-bold px-3 py-1 rounded-full border border-stamp-ink/20">Feria federal</span>
+</div>
+</div>
+<div class="lg:col-span-2 flex flex-col gap-3">
+<h4 class="font-headline-sm text-sm uppercase font-black text-ink-black tracking-wider">Explorar</h4>
+<ul class="flex flex-col gap-2 text-sm text-on-surface-variant font-medium">
+<li><a class="hover:text-cobalt transition-colors" data-path="catalogo" href="#">Catálogo Completo</a></li>
+<li><a class="hover:text-cobalt transition-colors" data-path="ilustradores" href="#">Ilustradores &amp; Colectivos</a></li>
+<li><a class="hover:text-cobalt transition-colors" data-path="feria-virtual" href="#">Feria Virtual de Fanzines</a></li>
+<li><a class="hover:text-cobalt transition-colors" data-path="catalogo" href="#">Packs Especiales</a></li>
+</ul>
+</div>
+<div class="lg:col-span-2 flex flex-col gap-3">
+<h4 class="font-headline-sm text-sm uppercase font-black text-ink-black tracking-wider">Comunidad</h4>
+<ul class="flex flex-col gap-2 text-sm text-on-surface-variant font-medium">
+<li><a class="hover:text-cobalt transition-colors" data-path="abri-tu-tienda" href="#">Abrí tu tienda</a></li>
+<li><a class="hover:text-cobalt transition-colors" data-path="arte-diy" href="#">Guía de Producción DIY</a></li>
+<li><a class="hover:text-cobalt transition-colors" data-path="faq-terminos" href="#">Preguntas Frecuentes</a></li>
+<li><a class="hover:text-cobalt transition-colors" data-path="faq-terminos" href="#">Términos y Envíos</a></li>
+</ul>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-3">
+<h4 class="font-headline-sm text-sm uppercase font-black text-ink-black tracking-wider">Feria Semanal</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+            Recibí novedades de tiradas únicas, drops de stickers holográficos y convocatorias abiertas de fanzines.
+          </p>
+<form class="flex flex-col sm:flex-row gap-2 mt-2">
+<input class="bg-white rounded-full px-4 py-2 text-sm text-ink-black placeholder:text-outline border-2 border-stamp-ink focus:outline-none focus:border-cobalt flex-1" placeholder="tu@email.com" type="email"/>
+<button class="bg-secondary-container text-stamp-ink font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full border-2 border-stamp-ink shadow-[2px_2px_0px_#1E1E1E] hover:bg-secondary-fixed-dim hover:-translate-y-0.5 transition-all" type="button">
+              Sumarse
+            </button>
+</form>
+</div>
+</div>
+<div class="pt-6 border-t border-stamp-ink/10 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left text-xs text-on-surface-variant">
+<p>© 2026 Pegatina. Arte local original, de ilustradores argentinos a tu puerta.</p>
+<p class="font-label-stamp uppercase text-stamp-ink/70">Hecho con papel, vinilo y cariño • Buenos Aires, Argentina</p>
+</div>
+</div>
+</footer>
+</body></html>

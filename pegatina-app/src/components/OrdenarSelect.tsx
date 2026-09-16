@@ -11,6 +11,7 @@ const SORT_LABEL: Record<string, string> = {
 
 /**
  * Selector de orden del catálogo (cliente, para poder navegar al cambiar).
+ * Estilo pill Stitch con icono swap_vert — vive en el hero del catálogo.
  * `baseUrl` ya trae q/categoria/precio — solo se reemplaza el sort.
  */
 export default function OrdenarSelect({
@@ -29,13 +30,15 @@ export default function OrdenarSelect({
   }
 
   return (
-    <label className="flex items-center gap-2 text-sm font-semibold text-ink-soft">
-      Ordenar
+    <label className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-4 py-2 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] transition-shadow focus-within:ring-2 focus-within:ring-cobalt">
+      <span className="icon text-lg text-cobalt" aria-hidden>
+        swap_vert
+      </span>
       <select
         defaultValue={value}
         name="sort"
         onChange={(e) => handleChange(e.target.value)}
-        className="cursor-pointer rounded-xl border-2 border-line bg-card px-3 py-2 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] outline-none focus:border-secundario"
+        className="cursor-pointer bg-transparent text-sm font-bold text-ink outline-none"
       >
         {Object.entries(SORT_LABEL).map(([k, label]) => (
           <option key={k} value={k}>

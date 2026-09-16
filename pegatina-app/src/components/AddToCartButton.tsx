@@ -85,16 +85,14 @@ export default function AddToCartButton({ sticker }: { sticker: Sticker }) {
           </button>
         </div>
 
-        {/* Botón Agregar al carrito — amarillo Stitch */}
+        {/* Botón Agregar al carrito — naranja (fiel al ref del detalle) */}
         <button
           onClick={handleClick}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-line bg-acento px-6 py-3 font-bold text-ink shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-primario hover:text-white active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_var(--color-line)]"
+          className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-line bg-primario px-6 py-3 font-bold text-white shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-ink active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_var(--color-line)]"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="9" cy="21" r="1" />
-            <circle cx="20" cy="21" r="1" />
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-          </svg>
+          <span className="icon text-lg" aria-hidden>
+            add_shopping_cart
+          </span>
           Agregar al carrito
         </button>
       </div>
