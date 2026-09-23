@@ -1,15 +1,27 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/auth";
+import { getSession, getUsuarioById, getUsuarioPorHandle } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getStickerById } from "@/lib/data";
+import {
+  mpConfigurado,
+  crearOrderCheckout,
+  calcularSplit,
+  type PagoInfo,
+} from "@/lib/mercadopago";
+import { ObjectId } from "mongodb";
 
 /**
  * POST /api/pedidos
- * Crea un pedido REAL desde el checkout (sin Mercado Pago por ahora:
- * el flujo es "transferencia" — el ilustrador confirma al recibir el pago).
+ * Crea un pedido REAL desde el checkout y, si Mercado Pago está configurado,
+ * genera la order de Checkout Pro (API de Orders) para redirigir al comprador.
  *
- * Los precios se recalculan en el SERVER contra la DB:
- * el cliente solo manda sticker_id + cantidad (nunca se confía en el total).
+ * Seguridad: los precios se recalculan en el SERVER contra la DB — el cliente
+ * solo manda sticker_id + cantidad (nunca se confía en el total).
+ *
+ * Split: si el ilustrador conectó su cuenta MP (`usuario.mp.access_token`),
+ * la order se crea con SU token y `marketplace_fee` (10% Pegatina / 90%
+ * artista — reparto automático de MP). Si no conectó, se crea con el token de
+ * Pegatina y el split (10/90) se calcula igual y se guarda en `pago`.
  */
 export async function POST(req: Request) {
   const session = await getSession();
@@ -62,7 +74,13 @@ export async function POST(req: Request) {
   }
 
   // Recalcular items contra la DB: precios reales, nombre e ilustrador.
-  const items = [];
+  const items: {
+    sticker_id: string;
+    nombre: string;
+    precio: number;
+    cantidad: number;
+    ilustrador: string;
+  }[] = [];
   for (const raw of rawItems) {
     const stickerId = typeof raw.sticker_id === "string" ? raw.sticker_id : "";
     const cantidad = Math.floor(Number(raw.cantidad));
@@ -90,6 +108,16 @@ export async function POST(req: Request) {
   }
 
   const total = items.reduce((sum, it) => sum + it.precio * it.cantidad, 0);
+  const mpActivo = mpConfigurado();
+
+  // Pago inicial: pendiente. Con MP activo, se guarda también el split 10/90.
+  const split = mpActivo ? calcularSplit(total) : null;
+  const pago: PagoInfo = {
+    proveedor: mpActivo ? "mercadopago" : "transferencia",
+    estado: "pendiente",
+    total,
+    ...(split ? { comision: split.comision, neto_artista: split.neto_artista } : {}),
+  };
 
   const db = await getDb();
   const result = await db.collection("pedidos").insertOne({
@@ -103,15 +131,68 @@ export async function POST(req: Request) {
       codigo_postal: envioRaw.codigo_postal.trim(),
       notas: typeof envioRaw.notas === "string" ? envioRaw.notas.trim() : "",
     },
-    // Sin Mercado Pago: el comprador transfiere y el ilustrador confirma.
-    metodo_pago: "transferencia",
+    metodo_pago: mpActivo ? "mercadopago" : "transferencia",
     total,
     estado: "pending",
     fecha: new Date(),
+    pago,
   } as any);
 
-  return NextResponse.json(
-    { id: result.insertedId.toString(), ok: true },
-    { status: 201 }
-  );
+  const pedidoId = result.insertedId.toString();
+
+  // Sin MP configurado → flujo transferencia (fallback) como siempre.
+  if (!mpActivo) {
+    return NextResponse.json({ id: pedidoId, ok: true }, { status: 201 });
+  }
+
+  // Con MP: buscar el token del vendedor (si el artista conectó su cuenta).
+  // El carrito es de UN solo artista (decisión de producto), así que el
+  // primer item define al vendedor de toda la order.
+  const handleVendedor = items[0]?.ilustrador ?? "";
+  let sellerToken: string | undefined;
+  try {
+    if (handleVendedor) {
+      const vendedor = await getUsuarioPorHandle(handleVendedor);
+      if (vendedor?.mp?.access_token) {
+        sellerToken = vendedor.mp.access_token;
+      }
+    }
+  } catch {
+    sellerToken = undefined;
+  }
+
+  try {
+    const order = await crearOrderCheckout({
+      items: items.map((it) => ({
+        title: it.nombre,
+        quantity: it.cantidad,
+        unit_price: it.precio,
+      })),
+      total,
+      externalReference: pedidoId,
+      sellerToken,
+    });
+
+    // Guardar el id de la order MP en el pedido.
+    await db.collection("pedidos").updateOne(
+      { _id: new ObjectId(pedidoId) },
+      { $set: { "pago.order_id": order.id } }
+    );
+
+    return NextResponse.json(
+      { id: pedidoId, ok: true, checkout_url: order.checkout_url },
+      { status: 201 }
+    );
+  } catch (err: any) {
+    // No dejamos pedidos huérfanos: si MP falló, el pedido no se crea.
+    await db.collection("pedidos").deleteOne({ _id: new ObjectId(pedidoId) });
+    return NextResponse.json(
+      {
+        error:
+          "No pudimos iniciar el pago con Mercado Pago. " +
+          (err?.message ?? "Intentá de nuevo."),
+      },
+      { status: 502 }
+    );
+  }
 }

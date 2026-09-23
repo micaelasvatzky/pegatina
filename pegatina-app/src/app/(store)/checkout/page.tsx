@@ -1,11 +1,19 @@
 import CheckoutForm from "./CheckoutForm";
 import ColorBlobs from "@/components/ColorBlobs";
+import { mpConfigurado } from "@/lib/mercadopago";
 
 /**
  * Checkout — datos de envío + confirmación de compra.
  * (El proxy ya garantiza sesión activa: sin login → /login?redirect=/checkout.)
+ * Con Mercado Pago configurado, el flujo redirige a Checkout Pro.
+ *
+ * force-dynamic: mpConfigurado() lee env en tiempo de request — si se
+ * prerenderiza en build, mpActivo quedaría congelado en false.
  */
+export const dynamic = "force-dynamic";
+
 export default function CheckoutPage() {
+  const mpActivo = mpConfigurado();
   return (
     <div>
       {/* Header con color (sistema de la landing) */}
@@ -22,7 +30,7 @@ export default function CheckoutPage() {
       </section>
 
       <div className="mx-auto max-w-5xl px-4 pb-20 pt-10 md:px-6">
-        <CheckoutForm />
+        <CheckoutForm mpActivo={mpActivo} />
       </div>
     </div>
   );

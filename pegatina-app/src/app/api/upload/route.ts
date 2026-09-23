@@ -9,6 +9,10 @@ import crypto from "node:crypto";
  * Solo ilustradores logueados. La firma SHA-1 se genera acá (server-side):
  * el API secret NUNCA viaja al navegador.
  *
+ * FormData:
+ *   - file: la imagen (obligatorio)
+ *   - folder: "stickers" (default) | "perfiles" — dónde guardarla
+ *
  * Requiere en las env vars (Vercel / .env.local):
  *   CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
  */
@@ -16,6 +20,7 @@ export const runtime = "nodejs";
 
 const MAX_BYTES = 5 * 1024 * 1024; // 5 MB
 const TIPOS = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+const FOLDERS = ["stickers", "perfiles"] as const;
 
 export async function POST(request: Request) {
   // 1) Sesión + rol (solo ilustradores suben fotos de stickers)
@@ -44,6 +49,10 @@ export async function POST(request: Request) {
   // 3) Archivo
   const form = await request.formData();
   const file = form.get("file");
+  const folder = (form.get("folder") as string) || "stickers";
+  if (!FOLDERS.includes(folder as (typeof FOLDERS)[number])) {
+    return NextResponse.json({ error: "Carpeta inválida." }, { status: 400 });
+  }
   if (!(file instanceof File)) {
     return NextResponse.json(
       { error: "No se recibió ningún archivo." },
@@ -67,7 +76,7 @@ export async function POST(request: Request) {
   const timestamp = Math.floor(Date.now() / 1000);
   const params: Record<string, string> = {
     timestamp: String(timestamp),
-    folder: "stickers",
+    folder,
   };
   const firma = crypto
     .createHash("sha1")
@@ -84,7 +93,7 @@ export async function POST(request: Request) {
   body.append("file", file, file.name);
   body.append("api_key", API_KEY);
   body.append("timestamp", String(timestamp));
-  body.append("folder", "stickers");
+  body.append("folder", folder);
   body.append("signature", firma);
 
   const res = await fetch(

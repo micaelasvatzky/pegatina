@@ -1,5 +1,6 @@
 import { getDb } from "./mongodb";
 import type { DBSticker, Sticker } from "./types";
+import type { PagoInfo } from "./mercadopago";
 import { ObjectId } from "mongodb";
 import {
   normalizarEstado,
@@ -148,6 +149,8 @@ interface PedidoDoc {
   total?: number;
   estado?: string;
   fecha?: Date | string;
+  metodo_pago?: string;
+  pago?: PagoInfo;
 }
 
 /**
@@ -195,6 +198,7 @@ function serializePedidoVendedor(
     total: doc.total ?? 0,
     estado: normalizarEstado(doc.estado),
     fecha: doc.fecha ? new Date(doc.fecha).toISOString() : null,
+    pago: doc.pago ?? null,
   };
 }
 
@@ -279,6 +283,7 @@ export interface PedidoSeguimiento {
     notas?: string;
   } | null;
   metodo_pago: string | null;
+  pago: PagoInfo | null;
 }
 
 /**
@@ -310,5 +315,6 @@ export async function getPedidoDelComprador(
     fecha: doc.fecha ? new Date(doc.fecha).toISOString() : null,
     envio: doc.envio ?? null,
     metodo_pago: doc.metodo_pago ?? null,
+    pago: doc.pago ?? null,
   };
 }

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession, getUsuarioById } from "@/lib/auth";
 import { getPedidosDelVendedor } from "@/lib/data";
+import { PAGO_LABEL, PAGO_STYLE } from "@/lib/pedidos";
 import CambiarEstadoPedido from "./CambiarEstadoPedido";
 
 /**
@@ -83,8 +84,20 @@ export default async function PedidosPage() {
             </div>
 
             {/* Estado + selector */}
-            <div className="flex items-center lg:w-64 lg:shrink-0">
+            <div className="flex flex-col items-start gap-2 lg:w-64 lg:shrink-0">
               <CambiarEstadoPedido pedidoId={p.id} estado={p.estado} />
+              {p.pago && (
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-bold ${PAGO_STYLE[p.pago.estado]}`}
+                  title={
+                    p.pago.proveedor === "mercadopago"
+                      ? "Pago a través de Mercado Pago"
+                      : "Pago por transferencia"
+                  }
+                >
+                  {PAGO_LABEL[p.pago.estado]}
+                </span>
+              )}
             </div>
 
             {/* Cliente */}

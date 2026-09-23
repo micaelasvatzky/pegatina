@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import type { PedidoEstado } from "./pedidos";
+import type { PagoInfo } from "./mercadopago";
 
 export type Role = "comprador" | "ilustrador";
 
@@ -15,6 +16,16 @@ export interface DBUsuario {
   foto?: string | null;
   direccion?: string | null;
   bio?: string | null;
+  /** Conexión OAuth con Mercado Pago (solo ilustradores). El access_token
+   *  es del VENDEDOR y se usa para crear orders con split (marketplace_fee). */
+  mp?: {
+    access_token?: string;
+    refresh_token?: string;
+    user_id?: number;
+    public_key?: string;
+    /** Fecha en que conectó su cuenta. */
+    conectado_en?: Date;
+  };
   createdAt: Date;
 }
 
@@ -37,6 +48,8 @@ export interface Pedido {
   total: number;
   estado: PedidoEstado;
   fecha: string;
+  /** Información de pago (MP o transferencia). */
+  pago?: PagoInfo;
 }
 
 /** Documento tal como viene de MongoDB */

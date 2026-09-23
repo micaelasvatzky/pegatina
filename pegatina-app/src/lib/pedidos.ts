@@ -5,7 +5,12 @@
  *   pending → in_progress → shipped → delivered
  *
  * (En la UI se muestran en español vía ESTADO_LABEL.)
+ *
+ * El estado de PAGO es independiente del de envío y vive en `pago`
+ * (PagoInfo de lib/mercadopago): pendiente → aprobado / rechazado.
  */
+
+import type { PagoInfo } from "./mercadopago";
 
 export type PedidoEstado =
   | "pending"
@@ -67,4 +72,21 @@ export interface PedidoVendedor {
   total: number;
   estado: PedidoEstado;
   fecha: string | null;
+  /** Estado del pago (MP aprobado/pendiente, etc.). */
+  pago?: PagoInfo | null;
 }
+
+/** Etiquetas y estilos para el estado del PAGO (no el de envío). */
+export const PAGO_LABEL: Record<PagoInfo["estado"], string> = {
+  pendiente: "Pago pendiente",
+  aprobado: "Pago aprobado",
+  rechazado: "Pago rechazado",
+  cancelado: "Pago cancelado",
+};
+
+export const PAGO_STYLE: Record<PagoInfo["estado"], string> = {
+  pendiente: "bg-acento/40 text-[#a07d00]",
+  aprobado: "bg-green-100 text-green-700",
+  rechazado: "bg-red-100 text-red-700",
+  cancelado: "bg-ink/10 text-ink/50",
+};

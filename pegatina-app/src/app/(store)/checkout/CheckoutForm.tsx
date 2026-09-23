@@ -7,11 +7,15 @@ import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
 /**
- * Checkout sin Mercado Pago: datos de envío + pago por transferencia.
- * Al confirmar crea el pedido en la DB (POST /api/pedidos), vacía el
- * carrito y redirige al seguimiento del pedido.
+ * Checkout: datos de envío + confirmación de compra.
+ *
+ * Con Mercado Pago activo (`mpActivo`) el POST /api/pedidos devuelve un
+ * `checkout_url` (Checkout Pro) y acá redirigimos al comprador a MP. El pago
+ * se confirma por webhook; el pedido nace "pending" igual.
+ *
+ * Sin MP activo: pago por transferencia (fallback) — el flujo clásico.
  */
-export default function CheckoutForm() {
+export default function CheckoutForm({ mpActivo = false }: { mpActivo?: boolean }) {
   const router = useRouter();
   const { items, total, count, empty } = useCart();
   const { usuario } = useAuth();
@@ -70,6 +74,11 @@ export default function CheckoutForm() {
         return;
       }
       empty();
+      if (mpActivo && data.checkout_url) {
+        // Checkout Pro: el pago se hace en la página de Mercado Pago.
+        window.location.assign(data.checkout_url);
+        return;
+      }
       router.replace(`/pedidos/${data.id}?comprado=1`);
     } catch {
       setError("Hubo un error de conexión. Intentá de nuevo.");
@@ -202,21 +211,41 @@ export default function CheckoutForm() {
           </span>
         </div>
 
-        {/* Pago sin Mercado Pago: transferencia */}
-        <div className="mt-5 rounded-2xl bg-primario/10 p-4">
-          <p className="text-sm font-bold text-primario">Pago por transferencia</p>
-          <p className="mt-1 text-xs text-muted">
-            Cuando confirmes, el artista te va a pasar sus datos para transferirle
-            el total. Tu pedido queda &quot;Pendiente&quot; hasta que lo confirme.
-          </p>
-        </div>
+        {/* Pago: Mercado Pago (Checkout Pro) o transferencia (fallback) */}
+        {mpActivo ? (
+          <div className="mt-5 rounded-2xl bg-secundario/10 p-4">
+            <p className="flex items-center gap-2 text-sm font-bold text-secundario">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M12 2L14 9H21L15.5 13.5L17.5 21L12 16.5L6.5 21L8.5 13.5L3 9H10L12 2Z" fill="currentColor" />
+              </svg>
+              Pagás con Mercado Pago
+            </p>
+            <p className="mt-1 text-xs text-muted">
+              Al confirmar te redirigimos a la página segura de Mercado Pago
+              para pagar con dinero en cuenta, tarjeta o efectivo. Tu pedido
+              arranca apenas se acredite el pago.
+            </p>
+          </div>
+        ) : (
+          <div className="mt-5 rounded-2xl bg-primario/10 p-4">
+            <p className="text-sm font-bold text-primario">Pago por transferencia</p>
+            <p className="mt-1 text-xs text-muted">
+              Cuando confirmes, el artista te va a pasar sus datos para transferirle
+              el total. Tu pedido queda &quot;Pendiente&quot; hasta que lo confirme.
+            </p>
+          </div>
+        )}
 
         <button
           type="submit"
           disabled={loading}
           className="mt-5 w-full rounded-full border-2 border-line bg-primario py-4 font-bold text-white transition-colors hover:bg-ink disabled:opacity-50 nb-shadow-sm nb-lift"
         >
-          {loading ? "Procesando..." : "Confirmar compra"}
+          {loading
+            ? "Procesando..."
+            : mpActivo
+              ? "Ir a pagar"
+              : "Confirmar compra"}
         </button>
         <Link
           href="/carrito"

@@ -2,7 +2,13 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getPedidoDelComprador } from "@/lib/data";
-import { ESTADO_LABEL, ESTADO_STYLE, type PedidoEstado } from "@/lib/pedidos";
+import {
+  ESTADO_LABEL,
+  ESTADO_STYLE,
+  PAGO_LABEL,
+  PAGO_STYLE,
+  type PedidoEstado,
+} from "@/lib/pedidos";
 import ColorBlobs from "@/components/ColorBlobs";
 
 interface RouteCtx {
@@ -107,7 +113,7 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
           <h1 className="font-display text-4xl font-black uppercase leading-none tracking-tight text-white md:text-5xl">
             Tu pedido <span className="text-acento">#{id.slice(-8).toUpperCase()}</span>
           </h1>
-          <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center gap-3">
             <span
               className={`rounded-full px-3 py-1 text-sm font-bold ${
                 ESTADO_STYLE[pedido.estado]
@@ -115,6 +121,20 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
             >
               {ESTADO_LABEL[pedido.estado]}
             </span>
+            {pedido.pago && (
+              <span
+                className={`rounded-full px-3 py-1 text-sm font-bold ${
+                  PAGO_STYLE[pedido.pago.estado]
+                }`}
+                title={
+                  pedido.pago.proveedor === "mercadopago"
+                    ? "Pago a través de Mercado Pago"
+                    : "Pago por transferencia"
+                }
+              >
+                {PAGO_LABEL[pedido.pago.estado]}
+              </span>
+            )}
             <span className="text-sm font-semibold text-white/80">{fecha}</span>
           </div>
         </div>
@@ -129,8 +149,9 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
             <path d="M8 12.5L10.8 15.2L16 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          ¡Compra confirmada! El artista ya recibió tu pedido y te va a pasar sus
-          datos de transferencia. Seguí el avance acá.
+          {pedido.pago?.proveedor === "mercadopago"
+            ? "¡Compra confirmada! Te redirigimos a Mercado Pago para pagar. Cuando el pago se acredite, el artista arranca con tu pedido."
+            : "¡Compra confirmada! El artista ya recibió tu pedido y te va a pasar sus datos de transferencia. Seguí el avance acá."}
         </p>
       )}
 
@@ -163,10 +184,11 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
             </span>
           </div>
           <p className="mt-3 rounded-xl bg-primario/10 px-4 py-3 text-xs text-muted">
-            {pedido.metodo_pago === "transferencia" ||
-            pedido.metodo_pago === null
-              ? "Pago por transferencia: el artista te pasa los datos y vos le transferís."
-              : "Método de pago: " + pedido.metodo_pago}
+            {pedido.pago?.proveedor === "mercadopago"
+              ? pedido.pago.estado === "aprobado"
+                ? `Pagado con Mercado Pago — ¡acreditado! (ID ${pedido.pago.payment_id ?? "—"})`
+                : "Pago con Mercado Pago — todavía no se acredita. Si ya pagaste, en unos minutos se confirma solo."
+              : "Pago por transferencia: el artista te pasa los datos y vos le transferís."}
           </p>
         </div>
 
