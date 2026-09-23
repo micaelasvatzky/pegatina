@@ -106,19 +106,10 @@ export default function Navbar({
 
       <div className="border-b-2 border-line bg-paper/95 backdrop-blur-md">
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
-          {/* Logo pill */}
-          <Link
-            href={logoHref}
-            className="flex shrink-0 items-center rounded-full border-2 border-line bg-card py-1.5 pl-1.5 pr-4 shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--color-line)]"
-          >
+          {/* Logo suelto (sin contenedor) */}
+          <Link href={logoHref} className="flex shrink-0 items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Pegatina" className="h-8 w-auto" />
-            <span
-              aria-hidden
-              className="ml-1 hidden font-display text-sm font-black text-primario transition-transform duration-300 group-hover:rotate-45 sm:inline"
-            >
-              *
-            </span>
+            <img src="/logo.svg" alt="Pegatina" className="h-10 w-auto md:h-12" />
           </Link>
 
           {/* Nav pills — SOLO rutas reales (Arte DIY / Ilustradores / Feria

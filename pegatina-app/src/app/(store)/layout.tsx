@@ -29,12 +29,10 @@ export default function StoreLayout({
       {/* FOOTER multi-column estilo Stitch */}
       <footer className="border-t-2 border-line bg-paper">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 md:grid-cols-2 lg:grid-cols-12">
-          {/* Marca */}
+          {/* Marca — logo suelto (sin contenedor) */}
           <div className="flex flex-col gap-4 lg:col-span-4">
-            <span className="flex w-fit items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1.5 shadow-[2px_2px_0px_var(--color-line)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.svg" alt="Pegatina" className="h-7 w-auto" />
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Pegatina" className="h-9 w-auto" />
             <p className="max-w-sm text-sm leading-relaxed text-muted">
               Feria federal de stickers de ilustradores independientes de
               Argentina. Cada pieza sale del taller de quien la dibujó,
