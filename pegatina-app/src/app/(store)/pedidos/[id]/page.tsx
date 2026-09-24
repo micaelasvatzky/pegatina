@@ -5,8 +5,6 @@ import { getPedidoDelComprador } from "@/lib/data";
 import {
   ESTADO_LABEL,
   ESTADO_STYLE,
-  PAGO_LABEL,
-  PAGO_STYLE,
   type PedidoEstado,
 } from "@/lib/pedidos";
 import ColorBlobs from "@/components/ColorBlobs";
@@ -121,20 +119,6 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
             >
               {ESTADO_LABEL[pedido.estado]}
             </span>
-            {pedido.pago && (
-              <span
-                className={`rounded-full px-3 py-1 text-sm font-bold ${
-                  PAGO_STYLE[pedido.pago.estado]
-                }`}
-                title={
-                  pedido.pago.proveedor === "mercadopago"
-                    ? "Pago a través de Mercado Pago"
-                    : "Pago por transferencia"
-                }
-              >
-                {PAGO_LABEL[pedido.pago.estado]}
-              </span>
-            )}
             <span className="text-sm font-semibold text-white/80">{fecha}</span>
           </div>
         </div>
