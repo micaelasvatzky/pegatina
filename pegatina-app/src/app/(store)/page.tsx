@@ -1,6 +1,6 @@
 import {
   getStickers,
-  getCategoriasConConteo,
+  getCategorias,
 } from "@/lib/data";
 import StickerCard from "@/components/StickerCard";
 import ColorBlobs from "@/components/ColorBlobs";
@@ -30,7 +30,7 @@ const DEFAULT_TILE = { emoji: "✨", bg: "bg-wash" };
 export default async function HomePage() {
   const [stickers, categorias] = await Promise.all([
     getStickers(),
-    getCategoriasConConteo(),
+    getCategorias(),
   ]);
 
   const destacados = stickers.slice(0, 4);
@@ -107,7 +107,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/catalogo"
-            className="rounded-xl border-2 border-line bg-card px-5 py-2.5 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-acento active:translate-x-[1px] active:translate-y-[1px]"
+            className="rounded-xl border-2 border-line bg-cobalt px-5 py-2.5 text-sm font-bold text-white shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-cobalt-dark active:translate-x-[1px] active:translate-y-[1px]"
           >
             Ver catálogo completo →
           </Link>
@@ -140,7 +140,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            {categorias.map(({ id, count }) => {
+            {categorias.map((id) => {
               const tile = CAT_TILE[id] ?? DEFAULT_TILE;
               return (
                 <Link
@@ -154,16 +154,11 @@ export default async function HomePage() {
                       {id}
                     </h3>
                   </div>
-                  <span className="flex items-center gap-2">
-                    <span className="rounded-full border border-line/60 bg-card px-2 py-0.5 text-[11px] font-black text-ink">
-                      {count}
-                    </span>
-                    <span
-                      aria-hidden
-                      className="icon text-lg text-ink transition-transform group-hover:translate-x-0.5"
-                    >
-                      chevron_right
-                    </span>
+                  <span
+                    aria-hidden
+                    className="icon text-lg text-ink transition-transform group-hover:translate-x-0.5"
+                  >
+                    chevron_right
                   </span>
                 </Link>
               );

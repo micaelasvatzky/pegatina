@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
@@ -21,7 +20,6 @@ export default function Navbar({
 }) {
   const { count, openCart } = useCart();
   const { usuario, isLoggedIn, loading } = useAuth();
-  const pathname = usePathname();
 
   const isDashboard = mode === "dashboard";
   const esIlustrador = isLoggedIn && usuario?.rol === "ilustrador";
@@ -33,8 +31,6 @@ export default function Navbar({
     isDashboard || esIlustrador ? "/dashboard" : "/";
 
   const perfilHref = esIlustrador ? "/dashboard" : "/perfil";
-  const enCatalogo =
-    pathname === "/catalogo" || pathname.startsWith("/catalogo/");
 
   const inicial = usuario?.nombre?.charAt(0).toUpperCase() ?? "";
   const primerNombre = usuario?.nombre?.split(" ")[0] ?? "";
@@ -103,20 +99,15 @@ export default function Navbar({
           </Link>
 
           {/* Nav pills — SOLO rutas reales (Arte DIY / Ilustradores / Feria
-              Virtual del ref no existen en la app, ver AGENTS.md) */}
+              Virtual del ref no existen en la app, ver AGENTS.md).
+              Botón "Catálogo" SIEMPRE azul (decisión de Mica). */}
           {!esIlustrador && (
-            <div className="hidden items-center gap-1 rounded-full border border-line/30 bg-paper p-1 lg:flex">
-              <Link
-                href="/catalogo"
-                className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
-                  enCatalogo
-                    ? "bg-cobalt text-white shadow-[2px_2px_0px_var(--color-line)]"
-                    : "text-ink hover:text-cobalt"
-                }`}
-              >
-                Catálogo
-              </Link>
-            </div>
+            <Link
+              href="/catalogo"
+              className="hidden rounded-full bg-cobalt px-5 py-2 text-sm font-bold text-white shadow-[2px_2px_0px_var(--color-line)] transition-all outline-none hover:-translate-y-0.5 hover:bg-cobalt-dark focus-visible:ring-2 focus-visible:ring-line lg:inline-block"
+            >
+              Catálogo
+            </Link>
           )}
 
           {/* Buscador — md+ */}

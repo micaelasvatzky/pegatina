@@ -45,9 +45,6 @@ export default async function ArtistaPage({
   const nombre = artista?.nombre ?? handleSinAt;
   const bio = artista?.bio ?? null;
   const foto = artista?.foto ?? null;
-  const anioIngreso = artista?.createdAt
-    ? new Date(artista.createdAt).getFullYear()
-    : null;
 
   const unidadesVendidas = stickers.reduce(
     (sum, s) => sum + (ventas.get(s.id) ?? 0),
@@ -72,30 +69,15 @@ export default async function ArtistaPage({
     <div>
       {/* ───────────────────── BREADCRUMB ───────────────────── */}
       <div className="mx-auto max-w-7xl px-4 pt-8 md:px-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link
-            href="/catalogo"
-            className="inline-flex items-center gap-1 rounded-full border-2 border-line bg-card px-4 py-2 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-acento"
-          >
-            <span className="icon text-base" aria-hidden>
-              arrow_back
-            </span>
-            Volver al catálogo
-          </Link>
-
-          <div className="flex gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1.5 text-xs font-bold text-ink shadow-[2px_2px_0px_var(--color-line)]">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-[#16a34a]" />
-              Feria Activa
-            </span>
-            <span className="hidden rounded-full border-2 border-line bg-card px-3 py-1.5 text-xs font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] md:inline-flex">
-              <span className="icon mr-1 text-sm text-primario" aria-hidden>
-                local_shipping
-              </span>
-              Envíos a todo el país
-            </span>
-          </div>
-        </div>
+        <Link
+          href="/catalogo"
+          className="inline-flex items-center gap-1 rounded-full border-2 border-line bg-card px-4 py-2 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-acento"
+        >
+          <span className="icon text-base" aria-hidden>
+            arrow_back
+          </span>
+          Volver al catálogo
+        </Link>
 
         {/* ───────────────────── BANNER ───────────────────── */}
         <div className="relative mt-4 h-48 overflow-hidden rounded-2xl border-2 border-line bg-gradient-to-br from-primario via-primario to-acento shadow-[4px_4px_0px_var(--color-line)] sm:h-60 md:h-72">
@@ -109,9 +91,6 @@ export default async function ArtistaPage({
               backgroundSize: "26px 26px",
             }}
           />
-          <span className="absolute bottom-4 right-4 z-10 rounded-full border-2 border-line bg-card px-3 py-1 text-[11px] font-black uppercase tracking-wide text-ink shadow-[2px_2px_0px_var(--color-line)]">
-            🎨 Taller de {nombre.split(" ")[0]}
-          </span>
         </div>
       </div>
 
@@ -133,26 +112,9 @@ export default async function ArtistaPage({
                   {nombre.charAt(0).toUpperCase()}
                 </span>
               )}
-              <span className="absolute -bottom-2 -right-2 rounded-full border-2 border-line bg-acento px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wide text-ink shadow-[1.5px_1.5px_0px_var(--color-line)]">
-                ★ Sticker Maker
-              </span>
             </div>
 
             <div className="flex flex-1 flex-col gap-3">
-              {/* Badges */}
-              <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-mint px-2.5 py-0.5 text-[11px] font-black text-[#4a7c4f]">
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#4a7c4f]" />
-                  Feria Activa
-                </span>
-                <span className="rounded-full border-2 border-line bg-paper px-2.5 py-0.5 text-[11px] font-black text-ink">
-                  Ilustrador/a independiente
-                </span>
-                <span className="rounded-full border-2 border-line bg-wash px-2.5 py-0.5 text-[11px] font-black text-secundario">
-                  Colectivo federal
-                </span>
-              </div>
-
               <div className="flex flex-wrap items-center gap-3">
                 <h1 className="font-display text-3xl font-black leading-none text-ink md:text-4xl">
                   {handle}
@@ -160,26 +122,11 @@ export default async function ArtistaPage({
                 <span className="text-lg font-bold text-primario">{nombre}</span>
               </div>
 
-              {/* Bio real */}
+              {/* Bio real — sin tags ni badges */}
               <p className="max-w-2xl rounded-xl bg-paper p-4 text-sm leading-relaxed text-ink-soft">
                 {bio ??
                   "Ilustrador independiente vendiendo sus stickers en la feria federal Pegatina."}
               </p>
-
-              {/* Tags reales del primer sticker */}
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full border border-line/50 bg-card px-3 py-1 text-xs font-bold text-ink-soft">
-                  {stickers[0].material ?? "Vinilo"}
-                </span>
-                <span className="rounded-full border border-line/50 bg-card px-3 py-1 text-xs font-bold text-ink-soft">
-                  {stickers[0].acabado ?? "Mate"}
-                </span>
-                {stickers[0].resistente_al_agua !== false && (
-                  <span className="rounded-full border border-line/50 bg-card px-3 py-1 text-xs font-bold text-ink-soft">
-                    A prueba de agua
-                  </span>
-                )}
-              </div>
 
               {/* Acciones */}
               <div className="mt-1">
@@ -188,8 +135,8 @@ export default async function ArtistaPage({
             </div>
           </div>
 
-          {/* Métricas REALES */}
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {/* Métricas REALES — subidos y vendidos (sin "Miembro desde") */}
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border-2 border-line bg-card p-4 shadow-[2px_2px_0px_var(--color-line)]">
               <div className="flex items-center gap-2">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-cobalt/10 text-cobalt">
@@ -202,7 +149,7 @@ export default async function ArtistaPage({
                     {stickers.length}
                   </p>
                   <p className="text-[11px] font-bold uppercase tracking-wide text-muted">
-                    Stickers activos
+                    Stickers subidos
                   </p>
                 </div>
               </div>
@@ -224,23 +171,6 @@ export default async function ArtistaPage({
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl border-2 border-line bg-card p-4 shadow-[2px_2px_0px_var(--color-line)]">
-              <div className="flex items-center gap-2">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primario/15 text-terracotta">
-                  <span className="icon text-lg" aria-hidden>
-                    sprout
-                  </span>
-                </span>
-                <div>
-                  <p className="font-display text-xl font-black leading-none text-ink">
-                    {anioIngreso ?? "—"}
-                  </p>
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-muted">
-                    Miembro desde
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -248,9 +178,6 @@ export default async function ArtistaPage({
       {/* ───────────────────── CATÁLOGO DEL ARTISTA ───────────────────── */}
       <section className="mx-auto max-w-7xl px-4 py-14 md:px-6">
         <div className="mb-6">
-          <p className="mb-1 text-xs font-black uppercase tracking-widest text-primario">
-            Catálogo autogestivo · tirada abierta
-          </p>
           <h2 className="font-display text-3xl font-black uppercase leading-none text-ink">
             Sus stickers
           </h2>
@@ -330,10 +257,11 @@ export default async function ArtistaPage({
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {otrosArtistas.map(({ handle: h, count }, i) => {
+            {otrosArtistas.map(({ handle: h }, i) => {
               const otro = otrosUsuarios[i];
               const otroNombre = otro?.nombre ?? h.slice(1);
               const otroFoto = otro?.foto ?? null;
+              const otraBio = otro?.bio ?? null;
               return (
                 <Link
                   key={h}
@@ -358,8 +286,8 @@ export default async function ArtistaPage({
                     <span className="block truncate text-sm font-black text-ink group-hover:text-cobalt">
                       {h}
                     </span>
-                    <span className="block text-xs font-semibold text-muted">
-                      {count} sticker{count !== 1 && "s"} activos
+                    <span className="block truncate text-xs font-semibold text-muted">
+                      {otraBio ?? otroNombre}
                     </span>
                   </span>
                   <span

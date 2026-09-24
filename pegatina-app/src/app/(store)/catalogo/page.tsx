@@ -2,7 +2,9 @@ import {
   getStickers,
   getCategoriasConConteo,
   getVentasPorStickerId,
+  getIlustradoresUnicos,
 } from "@/lib/data";
+import { getUsuarioPorHandle } from "@/lib/auth";
 import StickerCard from "@/components/StickerCard";
 import OrdenarSelect from "@/components/OrdenarSelect";
 import Link from "next/link";
@@ -39,12 +41,18 @@ export default async function CatalogoPage({
   const params = await searchParams;
   const { q, categoria, precio, sort } = params;
 
-  const [categorias, allStickers, ventas] = await Promise.all([
+  const [categorias, allStickers, ventas, ilustradores] = await Promise.all([
     getCategoriasConConteo(),
     getStickers(),
     getVentasPorStickerId(),
+    getIlustradoresUnicos(),
   ]);
   const total = allStickers.length;
+
+  // Usuarios reales de los ilustradores (para nombre/bio/foto en las cards)
+  const usuariosIlustradores = await Promise.all(
+    ilustradores.map((i) => getUsuarioPorHandle(i.handle))
+  );
 
   const rangoIdx = precio !== undefined ? parseInt(precio, 10) : 0;
   const rango = RANGOS_PRECIO[rangoIdx] ?? RANGOS_PRECIO[0];
@@ -131,10 +139,6 @@ export default async function CatalogoPage({
           <span className="rounded-full border-2 border-line bg-cobalt px-3 py-0.5 text-xs font-black uppercase text-white shadow-[1.5px_1.5px_0px_var(--color-line)]">
             {badgeCategoria}
           </span>
-          <span className="ml-auto hidden items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1 text-xs font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] md:inline-flex">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-primario" />
-            Stock físico garantizado por cada ilustrador
-          </span>
         </nav>
 
         {/* ───────────────────── HERO BANNER ───────────────────── */}
@@ -156,8 +160,8 @@ export default async function CatalogoPage({
                   Feria de Stickers
                 </h1>
                 <p className="mt-2 max-w-xl text-base font-semibold text-white/90">
-                  {total} piezas originales en exposición directa de
-                  ilustradores independientes de Argentina.
+                  Piezas originales de ilustradores independientes de Argentina
+                  en exposición directa.
                 </p>
               </div>
               <OrdenarSelect value={sortKey} baseUrl={buildUrl({})} />
@@ -298,7 +302,7 @@ export default async function CatalogoPage({
                   <span className="icon text-lg" aria-hidden>
                     draw
                   </span>
-                  ¿Sos ilustrador o hacés fanzines?
+                  ¿Sos ilustrador?
                 </p>
                 <p className="mt-1 text-xs font-semibold text-ink-soft">
                   Abrí tu tienda sin costo de mantenimiento y vendé directo en
@@ -313,18 +317,6 @@ export default async function CatalogoPage({
                     arrow_forward
                   </span>
                 </Link>
-              </div>
-
-              {/* Trust */}
-              <div className="flex items-start gap-3 rounded-2xl border border-line/30 bg-paper p-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cobalt text-white">
-                  <span className="icon text-lg" aria-hidden>
-                    water_drop
-                  </span>
-                </span>
-                <p className="text-xs font-semibold leading-relaxed text-ink-soft">
-                  Calidad termo & té: a prueba de agua, mate y rayones.
-                </p>
               </div>
             </div>
           </aside>
@@ -393,35 +385,71 @@ export default async function CatalogoPage({
         </div>
       </div>
 
-      {/* ───────────────────── BANNER DIBUJANTES ───────────────────── */}
+      {/* ───────────────────── DIBUJANTES DE LA FERIA ───────────────────── */}
       <section className="mx-auto max-w-7xl px-4 pb-16 md:px-6">
-        <div className="flex flex-col items-center gap-4 rounded-2xl border-2 border-line bg-card p-8 text-center shadow-[4px_4px_0px_var(--color-line)]">
+        <div className="mb-8 flex flex-col items-center gap-4 text-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-cobalt/10 text-cobalt">
             <span className="icon text-2xl" aria-hidden>
               volunteer_activism
             </span>
           </span>
-          <h2 className="font-display max-w-xl text-2xl font-black uppercase leading-tight text-ink md:text-3xl">
-            Cada calco es de un ilustrador real
-          </h2>
-          <p className="max-w-lg text-sm text-ink-soft">
-            Conocé quién está detrás de cada pieza de la feria y descubrí más
-            del arte que se vende por acá.
-          </p>
-          <Link
-            href={`/artista/${firstHandle(allStickers)}`}
-            className="rounded-full border-2 border-line bg-acento px-8 py-3 font-bold text-ink shadow-[3px_3px_0px_var(--color-line)] transition-all hover:bg-ink hover:text-white active:translate-x-[1px] active:translate-y-[1px]"
-          >
-            Conocer a los ilustradores
-          </Link>
+          <div>
+            <h2 className="font-display text-2xl font-black uppercase leading-tight text-ink md:text-3xl">
+              Cada calco es de un ilustrador real
+            </h2>
+            <p className="mt-2 max-w-lg text-sm text-ink-soft">
+              Conocé quién está detrás de cada pieza de la feria: entrá a sus
+              ferias y descubrí más del arte que se vende por acá.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {ilustradores.map(({ handle: h, count }, i) => {
+            const usuario = usuariosIlustradores[i];
+            const nombre = usuario?.nombre ?? h.slice(1);
+            const bio = usuario?.bio ?? null;
+            return (
+              <Link
+                key={h}
+                href={`/artista/${encodeURIComponent(
+                  h.startsWith("@") ? h.slice(1) : h
+                )}`}
+                className="group flex items-center gap-3 rounded-2xl border-2 border-line bg-card p-4 shadow-[3px_3px_0px_var(--color-line)] transition-all hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-line)]"
+              >
+                {usuario?.foto ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={usuario.foto}
+                    alt={nombre}
+                    className="h-12 w-12 shrink-0 rounded-xl border-2 border-line object-cover"
+                  />
+                ) : (
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border-2 border-line bg-wash font-display text-xl font-black text-secundario">
+                    {nombre.charAt(0).toUpperCase()}
+                  </span>
+                )}
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-black text-ink group-hover:text-cobalt">
+                    {h}
+                  </span>
+                  <span className="block truncate text-xs font-semibold text-muted">
+                    {nombre}
+                  </span>
+                  {bio && (
+                    <span className="block truncate text-xs text-ink-soft">
+                      {bio}
+                    </span>
+                  )}
+                </span>
+                <span className="ml-auto shrink-0 rounded-full border border-line/40 bg-paper px-2 py-0.5 text-[11px] font-black text-ink">
+                  {count}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>
   );
-}
-
-/** @returns handle público (sin @) del primer sticker, o "demoilustrador". */
-function firstHandle(stickers: { ilustrador: string }[]): string {
-  const h = stickers[0]?.ilustrador ?? "@demoilustrador";
-  return h.startsWith("@") ? h.slice(1) : h;
 }
