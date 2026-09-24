@@ -95,7 +95,7 @@ export default function StickerCard({
           </p>
         </div>
 
-        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-1">
           {precio}
           <AddToCartCard
             sticker={sticker}
@@ -132,7 +132,7 @@ export default function StickerCard({
         </p>
       </div>
 
-      <div className="mt-auto flex items-end justify-between gap-3 pt-1">
+      <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-1">
         {precio}
         <AddToCartCard
           sticker={sticker}

@@ -94,16 +94,6 @@ export default function Navbar({
   // ─────────────────────────── STORE ───────────────────────────
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Announcement bar */}
-      <div className="border-b-2 border-line bg-acento">
-        <p className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-2 text-center text-xs font-bold uppercase tracking-wide text-ink">
-          <span className="icon hidden text-base sm:inline" aria-hidden>
-            local_shipping
-          </span>
-          Feria Activa · Envíos federales de cada ilustrador
-        </p>
-      </div>
-
       <div className="border-b-2 border-line bg-paper/95 backdrop-blur-md">
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
           {/* Logo suelto (sin contenedor) */}

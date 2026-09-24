@@ -38,17 +38,6 @@ export default function StoreLayout({
               Argentina. Cada pieza sale del taller de quien la dibujó,
               directo a tu puerta.
             </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-full border border-line bg-mint px-3 py-1 text-xs font-bold text-ink">
-                Hecho a mano
-              </span>
-              <span className="rounded-full border border-line bg-lilac px-3 py-1 text-xs font-bold text-ink">
-                Tiradas cortas
-              </span>
-              <span className="rounded-full border border-line bg-wash px-3 py-1 text-xs font-bold text-ink">
-                Feria federal
-              </span>
-            </div>
           </div>
 
           {/* Explorar */}

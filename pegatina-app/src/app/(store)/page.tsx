@@ -1,7 +1,6 @@
 import {
   getStickers,
   getCategoriasConConteo,
-  getVentasPorStickerId,
 } from "@/lib/data";
 import StickerCard from "@/components/StickerCard";
 import ColorBlobs from "@/components/ColorBlobs";
@@ -10,43 +9,31 @@ import Link from "next/link";
 // Dinámica: consulta MongoDB en runtime, no en build time.
 export const dynamic = "force-dynamic";
 
-/** Emoji + color + subtítulo por categoría real (tiles de la home, fieles al ref Stitch). */
-const CAT_TILE: Record<
-  string,
-  { emoji: string; bg: string; sub: string }
-> = {
-  Bebidas: { emoji: "🧉", bg: "bg-wash", sub: "Fernet & Mate" },
-  Comida: { emoji: "🍫", bg: "bg-primario/15", sub: "Bodegones & Más" },
-  "Buenos Aires": { emoji: "🗼", bg: "bg-acento/30", sub: "Calles & Subtes" },
-  Argentina: { emoji: "🇦🇷", bg: "bg-secundario/15", sub: "Patria Gráfica" },
-  Animales: { emoji: "🦥", bg: "bg-mint", sub: "Carpinchos & +" },
-  Cultura: { emoji: "🎸", bg: "bg-lilac", sub: "Fanzines & Rock" },
+/** Emoji + color por categoría real (tiles de la home). */
+const CAT_TILE: Record<string, { emoji: string; bg: string }> = {
+  Bebidas: { emoji: "🧉", bg: "bg-wash" },
+  Comida: { emoji: "🍫", bg: "bg-primario/15" },
+  "Buenos Aires": { emoji: "🗼", bg: "bg-acento/30" },
+  Argentina: { emoji: "🇦🇷", bg: "bg-secundario/15" },
+  Animales: { emoji: "🦥", bg: "bg-mint" },
+  Cultura: { emoji: "🎸", bg: "bg-lilac" },
 };
 
-const DEFAULT_TILE = { emoji: "✨", bg: "bg-wash", sub: "Diseños originales" };
+const DEFAULT_TILE = { emoji: "✨", bg: "bg-wash" };
 
 /**
- * Landing / Home público del comprador — fiel al ref Stitch
- * "home refinado con acentos azules": hero centrado con caja naranja,
+ * Landing / Home público del comprador — hero centrado con caja naranja,
  * search pill con botón "Explorar", destacados (community cards),
- * categorías con subtítulos y callout para ilustradores con sello.
+ * categorías con conteo real y callout para ilustradores con sello.
  * Todos los datos salen de MongoDB (nada inventado).
  */
 export default async function HomePage() {
-  const [stickers, categorias, ventas] = await Promise.all([
+  const [stickers, categorias] = await Promise.all([
     getStickers(),
     getCategoriasConConteo(),
-    getVentasPorStickerId(),
   ]);
 
   const destacados = stickers.slice(0, 4);
-
-  // Tag de la comunidad card: la más vendida ("MÁS PEDIDO"), el resto "CLÁSICO".
-  const masVendidoId = [...stickers].sort(
-    (a, b) => (ventas.get(b.id) ?? 0) - (ventas.get(a.id) ?? 0)
-  )[0]?.id;
-
-  const totalStickers = stickers.length;
 
   return (
     <div>
@@ -55,15 +42,10 @@ export default async function HomePage() {
         <ColorBlobs />
 
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
-          {/* Badge */}
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink shadow-[2px_2px_0px_var(--color-line)]">
-            ⭐ 🎨 ✂️ 💛 Feria Federal Indie
-          </span>
-
           {/* H1 con "STICKERS" en caja naranja rotada */}
           <h1 className="font-display text-4xl font-black uppercase leading-[0.95] tracking-tight text-ink md:text-6xl">
             Arte local en{" "}
-            <span className="inline-block -rotate-2 rounded-xl border-2 border-line bg-primario px-3 py-0.5 text-white shadow-[4px_4px_0px_var(--color-line)]">
+            <span className="inline-flex -rotate-2 items-center rounded-xl border-2 border-line bg-primario px-3 py-1.5 text-white shadow-[4px_4px_0px_var(--color-line)]">
               stickers
             </span>{" "}
             de ilustradores
@@ -86,7 +68,7 @@ export default async function HomePage() {
             <input
               type="text"
               name="q"
-              placeholder={`Buscar entre ${totalStickers} stickers · por nombre o dibujante…`}
+              placeholder="Buscar por nombre o dibujante…"
               className="w-full bg-transparent text-base text-ink outline-none placeholder:text-muted"
             />
             <button
@@ -102,13 +84,10 @@ export default async function HomePage() {
 
           {/* Pills reales de producto */}
           <div className="flex flex-wrap justify-center gap-2">
-            <span className="rounded-full border-2 border-line bg-card px-3 py-1.5 text-sm font-semibold text-ink shadow-[2px_2px_0px_var(--color-line)]">
-              💧 Vinilo mate laminado
-            </span>
-            <span className="rounded-full border-2 border-line bg-card px-3 py-1.5 text-sm font-semibold text-ink shadow-[2px_2px_0px_var(--color-line)]">
+            <span className="rounded-full border-2 border-line bg-wash px-3 py-1.5 text-sm font-semibold text-ink shadow-[2px_2px_0px_var(--color-line)]">
               ✉️ Envíos a todo el país
             </span>
-            <span className="rounded-full border-2 border-line bg-card px-3 py-1.5 text-sm font-semibold text-ink shadow-[2px_2px_0px_var(--color-line)]">
+            <span className="rounded-full border-2 border-line bg-mint px-3 py-1.5 text-sm font-semibold text-ink shadow-[2px_2px_0px_var(--color-line)]">
               🇦🇷 Hecho en Argentina
             </span>
           </div>
@@ -119,12 +98,6 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-14 md:px-6">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1 text-[11px] font-black uppercase tracking-wide text-ink shadow-[2px_2px_0px_var(--color-line)]">
-              <span className="icon text-sm text-primario" aria-hidden>
-                local_fire_department
-              </span>
-              Tiradas cortas de taller
-            </span>
             <h2 className="font-display text-3xl font-black uppercase leading-none text-ink md:text-4xl">
               Destacados de la semana
             </h2>
@@ -146,12 +119,6 @@ export default async function HomePage() {
               key={s.id}
               sticker={s}
               variant="home"
-              tag={s.id === masVendidoId ? "MÁS PEDIDO" : "CLÁSICO"}
-              tagClassName={
-                s.id === masVendidoId
-                  ? "bg-acento text-ink"
-                  : "bg-mint text-ink"
-              }
               // Variedad visual del ref: una card con botón cobalt.
               botonCobalt={i === 1}
             />
@@ -163,12 +130,6 @@ export default async function HomePage() {
       <section className="bg-crema py-14">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
           <div className="mb-8 text-center">
-            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1 text-[11px] font-black uppercase tracking-wide text-ink shadow-[2px_2px_0px_var(--color-line)]">
-              <span className="icon text-sm text-cobalt" aria-hidden>
-                category
-              </span>
-              Navegación Visual
-            </span>
             <h2 className="font-display text-3xl font-black uppercase leading-none text-ink md:text-4xl">
               Explorá por categoría
             </h2>
@@ -189,14 +150,9 @@ export default async function HomePage() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-3xl">{tile.emoji}</span>
-                    <div>
-                      <h3 className="font-display text-lg font-black uppercase leading-none text-ink">
-                        {id}
-                      </h3>
-                      <p className="mt-0.5 text-xs font-semibold text-ink-soft">
-                        {tile.sub}
-                      </p>
-                    </div>
+                    <h3 className="font-display text-lg font-black uppercase leading-none text-ink">
+                      {id}
+                    </h3>
                   </div>
                   <span className="flex items-center gap-2">
                     <span className="rounded-full border border-line/60 bg-card px-2 py-0.5 text-[11px] font-black text-ink">
@@ -223,10 +179,7 @@ export default async function HomePage() {
 
           <div className="relative z-10 grid items-center gap-10 md:grid-cols-2">
             <div>
-              <span className="inline-block rounded-full border-2 border-line bg-ink px-3 py-1.5 text-[11px] font-black uppercase tracking-wide text-white">
-                Convocatoria permanente
-              </span>
-              <h2 className="mt-4 font-display text-3xl font-black uppercase leading-none text-ink md:text-4xl">
+              <h2 className="font-display text-3xl font-black uppercase leading-none text-ink md:text-4xl">
                 ¿Sos ilustrador o hacés tus propios diseños?
               </h2>
               <p className="mt-4 max-w-lg text-lg text-ink-soft">
@@ -274,21 +227,18 @@ export default async function HomePage() {
                   >
                     <defs>
                       <path
-                        id="sello-autogestion"
+                        id="sello-argentina"
                         d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
                       />
                     </defs>
                     <text className="fill-ink text-[10px] font-bold uppercase tracking-[0.22em]">
-                      <textPath href="#sello-autogestion">
-                        autogestión · arte vivo · 100% federal ·
+                      <textPath href="#sello-argentina">
+                        arte 100% argentino ·
                       </textPath>
                     </text>
                   </svg>
                 </span>
                 <span className="text-5xl">🖌️</span>
-                <span className="absolute -right-2 top-8 rotate-6 rounded-full border-2 border-line bg-primario px-3 py-1 text-[10px] font-black uppercase tracking-wide text-white">
-                  Buenos Aires
-                </span>
               </div>
             </div>
           </div>
