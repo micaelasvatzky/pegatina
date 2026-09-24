@@ -125,12 +125,13 @@ export async function POST(req: Request) {
     );
     return NextResponse.json({ ok: true });
   } catch (err: any) {
-    // El recurso no existe en MP (404) — pasa cuando el panel "Simula" una
-    // notificación con un id de ejemplo que nunca se generó. No hay nada que
+    // El recurso no existe o el ID es inválido en MP (400/404) — pasa cuando
+    // el panel "Simula" una notificación con un id de ejemplo que nunca se
+    // generó (ej: "123456" → 400 invalid_path_param). No hay nada que
     // actualizar: respondemos ok para que MP NO reintente (si respondiéramos
     // 500, MP reintentaría cada 15 min para siempre).
-    if (err instanceof MercadoPagoError && err.status === 404) {
-      console.warn("[webhook] Recurso no existe en MP (404, prob. simulación):", { type, dataId });
+    if (err instanceof MercadoPagoError && (err.status === 400 || err.status === 404)) {
+      console.warn("[webhook] Recurso no existe o inválido en MP (simulación o ejemplo):", { type, dataId, status: err.status });
       return NextResponse.json({ ok: true });
     }
     console.error("[webhook] Error procesando notificación:", err?.message);
