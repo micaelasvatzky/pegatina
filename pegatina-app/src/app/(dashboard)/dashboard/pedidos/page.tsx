@@ -85,7 +85,7 @@ export default async function PedidosPage() {
 
             {/* Estado + selector */}
             <div className="flex flex-col items-start gap-2 lg:w-64 lg:shrink-0">
-              <CambiarEstadoPedido pedidoId={p.id} estado={p.estado} seguimiento={p.seguimiento} />
+              <CambiarEstadoPedido pedidoId={p.id} estado={p.estado} />
               {p.pago && (
                 <span
                   className={`rounded-full px-3 py-1 text-xs font-bold ${PAGO_STYLE[p.pago.estado]}`}
