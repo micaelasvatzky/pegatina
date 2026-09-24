@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
+import { MercadoPagoError } from "mercadopago";
 import { getDb } from "@/lib/mongodb";
 import { obtenerOrder, obtenerPayment, validarFirmaWebhook } from "@/lib/mercadopago";
 
@@ -124,6 +125,14 @@ export async function POST(req: Request) {
     );
     return NextResponse.json({ ok: true });
   } catch (err: any) {
+    // El recurso no existe en MP (404) — pasa cuando el panel "Simula" una
+    // notificación con un id de ejemplo que nunca se generó. No hay nada que
+    // actualizar: respondemos ok para que MP NO reintente (si respondiéramos
+    // 500, MP reintentaría cada 15 min para siempre).
+    if (err instanceof MercadoPagoError && err.status === 404) {
+      console.warn("[webhook] Recurso no existe en MP (404, prob. simulación):", { type, dataId });
+      return NextResponse.json({ ok: true });
+    }
     console.error("[webhook] Error procesando notificación:", err?.message);
     // Devolvemos 500 para que MP reintente (retry cada 15 min).
     return NextResponse.json({ error: "Error interno." }, { status: 500 });

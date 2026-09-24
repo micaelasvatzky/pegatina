@@ -11,7 +11,8 @@ interface RouteCtx {
 
 /**
  * PATCH /api/pedidos/[id]
- * El ilustrador actualiza el estado de envío de un pedido.
+ * El ilustrador actualiza el estado de envío de un pedido y/o el seguimiento
+ * del envío (número + link de la empresa de correo).
  * Valida que el pedido contenga stickers SUYOS (no se tocan pedidos ajenos).
  */
 export async function PATCH(req: Request, ctx: RouteCtx) {
@@ -41,7 +42,7 @@ export async function PATCH(req: Request, ctx: RouteCtx) {
     return NextResponse.json({ error: "Pedido inválido." }, { status: 400 });
   }
 
-  let body: { estado?: string };
+  let body: { estado?: string; seguimiento?: { numero?: string; link?: string } | null };
   try {
     body = await req.json();
   } catch {
@@ -59,6 +60,41 @@ export async function PATCH(req: Request, ctx: RouteCtx) {
     );
   }
 
+  // Seguimiento opcional: si viene, validamos que sea un objeto con
+  // numero (texto) y link (URL http/https). Ambos pueden quedar vacíos
+  // (borra el seguimiento guardado).
+  const update: Record<string, unknown> = { estado };
+  if (body.seguimiento !== undefined) {
+    const seg = body.seguimiento ?? {};
+    const numero = typeof seg.numero === "string" ? seg.numero.trim() : "";
+    const link = typeof seg.link === "string" ? seg.link.trim() : "";
+    if (numero.length > 100) {
+      return NextResponse.json(
+        { error: "El número de seguimiento es demasiado largo." },
+        { status: 400 }
+      );
+    }
+    if (link) {
+      let url: URL;
+      try {
+        url = new URL(link);
+      } catch {
+        return NextResponse.json(
+          { error: "El link de seguimiento no es una URL válida." },
+          { status: 400 }
+        );
+      }
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        return NextResponse.json(
+          { error: "El link de seguimiento debe ser http/https." },
+          { status: 400 }
+        );
+      }
+    }
+    update.seguimiento =
+      numero || link ? { numero: numero || undefined, link: link || undefined } : null;
+  }
+
   // Perfil de pertenencia: el pedido debe contener stickers del ilustrador.
   const stickers = await getStickersByIlustrador(handle);
   const stickerIds = stickers.map((s) => s.id);
@@ -70,7 +106,7 @@ export async function PATCH(req: Request, ctx: RouteCtx) {
   const db = await getDb();
   const result = await db.collection("pedidos").findOneAndUpdate(
     { _id: new ObjectId(id), $or: conds },
-    { $set: { estado } },
+    { $set: update },
     { returnDocument: "after" }
   );
 

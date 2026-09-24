@@ -64,6 +64,19 @@ export interface PedidoItem {
   precio: number;
 }
 
+/**
+ * Datos de seguimiento del envío que el ilustrador comparte con el comprador
+ * cuando el pedido sale (estado "shipped" o "delivered"). El link apunta a la
+ * web de la empresa de correo (Correo Argentino, Andreani, etc.). No es
+ * Mercado Envíos — MVP: el envío lo gestiona cada artista por su cuenta.
+ */
+export interface SeguimientoEnvio {
+  /** Número de seguimiento que da la empresa de correo (opcional). */
+  numero?: string;
+  /** Link al seguimiento online (opcional). */
+  link?: string;
+}
+
 /** Pedido tal como lo ve el ILUSTRADOR (vendedor) en su dashboard. */
 export interface PedidoVendedor {
   id: string;
@@ -74,6 +87,8 @@ export interface PedidoVendedor {
   fecha: string | null;
   /** Estado del pago (MP aprobado/pendiente, etc.). */
   pago?: PagoInfo | null;
+  /** Seguimiento del envío compartido con el comprador (opcional). */
+  seguimiento?: SeguimientoEnvio | null;
 }
 
 /** Etiquetas y estilos para el estado del PAGO (no el de envío). */

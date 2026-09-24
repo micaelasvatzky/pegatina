@@ -5,6 +5,7 @@ import { ObjectId } from "mongodb";
 import {
   normalizarEstado,
   type PedidoVendedor,
+  type SeguimientoEnvio,
 } from "./pedidos";
 
 /** Convierte un documento de MongoDB al tipo plano para React */
@@ -151,6 +152,7 @@ interface PedidoDoc {
   fecha?: Date | string;
   metodo_pago?: string;
   pago?: PagoInfo;
+  seguimiento?: SeguimientoEnvio | null;
 }
 
 /**
@@ -199,6 +201,7 @@ function serializePedidoVendedor(
     estado: normalizarEstado(doc.estado),
     fecha: doc.fecha ? new Date(doc.fecha).toISOString() : null,
     pago: doc.pago ?? null,
+    seguimiento: doc.seguimiento ?? null,
   };
 }
 
@@ -284,6 +287,7 @@ export interface PedidoSeguimiento {
   } | null;
   metodo_pago: string | null;
   pago: PagoInfo | null;
+  seguimiento?: SeguimientoEnvio | null;
 }
 
 /**
@@ -316,5 +320,6 @@ export async function getPedidoDelComprador(
     envio: doc.envio ?? null,
     metodo_pago: doc.metodo_pago ?? null,
     pago: doc.pago ?? null,
+    seguimiento: doc.seguimiento ?? null,
   };
 }

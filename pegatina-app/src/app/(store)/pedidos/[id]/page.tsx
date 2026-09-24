@@ -160,6 +160,72 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
         <Timeline estado={pedido.estado} />
       </div>
 
+      {/* Seguimiento del envío (cuando el artista lo compartió) */}
+      {pedido.seguimiento?.numero || pedido.seguimiento?.link ? (
+        <div className="mt-6 rounded-2xl border-2 border-line bg-card p-6 nb-shadow">
+          <h2 className="mb-1 flex items-center gap-2 text-lg font-bold text-ink">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M2 6.5H14V13.5H2V6.5Z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M14 9H16.5L18 10.5V13.5H14"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5 16C5.8 16 6.5 15.3 6.5 14.5C6.5 13.7 5.8 13 5 13C4.2 13 3.5 13.7 3.5 14.5C3.5 15.3 4.2 16 5 16Z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+              />
+              <path
+                d="M14.5 16C15.3 16 16 15.3 16 14.5C16 13.7 15.3 13 14.5 13C13.7 13 13 13.7 13 14.5C13 15.3 13.7 16 14.5 16Z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+              />
+            </svg>
+            Tu pedido viaja
+          </h2>
+          <p className="mb-3 text-sm text-muted">
+            El artista compartió el seguimiento de tu envío:
+          </p>
+          <ul className="flex flex-col gap-2 text-sm">
+            {pedido.seguimiento.numero && (
+              <li className="flex items-center justify-between rounded-xl bg-crema px-4 py-3">
+                <span className="text-muted">N° de seguimiento</span>
+                <span className="font-bold text-ink">{pedido.seguimiento.numero}</span>
+              </li>
+            )}
+            {pedido.seguimiento.link && (
+              <li className="flex items-center justify-between rounded-xl bg-crema px-4 py-3">
+                <span className="text-muted">Link del correo</span>
+                <a
+                  href={pedido.seguimiento.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-bold text-cobalt underline hover:text-cobalt-dark"
+                >
+                  Seguir envío
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 15L15 5M15 5H8M15 5V12"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
+      ) : null}
+
       {/* Detalle */}
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Items */}
