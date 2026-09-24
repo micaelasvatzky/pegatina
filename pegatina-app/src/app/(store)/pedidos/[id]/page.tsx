@@ -8,6 +8,7 @@ import {
   type PedidoEstado,
 } from "@/lib/pedidos";
 import ColorBlobs from "@/components/ColorBlobs";
+import AutoRefresh from "@/components/AutoRefresh";
 
 interface RouteCtx {
   params: Promise<{ id: string }>;
@@ -104,6 +105,8 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
 
   return (
     <div>
+      {/* Actualiza el estado solo sin recargar (cada 20s mientras la pestaña está visible). */}
+      <AutoRefresh />
       {/* Header con color (sistema de la landing) */}
       <section className="relative overflow-hidden border-b-2 border-line bg-primario px-4 py-10 md:px-6">
         <ColorBlobs />
