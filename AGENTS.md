@@ -1,5 +1,17 @@
 # Pegatina — Agent Instructions
 
+## ⚡ ARRANQUE — leer esto primero (actualizado 22/10)
+
+**Preguntale a Mica esto ANTES de tocar código:**
+
+> El ilustrador todavía NO ve que Pegatina retiene el 10% de cada venta, y la tarjeta "Cobros con Mercado Pago" de `/dashboard/perfil` quedó **FALSA** con el modelo centralizado (promete que el 90% "te llega directo a tu cuenta" al conectar MP, pero la plata entra a la cuenta de Pegatina y se liquida a mano). ¿Arreglamos solo el copy (Opción B, ~1 hora) o armamos `/dashboard/cobros` con historial de liquidaciones + campo CBU/alias (Opción A, ~medio día)?
+
+- **Opción B (rápida)**: corregir la tarjeta de `/dashboard/perfil` (y el banner `?mp=conectado`) → "Pegatina se queda con el 10% / te transferimos el 90% cada 15 días"; agregar la comisión en `/signup/ilustrador` ("sin costo por publicar, 10% solo cuando vendés"); en el home del dashboard aclarar "Ventas del mes (bruto)" + "Te toca cobrar: 90%".
+- **Opción A (completa)**: todo lo de B + página `/dashboard/cobros` con historial de liquidaciones (período, bruto, 10%, 90%, pendiente/pagada) + campo CBU/alias en el perfil (obligatorio para liquidar) + mostrarlo en `/admin/liquidaciones`.
+- 🔲 **Otra tarea pendiente**: smoke test en el navegador de `/admin/liquidaciones` (generar una liquidación y marcarla pagada) — se verificó con lint/tsc/build y dry-run de DB, pero no se clickeó desde el refactor a server component (commit 2910590).
+
+Detalle técnico completo en la sección **"Administración + liquidaciones"** y en **"Pendiente / próximos pasos"**.
+
 ## Comandos de Sesión
 
 - **"iniciar sesion"**: Cargar la memoria persistente del proyecto desde Engram (`mem_context` + `mem_search` con keywords del proyecto). Recuperar contexto de sesiones anteriores antes de trabajar.
