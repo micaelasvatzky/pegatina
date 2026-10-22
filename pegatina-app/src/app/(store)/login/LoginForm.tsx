@@ -43,10 +43,11 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
     const rol = result.usuario?.rol;
     if (redirect) {
       router.push(redirect);
+    } else if (rol === "admin") {
+      router.push("/admin");
     } else if (rol === "ilustrador") {
       router.push("/dashboard");
     } else {
-      // El comprador va directo al catálogo (no a la home).
       router.push("/catalogo");
     }
   };
@@ -63,7 +64,14 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
       return;
     }
 
-    router.push("/dashboard");
+    const usuario = result.usuario;
+    const destino =
+      usuario?.rol === "admin"
+        ? "/admin"
+        : usuario?.rol === "ilustrador"
+          ? "/dashboard"
+          : "/catalogo";
+    router.push(destino);
   };
 
   return (

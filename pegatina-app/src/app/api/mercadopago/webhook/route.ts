@@ -2,7 +2,14 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { MercadoPagoError } from "mercadopago";
 import { getDb } from "@/lib/mongodb";
+import { mensajeDeError } from "@/lib/errors";
 import { obtenerOrder, obtenerPayment, validarFirmaWebhook } from "@/lib/mercadopago";
+
+/** Cuerpo de la notificación de MP (solo lo que miramos). */
+interface WebhookNotificacion {
+  type?: string;
+  data?: { id?: string | number };
+}
 
 /**
  * POST /api/mercadopago/webhook
@@ -20,18 +27,19 @@ import { obtenerOrder, obtenerPayment, validarFirmaWebhook } from "@/lib/mercado
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  let body: any = {};
+  let body: WebhookNotificacion = {};
   try {
-    body = await req.json();
+    body = (await req.json()) as WebhookNotificacion;
   } catch {
     // MP mandó algo que no es JSON (a veces manda query params nada más).
   }
 
   const url = new URL(req.url);
-  const type =
-    (body?.type as string) ?? (url.searchParams.get("type") as string) ?? "";
+  const type = body.type ?? url.searchParams.get("type") ?? "";
   const dataId =
-    (body?.data?.id as string) ?? (url.searchParams.get("data.id") as string) ?? "";
+    body.data?.id !== undefined && body.data?.id !== null
+      ? String(body.data.id)
+      : url.searchParams.get("data.id") ?? "";
 
   if (!type || !dataId) {
     return NextResponse.json({ error: "Notificación inválida." }, { status: 400 });
@@ -46,10 +54,13 @@ export async function POST(req: Request) {
     if (!validarFirmaWebhook({ xSignature, xRequestId, dataId: dataId.toLowerCase() })) {
       return NextResponse.json({ error: "Firma inválida." }, { status: 401 });
     }
-  } catch (err: any) {
+  } catch (err) {
     // Sin secret configurado (desarrollo): avisamos y seguimos. La validación
     // contra la API de MP del paso siguiente es la red de seguridad real.
-    console.warn("[webhook] MP_NOTIFICATION_SECRET no configurado — salteo validación de firma:", err?.message);
+    console.warn(
+      "[webhook] MP_NOTIFICATION_SECRET no configurado — salteo validación de firma:",
+      mensajeDeError(err)
+    );
   }
 
   try {
@@ -62,20 +73,20 @@ export async function POST(req: Request) {
     let orderId: string | undefined;
 
     if (type === "payment") {
-      const payment: any = await obtenerPayment(dataId);
-      extRef = payment?.external_reference;
-      paymentId = payment?.id?.toString();
-      orderId = payment?.order?.id?.toString();
-      pagoAprobado = payment?.status === "approved";
+      const payment = await obtenerPayment(dataId);
+      extRef = payment.external_reference;
+      paymentId = payment.id?.toString();
+      orderId = payment.order?.id?.toString();
+      pagoAprobado = payment.status === "approved";
     } else if (type === "orders" || type === "order") {
-      const order: any = await obtenerOrder(dataId);
-      extRef = order?.external_reference;
-      orderId = order?.id?.toString();
-      const payments: any[] = order?.transactions?.payments ?? [];
+      const order = await obtenerOrder(dataId);
+      extRef = order.external_reference;
+      orderId = order.id?.toString();
+      const payments = order.transactions?.payments ?? [];
       paymentId = payments[0]?.id?.toString();
       pagoAprobado =
-        order?.status === "processed" ||
-        payments.some((p) => p?.status === "approved");
+        order.status === "processed" ||
+        payments.some((p) => p.status === "approved");
     } else {
       // Otros topics (mp-connect, claims...) — no nos interesan por ahora.
       return NextResponse.json({ ok: true });
@@ -124,7 +135,7 @@ export async function POST(req: Request) {
       `[webhook] Pedido ${pedidoId} marcado como pagado (${res.modifiedCount > 0 ? "ok" : "sin cambios"}).`
     );
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
+  } catch (err) {
     // El recurso no existe o el ID es inválido en MP (400/404) — pasa cuando
     // el panel "Simula" una notificación con un id de ejemplo que nunca se
     // generó (ej: "123456" → 400 invalid_path_param). No hay nada que
@@ -134,7 +145,7 @@ export async function POST(req: Request) {
       console.warn("[webhook] Recurso no existe o inválido en MP (simulación o ejemplo):", { type, dataId, status: err.status });
       return NextResponse.json({ ok: true });
     }
-    console.error("[webhook] Error procesando notificación:", err?.message);
+    console.error("[webhook] Error procesando notificación:", mensajeDeError(err));
     // Devolvemos 500 para que MP reintente (retry cada 15 min).
     return NextResponse.json({ error: "Error interno." }, { status: 500 });
   }

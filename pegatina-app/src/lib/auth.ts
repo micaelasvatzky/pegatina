@@ -24,7 +24,7 @@ const JWT_SECRET =
 export interface SessionPayload {
   sub: string;
   nombre: string;
-  rol: "comprador" | "ilustrador";
+  rol: "comprador" | "ilustrador" | "admin";
 }
 
 /** Hash de password con bcrypt (costo 10, buen balance seguridad/velocidad). */

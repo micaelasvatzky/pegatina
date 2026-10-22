@@ -23,14 +23,20 @@ export default function Navbar({
 
   const isDashboard = mode === "dashboard";
   const esIlustrador = isLoggedIn && usuario?.rol === "ilustrador";
+  const esAdmin = isLoggedIn && usuario?.rol === "admin";
 
   // En el dashboard, el logo lleva al espacio del ilustrador.
   // En el store: si el logueado es ilustrador, el logo también lo lleva
   // al dashboard (el vendedor no navega la tienda para comprar).
+  // Si es admin, logo siempre a /admin.
   const logoHref =
-    isDashboard || esIlustrador ? "/dashboard" : "/";
+    esAdmin
+      ? "/admin"
+      : isDashboard || esIlustrador
+        ? "/dashboard"
+        : "/";
 
-  const perfilHref = esIlustrador ? "/dashboard" : "/perfil";
+  const perfilHref = esAdmin ? "/admin" : esIlustrador ? "/dashboard" : "/perfil";
 
   const inicial = usuario?.nombre?.charAt(0).toUpperCase() ?? "";
   const primerNombre = usuario?.nombre?.split(" ")[0] ?? "";
@@ -101,7 +107,7 @@ export default function Navbar({
           {/* Nav pills — SOLO rutas reales (Arte DIY / Ilustradores / Feria
               Virtual del ref no existen en la app, ver AGENTS.md).
               Botón "Catálogo" SIEMPRE azul (decisión de Mica). */}
-          {!esIlustrador && (
+          {!esIlustrador && !esAdmin && (
             <Link
               href="/catalogo"
               className="hidden rounded-full bg-cobalt px-5 py-2 text-sm font-bold text-white shadow-[2px_2px_0px_var(--color-line)] transition-all outline-none hover:-translate-y-0.5 hover:bg-cobalt-dark focus-visible:ring-2 focus-visible:ring-line lg:inline-block"
@@ -111,7 +117,7 @@ export default function Navbar({
           )}
 
           {/* Buscador — md+ */}
-          {!esIlustrador && (
+          {!esIlustrador && !esAdmin && (
             <form
               action="/catalogo"
               method="get"
@@ -132,7 +138,7 @@ export default function Navbar({
           {/* Lado derecho */}
           <div className="flex items-center gap-2 md:gap-3">
             {/* "Abrí tu tienda" — sm+ */}
-            {!esIlustrador && (
+            {!esIlustrador && !esAdmin && (
               <Link
                 href="/signup/ilustrador"
                 className="hidden items-center gap-1.5 rounded-full border-2 border-line bg-primario px-4 py-2.5 text-xs font-extrabold uppercase tracking-wide text-white shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:bg-ink sm:inline-flex"
@@ -145,7 +151,7 @@ export default function Navbar({
             )}
 
             {/* Carrito — solo compradores logueados */}
-            {isLoggedIn && !esIlustrador && (
+            {isLoggedIn && !esIlustrador && !esAdmin && (
               <button
                 onClick={openCart}
                 aria-label="Abrir carrito"

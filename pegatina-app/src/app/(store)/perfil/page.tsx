@@ -13,16 +13,25 @@ import ColorBlobs from "@/components/ColorBlobs";
  * (Las compras reales llegarán cuando implementemos el pago.)
  */
 
+/** Documento de pedido tal como lo leemos para el perfil del comprador. */
+interface PedidoPerfilDoc {
+  _id: ObjectId;
+  items?: { nombre?: string; cantidad?: number }[];
+  total?: number;
+  estado?: string;
+  fecha?: Date | string;
+}
+
 async function getPedidos(usuarioId: string) {
   const db = await getDb();
   const docs = await db
-    .collection("pedidos")
+    .collection<PedidoPerfilDoc>("pedidos")
     .find({ usuario_id: usuarioId })
     .sort({ fecha: -1 })
     .limit(10)
     .toArray();
-  return docs.map((d: any) => ({
-    id: (d._id as ObjectId).toString(),
+  return docs.map((d) => ({
+    id: d._id.toString(),
     items: d.items ?? [],
     total: d.total ?? 0,
     estado: d.estado ?? "pendiente",
@@ -128,7 +137,7 @@ export default async function PerfilPage() {
                 </div>
                 <div className="mt-3 flex flex-col gap-1 text-sm text-muted">
                   {Array.isArray(p.items) &&
-                    p.items.map((it: any, i: number) => (
+                    p.items.map((it, i: number) => (
                       <span key={i}>
                         {it.cantidad ?? 1}× {it.nombre ?? "Sticker"}
                       </span>

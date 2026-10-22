@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
+import { mensajeDeError } from "@/lib/errors";
 import {
   mpOAuthConfigurado,
   urlAutorizacionVendedor,
@@ -34,9 +35,12 @@ export async function GET() {
   try {
     const url = await urlAutorizacionVendedor(state);
     return NextResponse.redirect(url);
-  } catch (err: any) {
+  } catch (err) {
     return NextResponse.json(
-      { error: "No pudimos generar el enlace con Mercado Pago: " + (err?.message ?? "error") },
+      {
+        error:
+          "No pudimos generar el enlace con Mercado Pago: " + mensajeDeError(err),
+      },
       { status: 502 }
     );
   }

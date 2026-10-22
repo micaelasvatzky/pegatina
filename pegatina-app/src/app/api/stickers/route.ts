@@ -87,8 +87,8 @@ export async function POST(request: Request) {
       acabado,
     };
     const result = await db
-      .collection<DBSticker>("stickers")
-      .insertOne(doc as any);
+      .collection<Omit<DBSticker, "_id">>("stickers")
+      .insertOne(doc);
 
     return NextResponse.json(
       { id: result.insertedId.toString(), ok: true },

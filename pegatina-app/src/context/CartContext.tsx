@@ -74,6 +74,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     ownerRef.current = usuarioId;
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- hidratación ÚNICA desde localStorage (sistema externo) después de que auth resuelve; el server no puede leer localStorage, así que no hay otra fuente de verdad
       if (raw) setItems(JSON.parse(raw));
     } catch {
       /* ignore */

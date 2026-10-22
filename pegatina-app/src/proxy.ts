@@ -53,6 +53,39 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  // Rutas del administrador
+  if (pathname.startsWith("/admin")) {
+    if (!rol) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    if (rol !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  // Admin: fuera del store (backoffice puro)
+  if (rol === "admin") {
+    if (
+      pathname === "/" ||
+      pathname.startsWith("/catalogo") ||
+      pathname.startsWith("/producto") ||
+      pathname.startsWith("/carrito") ||
+      pathname.startsWith("/checkout") ||
+      pathname.startsWith("/pedidos") ||
+      pathname === "/perfil" ||
+      pathname.startsWith("/login") ||
+      pathname.startsWith("/signup")
+    ) {
+      // Permitir tienda pública del artista
+      if (pathname.startsWith("/artista")) {
+        return NextResponse.next();
+      }
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+  }
+
   // Rutas del ilustrador
   if (pathname.startsWith("/dashboard")) {
     if (!rol) {
@@ -81,6 +114,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/admin/:path*",
     "/dashboard/:path*",
     "/perfil",
     "/checkout",

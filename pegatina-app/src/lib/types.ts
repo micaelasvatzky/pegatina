@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import type { PedidoEstado } from "./pedidos";
 import type { PagoInfo } from "./mercadopago";
 
-export type Role = "comprador" | "ilustrador";
+export type Role = "comprador" | "ilustrador" | "admin";
 
 /** Usuario tal como se guarda en MongoDB (colección "usuarios"). */
 export interface DBUsuario {
@@ -38,6 +38,58 @@ export interface Usuario {
   /** @usuario público (handle) — puede faltar si el signup no lo pedía aún. */
   usuario?: string | null;
   foto?: string | null;
+}
+
+/** Item de una liquidación por vendedor */
+export interface LiquidacionItem {
+  /** Handle del vendedor CON @ (ej. "@arteconsofi") */
+  vendedor_handle: string;
+  vendedor_id: string;
+  /** Suma bruta de items de este vendedor en pedidos incluidos (shipped) */
+  bruto: number;
+  /** 10% comisión admin sobre bruto */
+  comision_admin: number;
+  /** 90% neto a pagar al vendedor */
+  neto_vendedor: number;
+  /** IDs de pedidos incluidos en esta liquidación para este vendedor */
+  pedidos: string[];
+  /** Cantidad total de items */
+  cantidad_items: number;
+}
+
+/** Estado de una liquidación */
+export type LiquidacionEstado = "pendiente" | "pagada";
+
+/** Documento de liquidación en MongoDB */
+export interface DBLiquidacion {
+  _id: ObjectId;
+  /** Rango quincenal: "YYYY-MM-DD_YYYY-MM-DD" */
+  periodo: string;
+  fecha_inicio: Date;
+  fecha_fin: Date;
+  estado: LiquidacionEstado;
+  fecha_generada: Date;
+  fecha_pagada?: Date;
+  /** Totales del periodo */
+  total_bruto: number;
+  comision_admin: number;
+  neto_total_pagar: number;
+  items: LiquidacionItem[];
+}
+
+/** Liquidación serializada para cliente */
+export interface Liquidacion {
+  id: string;
+  periodo: string;
+  fecha_inicio: string;
+  fecha_fin: string;
+  estado: LiquidacionEstado;
+  fecha_generada: string;
+  fecha_pagada?: string;
+  total_bruto: number;
+  comision_admin: number;
+  neto_total_pagar: number;
+  items: LiquidacionItem[];
 }
 
 /** Un pedido/compra del comprador (colección "pedidos"). */

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import { canjearCodigoOAuth } from "@/lib/mercadopago";
+import { mensajeDeError } from "@/lib/errors";
 
 /**
  * GET /api/mercadopago/oauth/callback
@@ -68,8 +69,8 @@ export async function GET(req: Request) {
     return NextResponse.redirect(
       new URL("/dashboard/perfil?mp=conectado", url.origin)
     );
-  } catch (err: any) {
-    console.error("[mp-oauth] Error canjeando código:", err?.message);
+  } catch (err) {
+    console.error("[mp-oauth] Error canjeando código:", mensajeDeError(err));
     return NextResponse.redirect(
       new URL("/dashboard/perfil?mp=error", url.origin)
     );

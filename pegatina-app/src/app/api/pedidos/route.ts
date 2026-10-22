@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { getSession, getUsuarioById, getUsuarioPorHandle } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { getStickerById } from "@/lib/data";
+import { mensajeDeError } from "@/lib/errors";
 import {
   mpConfigurado,
   crearOrderCheckout,
@@ -18,11 +19,42 @@ import { ObjectId } from "mongodb";
  * Seguridad: los precios se recalculan en el SERVER contra la DB — el cliente
  * solo manda sticker_id + cantidad (nunca se confía en el total).
  *
- * Split: si el ilustrador conectó su cuenta MP (`usuario.mp.access_token`),
- * la order se crea con SU token y `marketplace_fee` (10% Pegatina / 90%
- * artista — reparto automático de MP). Si no conectó, se crea con el token de
- * Pegatina y el split (10/90) se calcula igual y se guarda en `pago`.
+ * Pagos: modelo ADMIN CENTRALIZADO. La order se crea SIEMPRE con el token de
+ * Pegatina (sin `marketplace_fee` ni token de vendedor): toda la plata entra a
+ * la cuenta de la app y el admin liquida a cada ilustrador cada 15 días
+ * (90% vendedor / 10% comisión). Ver src/lib/liquidaciones.ts.
  */
+
+/** Cuerpo del checkout (lo mínimo que manda el cliente). */
+interface CheckoutBody {
+  items?: { sticker_id?: string; cantidad?: number }[];
+  envio?: Record<string, string>;
+}
+
+/** Documento de pedido tal como se inserta (sin _id: lo genera Mongo). */
+interface NuevoPedido {
+  usuario_id: string;
+  items: {
+    sticker_id: string;
+    nombre: string;
+    precio: number;
+    cantidad: number;
+    ilustrador: string;
+  }[];
+  envio: {
+    nombre: string;
+    calle: string;
+    ciudad: string;
+    provincia: string;
+    codigo_postal: string;
+    notas: string;
+  };
+  metodo_pago: "mercadopago" | "transferencia";
+  total: number;
+  estado: string;
+  fecha: Date;
+  pago: PagoInfo;
+}
 export async function POST(req: Request) {
   const session = await getSession();
   if (!session) {
@@ -35,9 +67,9 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: any;
+  let body: CheckoutBody;
   try {
-    body = await req.json();
+    body = (await req.json()) as CheckoutBody;
   } catch {
     return NextResponse.json(
       { error: "El cuerpo de la solicitud es inválido." },
@@ -46,8 +78,7 @@ export async function POST(req: Request) {
   }
 
   // Validación de items
-  const rawItems: { sticker_id?: string; cantidad?: number }[] =
-    Array.isArray(body.items) ? body.items : [];
+  const rawItems = Array.isArray(body.items) ? body.items : [];
   if (rawItems.length === 0) {
     return NextResponse.json(
       { error: "Tu carrito está vacío." },
@@ -116,11 +147,17 @@ export async function POST(req: Request) {
     proveedor: mpActivo ? "mercadopago" : "transferencia",
     estado: "pendiente",
     total,
-    ...(split ? { comision: split.comision, neto_artista: split.neto_artista } : {}),
+    modelo: mpActivo ? "admin_centralizado" : undefined,
+    ...(split
+      ? {
+          comision: split.comision,
+          neto_artista: split.neto_artista,
+        }
+      : {}),
   };
 
   const db = await getDb();
-  const result = await db.collection("pedidos").insertOne({
+  const nuevoPedido: NuevoPedido = {
     usuario_id: session.sub,
     items,
     envio: {
@@ -136,29 +173,16 @@ export async function POST(req: Request) {
     estado: "pending",
     fecha: new Date(),
     pago,
-  } as any);
+  };
+  const result = await db
+    .collection<NuevoPedido>("pedidos")
+    .insertOne(nuevoPedido);
 
   const pedidoId = result.insertedId.toString();
 
   // Sin MP configurado → flujo transferencia (fallback) como siempre.
   if (!mpActivo) {
     return NextResponse.json({ id: pedidoId, ok: true }, { status: 201 });
-  }
-
-  // Con MP: buscar el token del vendedor (si el artista conectó su cuenta).
-  // El carrito es de UN solo artista (decisión de producto), así que el
-  // primer item define al vendedor de toda la order.
-  const handleVendedor = items[0]?.ilustrador ?? "";
-  let sellerToken: string | undefined;
-  try {
-    if (handleVendedor) {
-      const vendedor = await getUsuarioPorHandle(handleVendedor);
-      if (vendedor?.mp?.access_token) {
-        sellerToken = vendedor.mp.access_token;
-      }
-    }
-  } catch {
-    sellerToken = undefined;
   }
 
   try {
@@ -170,7 +194,8 @@ export async function POST(req: Request) {
       })),
       total,
       externalReference: pedidoId,
-      sellerToken,
+      // Modelo admin centralizado: sin token de vendedor ni marketplace_fee.
+      centralizado: true,
     });
 
     // Guardar el id de la order MP en el pedido.
@@ -183,14 +208,14 @@ export async function POST(req: Request) {
       { id: pedidoId, ok: true, checkout_url: order.checkout_url },
       { status: 201 }
     );
-  } catch (err: any) {
+  } catch (err) {
     // No dejamos pedidos huérfanos: si MP falló, el pedido no se crea.
     await db.collection("pedidos").deleteOne({ _id: new ObjectId(pedidoId) });
     return NextResponse.json(
       {
         error:
           "No pudimos iniciar el pago con Mercado Pago. " +
-          (err?.message ?? "Intentá de nuevo."),
+          mensajeDeError(err, "Intentá de nuevo."),
       },
       { status: 502 }
     );

@@ -174,13 +174,13 @@ async function getClientesPorIds(ids: string[]) {
   const oids = ids.filter((id) => ObjectId.isValid(id)).map((id) => new ObjectId(id));
   if (!oids.length) return new Map<string, { nombre: string; email: string }>();
   const docs = await db
-    .collection("usuarios")
+    .collection<{ _id: ObjectId; nombre?: string; email?: string }>("usuarios")
     .find({ _id: { $in: oids } })
     .toArray();
   return new Map(
-    docs.map((d: any) => [
+    docs.map((d) => [
       d._id.toString(),
-      { nombre: d.nombre, email: d.email },
+      { nombre: d.nombre ?? "", email: d.email ?? "" },
     ])
   );
 }

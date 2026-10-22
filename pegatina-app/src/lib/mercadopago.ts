@@ -50,6 +50,8 @@ export interface PagoInfo {
   neto_artista?: number;
   /** Fecha en que se aprobó el pago (ISO). */
   fecha_pago?: string;
+  /** Modelo de distribución de fondos. */
+  modelo?: "split_inmediato" | "admin_centralizado";
 }
 
 /** ¿Está configurada la integración con MP? (hay access token en env). */
@@ -201,10 +203,15 @@ export async function crearOrderCheckout(opts: {
   sellerToken?: string;
   /** Adónde redirige MP después del pago (sino usa /pedidos/{externalReference}). */
   backUrls?: { success?: string; pending?: string; failure?: string };
+  /** Si true, cobra TODO a la cuenta de Pegatina (admin centralizado). */
+  centralizado?: boolean;
 }): Promise<{ id: string; checkout_url: string; status?: string }> {
-  const config = opts.sellerToken
-    ? getSellerConfig(opts.sellerToken)
-    : getMarketplaceConfig();
+  const centralizado = opts.centralizado ?? false;
+
+  const config =
+    !centralizado && opts.sellerToken
+      ? getSellerConfig(opts.sellerToken)
+      : getMarketplaceConfig();
 
   const split = calcularSplit(opts.total);
 
@@ -222,8 +229,9 @@ export async function crearOrderCheckout(opts: {
         quantity: i.quantity,
         unit_price: i.unit_price.toFixed(2),
       })),
-      // La comisión de MP se descuenta del vendedor; el split es automático.
-      ...(opts.sellerToken
+      // En modelo centralizado NO hacemos split automático por vendedor.
+      // En modelo split_inmediato (legacy), solo si hay sellerToken.
+      ...(!centralizado && opts.sellerToken
         ? { marketplace_fee: split.comision.toFixed(2) }
         : {}),
       ...(opts.payerEmail
@@ -257,19 +265,45 @@ export async function crearOrderCheckout(opts: {
   return { id: res.id, checkout_url: res.checkout_url, status: res.status };
 }
 
+/**
+ * Forma MÍNIMA de un payment de MP que realmente consumimos (webhook).
+ * El SDK devuelve un objeto enorme; acá modelamos solo lo que usamos para
+ * no arrastrar `any` por toda la app.
+ */
+export interface PagoMPResumen {
+  id?: number | string;
+  status?: string;
+  external_reference?: string;
+  order?: { id?: number | string };
+}
+
+/** Forma MÍNIMA de una order de MP (webhook). */
+export interface OrderMPResumen {
+  id?: number | string;
+  status?: string;
+  external_reference?: string;
+  transactions?: { payments?: PagoMPResumen[] };
+}
+
 /** Consulta una order por ID (para recuperar estado si se perdió el webhook). */
-export async function obtenerOrder(orderId: string, sellerToken?: string) {
+export async function obtenerOrder(
+  orderId: string,
+  sellerToken?: string
+): Promise<OrderMPResumen> {
   const config = sellerToken
     ? getSellerConfig(sellerToken)
     : getMarketplaceConfig();
   const order = new Order(config);
-  return order.get({ id: orderId });
+  // El SDK expone un tipo con decenas de campos; lo adaptamos a lo que usamos.
+  return (await order.get({ id: orderId })) as unknown as OrderMPResumen;
 }
 
 /** Consulta un payment por ID (usado por el webhook para verificar). */
-export async function obtenerPayment(paymentId: string) {
+export async function obtenerPayment(
+  paymentId: string
+): Promise<PagoMPResumen> {
   const payment = new Payment(getMarketplaceConfig());
-  return payment.get({ id: paymentId });
+  return (await payment.get({ id: paymentId })) as unknown as PagoMPResumen;
 }
 
 /**

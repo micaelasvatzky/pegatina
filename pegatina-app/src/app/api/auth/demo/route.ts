@@ -53,7 +53,8 @@ export async function POST() {
 
   try {
     const db = await getDb();
-    const usuarios = db.collection<DBUsuario>("usuarios");
+    // Omit<..., "_id">: Mongo genera el ObjectId, así `insertOne` no lo exige.
+    const usuarios = db.collection<Omit<DBUsuario, "_id">>("usuarios");
 
     let usuario = await usuarios.findOne({ email: DEMO_EMAIL });
 
@@ -61,7 +62,6 @@ export async function POST() {
       // Primera vez: creamos la cuenta demo con password aleatoria
       // (no se puede entrar por login normal, solo por este botón).
       const passwordHash = await hashPassword(crypto.randomUUID());
-      // El driver pide _id en el tipo; Mongo lo genera solo (mismo patrón que signup).
       const resultado = await usuarios.insertOne({
         nombre: "Demo Ilustrador",
         email: DEMO_EMAIL,
@@ -70,13 +70,15 @@ export async function POST() {
         usuario: DEMO_HANDLE,
         bio: "Tienda de prueba para el desarrollo de Pegatina",
         createdAt: new Date(),
-      } as any);
+      });
 
       // Sembramos stickers de prueba para que el dashboard tenga data.
-      const stickers = db.collection<DBSticker>("stickers");
-      await stickers.insertMany(DEMO_STICKERS as any);
+      const stickers = db.collection<Omit<DBSticker, "_id">>("stickers");
+      await stickers.insertMany(DEMO_STICKERS);
 
-      const creado = await usuarios.findOne({ _id: resultado.insertedId });
+      const creado = await db
+        .collection<DBUsuario>("usuarios")
+        .findOne({ _id: resultado.insertedId });
       if (creado) usuario = creado;
     }
 

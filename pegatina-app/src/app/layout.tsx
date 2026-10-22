@@ -33,6 +33,7 @@ export default function RootLayout({
         {/* Iconografía del sistema (los refs Stitch usan Material Symbols Outlined).
             next/font/google NO incluye icon fonts, así que se carga por link
             como en los HTML de referencia. */}
+        {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font -- icon font externo: next/font no soporta icon fonts */}
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
           rel="stylesheet"

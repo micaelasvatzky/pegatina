@@ -53,7 +53,9 @@ export async function POST(request: Request) {
     }
 
     const db = await getDb();
-    const usuarios = db.collection<DBUsuario>("usuarios");
+    // El `_id` lo genera Mongo: el tipo de la colección lo omite para que
+    // `insertOne` no pida un ObjectId que todavía no existe.
+    const usuarios = db.collection<Omit<DBUsuario, "_id">>("usuarios");
 
     // Email único
     const existing = await usuarios.findOne({ email });
@@ -90,7 +92,7 @@ export async function POST(request: Request) {
       createdAt: now,
     };
 
-    const result = await usuarios.insertOne(doc as any);
+    const result = await usuarios.insertOne(doc);
     const id = result.insertedId.toString();
 
     await setSessionCookie(
