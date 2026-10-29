@@ -76,7 +76,7 @@ export default function AdminSidebar() {
         <button
           onClick={handleLogout}
           title="Cerrar sesión"
-          className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-ink/70 transition-colors hover:bg-red-50 hover:text-red-600 md:gap-3 md:px-4 md:py-3 md:text-sm"
+          className="flex w-full items-center gap-2 rounded-xl border-2 border-red-600 px-3 py-2 text-xs font-semibold text-red-600 transition-colors hover:bg-red-50 md:gap-3 md:px-4 md:py-3 md:text-sm"
         >
           <span aria-hidden className="flex shrink-0 items-center">
             {IconSalir}

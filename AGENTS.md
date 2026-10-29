@@ -14,6 +14,21 @@ Detalle técnico completo en la sección **"Administración + liquidaciones"** y
 
 ## Comandos de Sesión
 
+- **Regla confirmada por Mica (29/10/2026)**: al iniciar recuperar toda la memoria disponible antes de trabajar; al cerrar guardar decisiones, cambios, verificaciones y pendientes. Si Engram no está disponible, avisar y guardar el resumen en `docs/sesiones/`. Leer el más reciente junto con este archivo. Último cierre: `docs/sesiones/2026-10-29.md`.
+
+## Estado actualizado — 29/10/2026
+
+- Envíos bloqueados hasta `pago.estado === "aprobado"`: selector deshabilitado, aclaración y validación API (403). La escritura exige pago aprobado y pertenencia al ilustrador.
+- Borrados con autorización los dos pedidos pendientes de `@demoilustrador`: `6ae21f02ce699ac20cc62640` y `6ae22082ce699ac20cc62641`. Conservado el aprobado `6ab5314d008c88fd543ab12a`. No repetir automáticamente.
+- Header con menú compacto: ilustrador SOLO `Cerrar sesión`; comprador conserva `Mi perfil`; admin `Ir al panel`. Botones de salida y confirmaciones con bordes y texto rojos en toda la app.
+- `npm run dev` ejecuta `scripts/dev.mjs`: firma JWT temporal nueva por ejecución, compartida por API y proxy. Reiniciar el comando invalida sesiones anteriores; recargar o abrir pestañas no. No modifica `.env.local` ni producción. Usar ese comando para conservar la regla.
+- `PasswordInput.tsx` compartido en login y registros, con ojo para mostrar/ocultar, inicialmente oculto y accesible.
+- Cambios locales previos preservados en `7524831` (logout, pedidos y Mercado Pago). `set-demo-creds.mjs` requiere `DEMO_PASSWORD` y no imprime la contraseña; no ejecutarlo automáticamente.
+- ESLint de archivos tocados y TypeScript pasaron. Prueba con jsonwebtoken y jose confirmó rechazo de firmas entre ejecuciones. Sin build ni smoke test completo en navegador.
+- Siguen pendientes: decisión A/B de cobros y copy del 10%, CBU/alias, smoke test de liquidaciones y prueba completa del pago del lado vendedor.
+
+## Comandos de Sesión — detalle
+
 - **"iniciar sesion"**: Cargar la memoria persistente del proyecto desde Engram (`mem_context` + `mem_search` con keywords del proyecto). Recuperar contexto de sesiones anteriores antes de trabajar.
 - **"cerrar sesion"**: Guardar TODO en Engram: decisiones, cambios, descubrimientos, convenciones. Llamar `mem_session_summary` con el formato completo (Goal/Instructions/Discoveries/Accomplished/Next Steps/Relevant Files).
 

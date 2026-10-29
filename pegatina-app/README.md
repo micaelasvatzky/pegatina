@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pegatina App
 
-## Getting Started
+Marketplace argentino de stickers. Next.js 16, React 19, TypeScript, Tailwind 4 y MongoDB; pagos con Mercado Pago y fotos con Cloudinary.
 
-First, run the development server:
+## Desarrollo local
 
-```bash
+Desde la raíz del repositorio:
+
+```powershell
+cd pegatina-app
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrí http://localhost:3000. Configurá `.env.local` según `.env.example`, sin publicar credenciales.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`npm run dev` ejecuta `scripts/dev.mjs`: genera una firma JWT nueva por arranque. Al reiniciar el comando hay que iniciar sesión de nuevo. Recargar o abrir pestañas durante la misma ejecución conserva la sesión. No modifica `.env.local` ni las sesiones de producción.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Funcionalidades
 
-## Learn More
+- Comprador: catálogo, filtros, carrito de un solo artista, checkout y seguimiento.
+- Ilustrador: stickers, fotos, pedidos y perfil. El envío solo se puede actualizar con pago aprobado, validado en UI y API.
+- Admin: panel y liquidaciones centralizadas, 10% comisión y 90% neto del artista.
+- Menú de cuenta compacto; para ilustrador solo Cerrar sesión. Botones de salida con bordes y texto rojos.
+- Ojo para mostrar/ocultar contraseñas en login y registros, ocultas inicialmente.
 
-To learn more about Next.js, take a look at the following resources:
+## Verificación
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+npm run lint
+node node_modules/typescript/bin/tsc --noEmit
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+No ejecutar build salvo pedido explícito de Mica.
 
-## Deploy on Vercel
+El script opcional `scripts/set-demo-creds.mjs` requiere `DEMO_PASSWORD` y modifica MongoDB. No ejecutarlo como parte del arranque.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contexto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Leer [AGENTS de la raíz](../AGENTS.md) y el [cierre del 29/10/2026](../docs/sesiones/2026-10-29.md). Sigue pendiente adaptar el copy de cobros al modelo centralizado y decidir el alcance con Mica.

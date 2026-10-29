@@ -1,4 +1,5 @@
 "use client";
+import PasswordInput from "@/components/PasswordInput";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -114,11 +115,12 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
             </div>
 
             <div className="mb-2">
-              <label className="mb-2 block text-[17px] text-ink">
+              <label htmlFor="login-password" className="mb-2 block text-[17px] text-ink">
                 Contraseña
               </label>
-              <input
-                type="password"
+              <PasswordInput
+                id="login-password"
+                autoComplete="current-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

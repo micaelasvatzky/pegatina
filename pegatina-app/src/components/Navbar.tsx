@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import LogoutButton from "@/components/LogoutButton";
 
 /**
  * Navbar de Pegatina, con dos modos:
@@ -45,10 +46,18 @@ export default function Navbar({
   const avatar =
     !loading &&
     (isLoggedIn && usuario ? (
-      <Link
-        href={perfilHref}
-        title={usuario.nombre}
-        className="flex items-center gap-2 rounded-full border-2 border-line bg-card py-1.5 pl-1.5 pr-3 shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--color-line)]"
+      <details
+        className="relative"
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            event.currentTarget.open = false;
+            event.currentTarget.querySelector("summary")?.focus();
+          }
+        }}
+      >
+      <summary
+        aria-label={`Abrir opciones de ${usuario.nombre}`}
+        className="flex cursor-pointer list-none items-center gap-2 rounded-full border-2 border-line bg-card py-1.5 pl-1.5 pr-3 shadow-[2px_2px_0px_var(--color-line)] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--color-line)] [&::-webkit-details-marker]:hidden"
       >
         {usuario.foto ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -65,7 +74,18 @@ export default function Navbar({
         <span className="hidden max-w-[7rem] truncate text-sm font-bold text-ink md:block">
           {primerNombre}
         </span>
-      </Link>
+      </summary>
+      <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border-2 border-line bg-card p-2 nb-shadow-sm">
+        {!esIlustrador && <Link
+          href={perfilHref}
+          onClick={(event) => event.currentTarget.closest("details")?.removeAttribute("open")}
+          className="mb-2 block rounded-full px-3 py-1.5 text-xs font-semibold text-ink hover:bg-crema"
+        >
+          {esAdmin ? "Ir al panel" : "Mi perfil"}
+        </Link>}
+        <LogoutButton compact />
+      </div>
+      </details>
     ) : (
       <Link
         href="/login"

@@ -1,4 +1,5 @@
 "use client";
+import PasswordInput from "@/components/PasswordInput";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -104,11 +105,12 @@ export default function SignupIlustradorPage() {
             </p>
           </div>
           <div>
-            <label className="mb-2 block text-[17px] capitalize text-ink">
+            <label htmlFor="ilustrador-password" className="mb-2 block text-[17px] capitalize text-ink">
               Contraseña
             </label>
-            <input
-              type="password"
+            <PasswordInput
+              id="ilustrador-password"
+              autoComplete="new-password"
               required
               minLength={6}
               value={password}

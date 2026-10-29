@@ -1,4 +1,5 @@
 "use client";
+import PasswordInput from "@/components/PasswordInput";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -81,11 +82,12 @@ export default function SignupCompradorForm() {
             />
           </div>
           <div>
-            <label className="mb-2 block text-[17px] capitalize text-ink">
+            <label htmlFor="comprador-password" className="mb-2 block text-[17px] capitalize text-ink">
               Contraseña
             </label>
-            <input
-              type="password"
+            <PasswordInput
+              id="comprador-password"
+              autoComplete="new-password"
               required
               minLength={6}
               value={password}

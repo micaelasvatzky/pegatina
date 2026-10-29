@@ -150,7 +150,7 @@ export default function Sidebar() {
           <button
             onClick={() => setConfirmandoSalida(true)}
             title="Cerrar sesión"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-left text-[16px] text-ink transition-colors hover:bg-red-50 hover:text-red-600 md:px-4"
+            className="flex items-center gap-3 rounded-xl border-2 border-red-600 px-3 py-3 text-left text-[16px] text-red-600 transition-colors hover:bg-red-50 md:px-4"
           >
             <span aria-hidden className="flex shrink-0 items-center">
               {IconSalir}
@@ -179,7 +179,7 @@ export default function Sidebar() {
             <div className="mt-6 flex flex-col gap-2">
               <button
                 onClick={cerrarSesion}
-                className="w-full rounded-full border-2 border-line bg-red-600 py-3 font-bold text-white transition-colors hover:bg-red-700 nb-shadow-sm nb-lift"
+                className="w-full rounded-full border-2 border-red-600 bg-card py-3 font-bold text-red-600 transition-colors hover:bg-red-50 nb-lift"
               >
                 Sí, cerrar sesión
               </button>
