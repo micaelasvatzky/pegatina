@@ -12,19 +12,20 @@ import {
 interface Props {
   pedidoId: string;
   estado: PedidoEstado;
+  pagoAprobado: boolean;
 }
 
 /**
  * Selector de estado de envío del pedido (dashboard del ilustrador).
  * PATCHea /api/pedidos/[id] y refresca la página server.
  */
-export default function CambiarEstadoPedido({ pedidoId, estado }: Props) {
+export default function CambiarEstadoPedido({ pedidoId, estado, pagoAprobado }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const cambiar = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const nuevo = e.target.value as PedidoEstado;
-    if (nuevo === estado) return;
+    if (!pagoAprobado || loading || nuevo === estado) return;
     setLoading(true);
     try {
       const res = await fetch(`/api/pedidos/${pedidoId}`, {
@@ -74,7 +75,7 @@ export default function CambiarEstadoPedido({ pedidoId, estado }: Props) {
         <select
           value={estado}
           onChange={cambiar}
-          disabled={loading}
+          disabled={loading || !pagoAprobado}
           title="Cambiar estado del pedido"
           className="h-9 cursor-pointer rounded-full border-2 border-line bg-card px-3 text-sm font-semibold text-ink transition-colors hover:border-primario focus:border-primario focus:outline-none disabled:opacity-50"
         >
@@ -85,6 +86,11 @@ export default function CambiarEstadoPedido({ pedidoId, estado }: Props) {
           ))}
         </select>
       </div>
+      {!pagoAprobado && (
+        <p className="text-xs text-muted">
+          Podés cambiar el envío cuando el pago esté aprobado.
+        </p>
+      )}
     </div>
   );
 }

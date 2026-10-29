@@ -8,11 +8,11 @@ import type { DBUsuario } from "@/lib/types";
 /**
  * Utilidades de autenticación de Pegatina.
  *
- * Sesión basada en JWT en una cookie httpOnly (no legible por JS → resistente a XSS).
+ * Sesión basada en JWT en una cookie httpOnly (no legible por JS — resistente a XSS).
  * Solo se firma/verifica con el secreto; NUNCA se guarda el password en el token.
  */
 
-const COOKIE_NAME = "pegatina-sesion";
+export const COOKIE_NAME = "pegatina-sesion";
 const SESSION_MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 días
 
 // Secreto para firmar/verificar los JWT de sesión.
@@ -74,14 +74,39 @@ export async function setSessionCookie(
 
 /** Borra la cookie de sesión (logout). */
 export async function clearSessionCookie(): Promise<void> {
-  const store = await cookies();
-  store.set(COOKIE_NAME, "", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 0,
-    path: "/",
-  });
+  const store = (await cookies()) as any;
+  try {
+    if (typeof store.delete === "function") {
+      try {
+        store.delete(COOKIE_NAME);
+      } catch {}
+      try {
+        store.delete({ name: COOKIE_NAME, path: "/" });
+      } catch {}
+    }
+  } catch {}
+
+  try {
+    store.set(COOKIE_NAME, "", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 0,
+      expires: new Date(0),
+      path: "/",
+    });
+  } catch {}
+
+  try {
+    store.set(COOKIE_NAME, "", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      maxAge: 0,
+      expires: new Date(0),
+      path: "/",
+    });
+  } catch {}
 }
 
 /** Lee y valida la sesión actual. Devuelve el payload o null si no hay sesión. */

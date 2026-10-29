@@ -219,11 +219,10 @@ export async function crearOrderCheckout(opts: {
   const res = await order.create({
     body: {
       type: "online",
-      processing_mode: "manual",
       capture_mode: "automatic",
       total_amount: opts.total.toFixed(2),
       external_reference: opts.externalReference,
-      description: "Compra en Pegatina — stickers",
+      description: "Compra en Pegatina – stickers",
       items: opts.items.map((i) => ({
         title: i.title,
         quantity: i.quantity,
@@ -239,7 +238,7 @@ export async function crearOrderCheckout(opts: {
         : {}),
       config: {
         online: {
-          // external_reference ES el id del pedido en nuestra DB → el
+          // external_reference ES el id del pedido en nuestra DB – el
           // seguimiento /pedidos/[id] ya existe en la app.
           success_url:
             opts.backUrls?.success ??

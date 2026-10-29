@@ -104,14 +104,37 @@ export async function PATCH(req: Request, ctx: RouteCtx) {
   }
 
   const db = await getDb();
-  const result = await db.collection("pedidos").findOneAndUpdate(
-    { _id: new ObjectId(id), $or: conds },
-    { $set: update },
-    { returnDocument: "after" }
-  );
+  const pedido = await db.collection("pedidos").findOne({
+    _id: new ObjectId(id),
+    $or: conds,
+  });
+
+  if (!pedido) {
+    // No existe o no te pertenece — mismo error para no filtrar información.
+    return NextResponse.json(
+      { error: "No encontramos ese pedido." },
+      { status: 404 }
+    );
+  }
+
+  const pagoEstado = (pedido.pago as { estado?: string } | undefined)?.estado;
+  if (pagoEstado !== "aprobado") {
+    return NextResponse.json(
+      {
+        error:
+          "No podés cambiar el estado del pedido hasta que el pago esté aprobado.",
+      },
+      { status: 403 }
+    );
+  }
+
+  const result = await db
+    .collection("pedidos")
+    .findOneAndUpdate({ _id: new ObjectId(id), $or: conds, "pago.estado": "aprobado" }, { $set: update }, {
+      returnDocument: "after",
+    });
 
   if (!result) {
-    // No existe o no te pertenece — mismo error para no filtrar información.
     return NextResponse.json(
       { error: "No encontramos ese pedido." },
       { status: 404 }
