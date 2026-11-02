@@ -10,6 +10,7 @@
 - Limpieza autorizada de cami12 completada: se eliminaron 3 pedidos de prueba y se conservó `6ae89cee5a59f93fe3f3fbf2` aprobado por $6.600. Detalle en el cierre. **No repetir borrados automáticamente.**
 - Últimas verificaciones del agente: TypeScript, ESLint de archivos modificados y 10 pruebas aisladas pasaron. SMTP Gmail autenticado sin enviar emails. Mica confirmó funcionamiento general; no atribuir al agente una prueba completa de navegador ni un build (no se ejecutó).
 - Leer el cierre más reciente: `docs/sesiones/2026-11-02.md`. Pendientes históricos para una etapa futura, sin bloquear este cierre: opción A y pruebas de navegador no realizadas por el agente.
+- **Próxima etapa prevista por Mica (02/11)**: preparar la presentación académica del proyecto. Al retomar, recuperar el brief, decisiones, funcionalidades y verificaciones de este archivo y del cierre. No comenzar una presentación ni asumir formato, duración o audiencia hasta que Mica lo pida.
 
 ### Contexto histórico del pendiente de cobros (22/10, RESUELTO con B)
 
