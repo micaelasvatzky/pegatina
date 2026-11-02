@@ -148,13 +148,7 @@ export default async function CatalogoPage({
             className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full border-4 border-acento/60 opacity-60"
           />
           <div className="relative z-10">
-            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-1 text-[11px] font-black uppercase tracking-wide text-ink shadow-[2px_2px_0px_var(--color-line)]">
-              <span className="icon text-sm text-primario" aria-hidden>
-                storefront
-              </span>
-              Feria Federal Autogestiva
-            </span>
-            <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+            <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <h1 className="font-display text-4xl font-black uppercase leading-none text-white md:text-5xl">
                   Feria de Stickers
