@@ -69,7 +69,7 @@ export default async function HomePage() {
               type="text"
               name="q"
               placeholder="Buscar por nombre o dibujante…"
-              className="w-full bg-transparent text-base text-ink outline-none placeholder:text-muted"
+              className="min-w-0 w-full bg-transparent text-base text-ink outline-none placeholder:text-muted"
             />
             <button
               type="submit"
@@ -146,17 +146,17 @@ export default async function HomePage() {
                 <Link
                   key={id}
                   href={`/catalogo?categoria=${encodeURIComponent(id)}`}
-                  className={`group flex items-center justify-between gap-3 rounded-2xl border-2 border-line p-5 shadow-[3px_3px_0px_var(--color-line)] transition-all hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-line)] ${tile.bg}`}
+                  className={`group flex min-w-0 items-center justify-between gap-1 rounded-2xl border-2 border-line p-3 sm:gap-3 sm:p-5 shadow-[3px_3px_0px_var(--color-line)] transition-all hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-line)] ${tile.bg}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl">{tile.emoji}</span>
-                    <h3 className="font-display text-lg font-black uppercase leading-none text-ink">
+                  <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                    <span className="shrink-0 text-3xl">{tile.emoji}</span>
+                    <h3 className="font-display break-words text-sm font-black uppercase leading-tight text-ink sm:text-lg">
                       {id}
                     </h3>
                   </div>
                   <span
                     aria-hidden
-                    className="icon text-lg text-ink transition-transform group-hover:translate-x-0.5"
+                    className="icon shrink-0 text-lg text-ink transition-transform group-hover:translate-x-0.5"
                   >
                     chevron_right
                   </span>

@@ -83,13 +83,13 @@ export default function MiPerfilForm({ initial, handle }: Props) {
     "h-[46px] w-full rounded-full border border-line px-5 text-ink focus:border-primario focus:outline-none bg-white";
 
   return (
-    <form onSubmit={submit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <form onSubmit={submit} className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2 [&>div]:min-w-0">
       {/* Foto de perfil */}
-      <div className="sm:col-span-2">
+      <div className="lg:col-span-2">
         <label className="mb-2 block text-sm font-semibold text-ink">
           Foto de perfil
         </label>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           {foto ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -104,7 +104,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
           )}
           <div className="flex flex-wrap gap-2">
             <label
-              className={`inline-flex h-[46px] cursor-pointer items-center gap-2 rounded-full border-2 border-line bg-white px-5 font-bold text-ink transition-colors hover:bg-crema ${subiendoFoto ? "pointer-events-none opacity-50" : ""}`}
+              className={`inline-flex min-h-[46px] max-w-full cursor-pointer items-center gap-2 rounded-2xl border-2 border-line bg-white px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-crema ${subiendoFoto ? "pointer-events-none opacity-50" : ""}`}
             >
               {subiendoFoto ? (
                 <>
@@ -119,7 +119,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
                     <circle cx="8.5" cy="7.5" r="1.8" stroke="currentColor" strokeWidth="1.6" />
                     <path d="M12 4L12 2M17 5L18.5 3.5M6 5L4.5 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
-                  Subir foto desde mi compu
+                  Subir foto
                 </>
               )}
               <input
@@ -152,7 +152,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
         <label className="mb-2 block text-sm font-semibold text-ink">
           Tu @usuario
         </label>
-        <div className="flex h-[46px] items-center rounded-full border border-line bg-crema/60 px-5 text-ink/70">
+        <div className="flex min-h-[46px] items-center break-all rounded-2xl border border-line bg-crema/60 px-5 py-2 text-ink/70">
           {handle ? `@${handle.replace(/^@/, "")}` : "Sin handle"}
         </div>
         <p className="mt-1.5 text-xs text-muted">
@@ -189,7 +189,7 @@ export default function MiPerfilForm({ initial, handle }: Props) {
       </div>
 
       {/* Bio */}
-      <div className="sm:col-span-2">
+      <div className="lg:col-span-2">
         <label className="mb-2 block text-sm font-semibold text-ink">
           Bio
         </label>
@@ -206,18 +206,18 @@ export default function MiPerfilForm({ initial, handle }: Props) {
 
       {/* Mensajes */}
       {error && (
-        <p className="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 sm:col-span-2">
+        <p className="rounded-2xl bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 lg:col-span-2">
           {error}
         </p>
       )}
       {success && (
-        <p className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 sm:col-span-2">
+        <p className="rounded-2xl bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 lg:col-span-2">
           ¡Perfil actualizado!
         </p>
       )}
 
       {/* Guardar */}
-      <div className="sm:col-span-2">
+      <div className="lg:col-span-2">
         <button
           type="submit"
           disabled={loading}

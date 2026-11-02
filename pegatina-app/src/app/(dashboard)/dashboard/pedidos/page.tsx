@@ -46,20 +46,20 @@ export default async function PedidosPage() {
       {/* Tabla */}
       <div className="overflow-hidden rounded-2xl border-2 border-line bg-card nb-shadow">
         {/* Header tabla */}
-        <div className="hidden gap-4 bg-primario px-7 py-4 text-base font-bold text-white lg:flex">
-          <span className="w-24 shrink-0">Pedido</span>
-          <span className="w-56 shrink-0">Items</span>
-          <span className="w-64 shrink-0">Estado</span>
-          <span className="w-44 shrink-0">Cliente</span>
-          <span className="w-20 shrink-0">Fecha</span>
-          <span className="flex-1 text-right">Total</span>
+        <div className="hidden grid-cols-[5rem_minmax(0,1.3fr)_minmax(0,1.5fr)_minmax(0,1fr)_4rem_7rem] gap-4 bg-primario px-5 py-4 text-sm font-bold text-white 2xl:grid">
+          <span>Pedido</span>
+          <span>Items</span>
+          <span>Estado</span>
+          <span>Cliente</span>
+          <span>Fecha</span>
+          <span className="text-right">Total</span>
         </div>
 
         {/* Filas */}
         {pedidos.map((p) => (
           <div
             key={p.id}
-            className="flex flex-col gap-3 border-t border-line px-6 py-5 text-base lg:flex-row lg:items-center lg:gap-4 lg:px-7"
+            className="grid min-w-0 grid-cols-1 gap-4 border-t border-line px-4 py-5 text-sm sm:grid-cols-2 2xl:grid-cols-[5rem_minmax(0,1.3fr)_minmax(0,1.5fr)_minmax(0,1fr)_4rem_7rem] 2xl:items-start 2xl:px-5"
           >
             {/* Pedido */}
             <span className="font-bold text-ink/70">
@@ -67,16 +67,16 @@ export default async function PedidosPage() {
             </span>
 
             {/* Items */}
-            <div className="flex w-full flex-col gap-1 lg:w-56 lg:shrink-0">
+            <div className="flex min-w-0 w-full flex-col gap-1">
               <div className="flex items-center gap-2">
                 <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-xl bg-primario/10 text-xl">
                   🎨
                 </div>
-                <span className="flex-1 truncate text-ink">
+                <span className="min-w-0 flex-1 break-words text-ink">
                   {p.items.map((it) => it.nombre).join(", ")}
                 </span>
               </div>
-              <span className="ml-12 text-sm text-muted">
+              <span className="break-words text-sm text-muted">
                 {p.items
                   .map((it) => `${it.cantidad} × ${it.nombre}`)
                   .join(" · ")}
@@ -84,7 +84,7 @@ export default async function PedidosPage() {
             </div>
 
             {/* Estado + selector */}
-            <div className="flex flex-col items-start gap-2 lg:w-64 lg:shrink-0">
+            <div className="flex min-w-0 flex-col items-start gap-2">
               <CambiarEstadoPedido
                 pedidoId={p.id}
                 estado={p.estado}
@@ -105,20 +105,23 @@ export default async function PedidosPage() {
             </div>
 
             {/* Cliente */}
-            <div className="min-w-0 lg:w-44 lg:shrink-0">
-              <span className="truncate text-ink">{p.cliente?.nombre ?? "Cliente"}</span>
-              <span className="block truncate text-sm text-muted">
+            <div className="min-w-0">
+              <span className="mb-1 block text-xs font-bold uppercase text-muted 2xl:hidden">Cliente</span>
+              <span className="break-words text-ink">{p.cliente?.nombre ?? "Cliente"}</span>
+              <span className="block break-all text-sm text-muted">
                 {p.cliente?.email ?? ""}
               </span>
             </div>
 
             {/* Fecha */}
-            <span className="text-ink/70 lg:w-20 lg:shrink-0">
+            <span className="text-ink/70">
+              <span className="mr-2 text-xs font-bold uppercase text-muted 2xl:hidden">Fecha</span>
               {formatFecha(p.fecha)}
             </span>
 
             {/* Total */}
-            <span className="font-semibold text-ink lg:flex-1 lg:text-right">
+            <span className="break-words font-semibold text-ink 2xl:text-right">
+              <span className="mr-2 text-xs font-bold uppercase text-muted 2xl:hidden">Total</span>
               {p.total.toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",

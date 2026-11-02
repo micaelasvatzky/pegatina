@@ -85,9 +85,9 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className="flex w-20 shrink-0 flex-col border-r-2 border-line bg-white md:w-72">
+      <aside className="flex w-full shrink-0 flex-col border-b-2 border-line bg-white md:w-64 md:border-b-0 md:border-r-2 xl:w-72">
         {/* Identidad de la tienda */}
-        <div className="flex flex-col items-center gap-3 border-b border-line px-2 py-8 md:px-6">
+        <div className="hidden min-w-0 flex-col items-center gap-3 border-b border-line px-6 py-8 md:flex">
           {usuario?.foto ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -100,24 +100,25 @@ export default function Sidebar() {
               {inicial}
             </span>
           )}
-          <div className="hidden text-center md:block">
+          <div className="min-w-0 max-w-full text-center">
             <p className="truncate text-lg font-bold text-ink">
               {usuario?.nombre ?? "Tu tienda"}
             </p>
-            <p className="text-base font-semibold text-primario">
+            <p className="break-all text-base font-semibold text-primario">
               {usuario?.usuario ? usuario.usuario : "Ilustrador"}
             </p>
           </div>
         </div>
 
         {/* Navegación */}
-        <nav className="mt-6 flex flex-1 flex-col gap-1 px-2 md:px-4">
+        <nav aria-label="Menú del ilustrador" className="grid grid-cols-4 gap-1 p-2 md:mt-6 md:flex md:flex-1 md:flex-col md:px-4">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               title={link.label}
-              className={`flex items-center gap-3 rounded-xl px-3 py-3 text-[16px] transition-colors md:px-4 ${
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-3 text-[11px] transition-colors md:flex-row md:justify-start md:gap-3 md:px-4 md:text-base ${
                 isActive(link.href)
                   ? "bg-primario/15 font-semibold text-primario"
                   : "text-ink hover:bg-crema"
@@ -126,23 +127,23 @@ export default function Sidebar() {
               <span aria-hidden className="flex shrink-0 items-center">
                 {link.icon}
               </span>
-              <span className="hidden md:inline">{link.label}</span>
+              <span className="text-center md:text-left">{link.label}</span>
             </Link>
           ))}
         </nav>
 
         {/* Acciones */}
-        <div className="flex flex-col gap-1 border-t border-line p-2 md:p-4">
+        <div className="flex flex-wrap justify-between gap-2 border-t border-line p-2 md:flex-col md:p-4">
           {salida && (
             <Link
               href={salida}
               title="Ver tienda pública"
-              className="flex items-center gap-3 rounded-xl px-3 py-3 text-[16px] text-ink transition-colors hover:bg-crema hover:text-primario md:px-4"
+              className="flex items-center gap-2 rounded-xl px-2 py-2 text-xs text-ink transition-colors hover:bg-crema hover:text-primario md:gap-3 md:px-4 md:py-3 md:text-base"
             >
               <span aria-hidden className="flex shrink-0 items-center">
                 {IconGlobo}
               </span>
-              <span className="hidden md:inline">
+              <span>
                 Ver tienda pública <span aria-hidden>↗</span>
               </span>
             </Link>
@@ -150,12 +151,12 @@ export default function Sidebar() {
           <button
             onClick={() => setConfirmandoSalida(true)}
             title="Cerrar sesión"
-            className="flex items-center gap-3 rounded-xl border-2 border-red-600 px-3 py-3 text-left text-[16px] text-red-600 transition-colors hover:bg-red-50 md:px-4"
+            className="flex items-center gap-2 rounded-xl border-2 border-red-600 px-2 py-2 text-left text-xs text-red-600 transition-colors hover:bg-red-50 md:gap-3 md:px-4 md:py-3 md:text-base"
           >
             <span aria-hidden className="flex shrink-0 items-center">
               {IconSalir}
             </span>
-            <span className="hidden md:inline">Cerrar sesión</span>
+            <span>Cerrar sesión</span>
           </button>
         </div>
       </aside>

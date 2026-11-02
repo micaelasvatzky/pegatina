@@ -14,9 +14,9 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-dvh flex-col">
       <Navbar mode="dashboard" />
-      <div className="flex flex-1">
+      <div className="flex flex-1 flex-col md:flex-row">
         <Sidebar />
-        <main className="relative flex-1 overflow-hidden bg-crema p-4 md:p-8">
+        <main className="relative min-w-0 flex-1 overflow-hidden bg-crema p-4 md:p-8">
           <ColorBlobs />
           <div className="relative z-10">{children}</div>
         </main>

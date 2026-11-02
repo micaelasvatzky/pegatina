@@ -7,6 +7,7 @@ import {
 import { getUsuarioPorHandle } from "@/lib/auth";
 import StickerCard from "@/components/StickerCard";
 import OrdenarSelect from "@/components/OrdenarSelect";
+import CatalogoFiltros from "@/components/CatalogoFiltros";
 import Link from "next/link";
 
 // Dinámica: consulta MongoDB en runtime, no en build time.
@@ -150,7 +151,7 @@ export default async function CatalogoPage({
           <div className="relative z-10">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <h1 className="font-display text-4xl font-black uppercase leading-none text-white md:text-5xl">
+                <h1 className="font-display text-3xl font-black uppercase leading-none text-white sm:text-4xl md:text-5xl">
                   Feria de Stickers
                 </h1>
                 <p className="mt-2 max-w-xl text-base font-semibold text-white/90">
@@ -168,10 +169,13 @@ export default async function CatalogoPage({
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
           {/* SIDEBAR */}
-          <aside className="lg:col-span-3">
-            <div className="flex flex-col gap-6 rounded-2xl border-2 border-line bg-card p-5 shadow-[3px_3px_0px_var(--color-line)] lg:sticky lg:top-32">
+          <CatalogoFiltros key={`${q}-${categoria}-${precio}`} activos={Boolean(q || categoria || rangoIdx > 0)}>
+            <div className="flex flex-col gap-6 rounded-2xl border-2 border-line bg-card p-5 shadow-[3px_3px_0px_var(--color-line)]">
               {/* Buscador */}
               <form action="/catalogo" method="get" className="relative">
+                {categoria && <input type="hidden" name="categoria" value={categoria} />}
+                {precio && <input type="hidden" name="precio" value={precio} />}
+                <input type="hidden" name="sort" value={sortKey} />
                 <span
                   className="icon absolute left-3 top-1/2 -translate-y-1/2 text-lg text-muted"
                   aria-hidden
@@ -181,6 +185,7 @@ export default async function CatalogoPage({
                 <input
                   type="text"
                   name="q"
+                  aria-label="Buscar stickers por nombre o ilustrador"
                   defaultValue={q ?? ""}
                   placeholder="Buscar en la feria…"
                   className="w-full rounded-xl border-2 border-line bg-paper py-2.5 pl-10 pr-3 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-cobalt"
@@ -313,10 +318,10 @@ export default async function CatalogoPage({
                 </Link>
               </div>
             </div>
-          </aside>
+          </CatalogoFiltros>
 
           {/* GRID */}
-          <section className="lg:col-span-9">
+          <section className="min-w-0 lg:col-span-9">
             {stickers.length === 0 ? (
               <div className="flex flex-col items-center gap-3 rounded-2xl border-2 border-line bg-card py-20 text-center shadow-[3px_3px_0px_var(--color-line)]">
                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-lilac/60 text-muted">

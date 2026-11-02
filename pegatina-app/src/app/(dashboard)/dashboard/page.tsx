@@ -83,7 +83,7 @@ export default async function DashboardPage() {
         <p className="mt-2 text-base text-muted md:text-lg">
           {handle ? (
             <>
-              <span className="font-semibold text-primario">{handle}</span>{" "}
+              <span className="break-all font-semibold text-primario">{handle}</span>{" "}
               — así va tu tienda
             </>
           ) : (
@@ -93,7 +93,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
         {stats.map((stat) => (
           <div
             key={stat.label}
@@ -105,7 +105,7 @@ export default async function DashboardPage() {
               {stat.icon}
             </span>
             <p className="text-[15px] text-muted">{stat.label}</p>
-            <p className="mt-1 text-2xl font-bold text-ink">{stat.value}</p>
+            <p className="mt-1 break-words text-2xl font-bold text-ink">{stat.value}</p>
             {stat.detalle && (
               <p className="mt-2 text-sm text-muted">{stat.detalle}</p>
             )}
@@ -114,8 +114,8 @@ export default async function DashboardPage() {
       </div>
 
       {/* CTA subir sticker */}
-      <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-2xl border-2 border-line bg-primario p-8 text-white nb-shadow-md sm:flex-row">
-        <div className="text-center sm:text-left">
+      <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-2xl border-2 border-line bg-primario p-6 text-white nb-shadow-md lg:flex-row lg:p-8">
+        <div className="text-center lg:text-left">
           <p className="text-xl font-bold uppercase tracking-tight">¿Tenés un diseño nuevo?</p>
           <p className="mt-1 text-white/80">
             Subilo a tu tienda y empezá a vender hoy mismo.

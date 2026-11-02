@@ -47,8 +47,8 @@ export default function CambiarEstadoPedido({ pedidoId, estado, pagoAprobado }: 
   };
 
   return (
-    <div className="flex w-full flex-col items-start gap-2 lg:w-64 lg:shrink-0">
-      <div className="flex items-center gap-2">
+    <div className="flex min-w-0 w-full flex-col items-start gap-2">
+      <div className="flex w-full flex-wrap items-center gap-2">
         <span
           className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-bold ${
             ESTADO_STYLE[estado] ?? "bg-ink/10 text-ink/70"
@@ -77,7 +77,7 @@ export default function CambiarEstadoPedido({ pedidoId, estado, pagoAprobado }: 
           onChange={cambiar}
           disabled={loading || !pagoAprobado}
           title="Cambiar estado del pedido"
-          className="h-9 cursor-pointer rounded-full border-2 border-line bg-card px-3 text-sm font-semibold text-ink transition-colors hover:border-primario focus:border-primario focus:outline-none disabled:opacity-50"
+          className="h-10 max-w-full cursor-pointer rounded-full border-2 border-line bg-card px-3 text-sm font-semibold text-ink transition-colors hover:border-primario focus:border-primario focus:outline-none disabled:opacity-50"
         >
           {ESTADOS_VALIDOS.map((s) => (
             <option key={s} value={s}>

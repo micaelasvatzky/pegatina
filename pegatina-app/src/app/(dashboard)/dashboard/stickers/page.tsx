@@ -54,13 +54,13 @@ export default async function MisStickersPage() {
         </div>
       ) : (
         /* Grid de stickers */
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {stickers.map((sticker) => {
             const vendidos = ventas.get(sticker.id) ?? 0;
             return (
               <div
                 key={sticker.id}
-                className="flex flex-col overflow-hidden rounded-2xl border-2 border-line bg-card nb-shadow nb-lift"
+                className="flex min-w-0 flex-col overflow-hidden rounded-2xl border-2 border-line bg-card nb-shadow nb-lift"
               >
                 {/* Imagen (sin link: el ilustrador no navega el store) */}
                 <div className="relative flex aspect-square w-full items-center justify-center bg-crema">
@@ -78,11 +78,11 @@ export default async function MisStickersPage() {
 
                 {/* Info */}
                 <div className="flex flex-col gap-2 px-4 py-3">
-                  <p className="truncate text-base font-semibold text-ink">
+                  <p className="break-words text-base font-semibold text-ink">
                     {sticker.nombre}
                   </p>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="text-sm font-bold text-primario">
                       ${sticker.precio.toLocaleString("es-AR")} ARS
                     </p>

@@ -30,7 +30,7 @@ export default function OrdenarSelect({
   }
 
   return (
-    <label className="inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-4 py-2 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] transition-shadow focus-within:ring-2 focus-within:ring-cobalt">
+    <label className="inline-flex max-w-full items-center gap-1.5 rounded-full border-2 border-line bg-card px-3 py-2 text-sm font-bold text-ink shadow-[2px_2px_0px_var(--color-line)] transition-shadow focus-within:ring-2 focus-within:ring-cobalt">
       <span className="icon text-lg text-cobalt" aria-hidden>
         swap_vert
       </span>
@@ -38,7 +38,7 @@ export default function OrdenarSelect({
         defaultValue={value}
         name="sort"
         onChange={(e) => handleChange(e.target.value)}
-        className="cursor-pointer bg-transparent text-sm font-bold text-ink outline-none"
+        className="min-w-0 cursor-pointer bg-transparent text-sm font-bold text-ink outline-none"
       >
         {Object.entries(SORT_LABEL).map(([k, label]) => (
           <option key={k} value={k}>

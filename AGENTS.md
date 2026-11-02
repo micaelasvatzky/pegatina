@@ -2,6 +2,8 @@
 
 ## ⚡ ARRANQUE — leer esto primero (actualizado 02/11/2026)
 
+- **Cierre posterior del 02/11: responsive**: Mica retomó para ajustar landing, catálogo, perfiles, registros, dashboard ilustrador y liquidaciones admin. Confirmó “ahora si, pushea, terminamos” y autorizó publicar todos los ajustes. Detalle en la reapertura de `docs/sesiones/2026-11-02.md`. TypeScript y ESLint de todos los archivos modificados pasaron; sin build ni verificación visual en navegador por el agente.
+
 - **Proyecto cerrado por Mica el 02/11/2026**: confirmó que ya funciona todo y pidió subir lo pendiente y cerrar sesión.
 - **Decisión de cobros resuelta**: Mica eligió **opción B**, ya implementada: perfil, registro y dashboard aclaran comisión del 10% y liquidaciones manuales del 90% cada 15 días. Opción A (historial del ilustrador y CBU/alias) postergada. **No volver a preguntar A/B al iniciar.**
 - Checkout MP envía `processing_mode: "manual"`. Webhook valida HMAC con ID original o en minúsculas y usa el ID firmado de query; rechaza IDs contradictorios. Mica confirmó funcionamiento tras ajustar firma y probar notificación con una orden real.

@@ -83,7 +83,7 @@ export default function AddToCartCard({
   return (
     <>
       {/* Stepper + Botón Agregar — compacto estilo Stitch */}
-      <div className="flex items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-1.5">
         {/* Stepper chico */}
         <div className="flex items-center rounded-lg border border-line/30 bg-paper px-0.5 py-0.5">
           <button

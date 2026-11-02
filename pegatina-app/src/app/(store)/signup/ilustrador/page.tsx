@@ -45,12 +45,12 @@ export default function SignupIlustradorPage() {
   };
 
   return (
-    <div className="relative overflow-hidden py-16">
+    <div className="relative overflow-hidden px-5 py-8 sm:px-6 sm:py-12">
       <ColorBlobs />
-      <div className="relative z-10 mx-auto flex max-w-lg flex-col items-center">
-        <div className="w-full rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-10">
-        <h1 className="mb-2 text-4xl font-bold text-ink">Abrí tu tienda</h1>
-        <p className="mb-8 text-muted">
+      <div className="relative z-10 mx-auto flex max-w-md flex-col items-center">
+        <div className="w-full min-w-0 rounded-2xl border-2 border-line bg-card p-5 nb-shadow-md sm:p-7">
+        <h1 className="mb-2 text-3xl font-bold text-ink">Abrí tu tienda</h1>
+        <p className="mb-5 text-sm text-muted">
           Vendé tus stickers sin costo por publicar: Pegatina retiene el 10%
           solo cuando vendés y te transfiere el 90% cada 15 días.
         </p>
@@ -61,7 +61,7 @@ export default function SignupIlustradorPage() {
           </div>
         )}
 
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
             <label className="mb-2 block text-[17px] capitalize text-ink">
               Nombre
@@ -100,7 +100,7 @@ export default function SignupIlustradorPage() {
               className="w-full rounded-full border border-line bg-white px-5 py-3 focus:border-primario focus:outline-none"
               placeholder="ej: matesconmili"
             />
-            <p className="mt-1 text-xs text-muted">
+            <p className="mt-1 break-words text-xs text-muted">
               Sin espacios, letras/números/_. Va a ser la URL pública de tu
               tienda: pegatina.com/artista/matesconmili
             </p>
@@ -124,13 +124,13 @@ export default function SignupIlustradorPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-2 w-full rounded-full border-2 border-line bg-primario py-4 text-[20px] font-bold text-white transition-colors hover:bg-ink disabled:opacity-60 nb-shadow-sm nb-lift"
+            className="mt-1 w-full rounded-full border-2 border-line bg-primario py-3 text-base font-bold text-white transition-colors hover:bg-ink disabled:opacity-60 nb-shadow-sm nb-lift"
           >
             {submitting ? "Creando..." : "Crear mi tienda"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-muted">
+        <p className="mt-5 text-center text-sm text-muted">
           ¿Ya tenés cuenta?{" "}
           <Link href="/login" className="text-primario underline">
             Iniciá sesión

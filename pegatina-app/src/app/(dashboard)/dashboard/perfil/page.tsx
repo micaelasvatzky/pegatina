@@ -46,9 +46,9 @@ export default async function MiPerfilPage({
 
       <h1 className="mb-8 text-4xl font-bold text-ink">Mi perfil</h1>
 
-      <div className="rounded-2xl border-2 border-line bg-card p-8 nb-shadow-md">
+      <div className="min-w-0 rounded-2xl border-2 border-line bg-card p-4 sm:p-8 nb-shadow-md">
         {/* Identidad */}
-        <div className="mb-8 flex items-center gap-6">
+        <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
           {usuario.foto ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -57,12 +57,12 @@ export default async function MiPerfilPage({
               className="h-24 w-24 shrink-0 rounded-full border-2 border-line object-cover shadow-[2px_2px_0px_var(--color-line)]"
             />
           ) : (
-            <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-line bg-primario text-4xl font-bold text-white shadow-[2px_2px_0px_var(--color-line)]">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-2 border-line bg-primario text-4xl font-bold text-white shadow-[2px_2px_0px_var(--color-line)]">
               {inicial}
             </div>
           )}
-          <div>
-            <p className="text-2xl font-bold text-ink">
+          <div className="min-w-0">
+            <p className="break-all text-2xl font-bold text-ink">
               {usuario.usuario ? `@${usuario.usuario.replace(/^@/, "")}` : usuario.nombre}
             </p>
             <p className="text-muted">Ilustrador independiente</p>
@@ -87,16 +87,11 @@ export default async function MiPerfilPage({
       </div>
 
       {/* Cobros centralizados */}
-      <div className="mt-8 rounded-2xl border-2 border-line bg-card p-8 nb-shadow-md">
+      <div className="mt-8 rounded-2xl border-2 border-line bg-card p-4 sm:p-8 nb-shadow-md">
         <h2 className="text-lg font-bold text-ink">Cómo cobrás tus ventas</h2>
         <p className="mt-1 text-sm text-muted">
           Pegatina recibe los pagos de tus ventas y retiene el 10% de comisión.
           Te transferimos el 90% cada 15 días mediante una liquidación manual.
-        </p>
-        <p className="mt-4 rounded-2xl bg-acento/30 px-5 py-4 text-sm font-semibold text-ink">
-          La liquidación incluye los pedidos enviados o entregados que todavía
-          no se hayan liquidado. No necesitás conectar tu cuenta de Mercado Pago
-          para cobrar.
         </p>
       </div>
     </div>

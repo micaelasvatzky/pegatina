@@ -71,8 +71,8 @@ export default function StickerCard({
   // ───────────────────────── VARIANTE CATÁLOGO ─────────────────────────
   if (variant === "catalogo") {
     return (
-      <article className="group flex flex-col justify-between gap-3 rounded-2xl border-2 border-line bg-card p-3 shadow-[3px_3px_0px_var(--color-line)] transition-all hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-line)] sm:p-4">
-        {imagen("aspect-square w-full rounded-xl p-3", "h-32 w-32")}
+      <article className="group flex min-w-0 flex-col justify-between gap-3 rounded-2xl border-2 border-line bg-card p-3 shadow-[3px_3px_0px_var(--color-line)] transition-all hover:-translate-y-1 hover:shadow-[5px_5px_0px_var(--color-line)] sm:p-4">
+        {imagen("aspect-square w-full rounded-xl p-2", "absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)]")}
 
         <div className="flex flex-col gap-1">
           <h3 className="font-display truncate text-base font-extrabold text-ink">
@@ -117,7 +117,7 @@ export default function StickerCard({
         </span>
       )}
 
-      {imagen("aspect-square w-full rounded-[18px] p-4", "h-36 w-36")}
+      {imagen("aspect-square w-full rounded-[18px] p-2", "absolute inset-2 h-[calc(100%-1rem)] w-[calc(100%-1rem)]")}
 
       <div className="flex flex-col gap-0.5">
         <p className="text-[11px] font-bold text-muted">por {handle}</p>

@@ -66,24 +66,24 @@ export default async function PerfilPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl py-12">
+      <div className="mx-auto max-w-2xl px-4 py-6 md:px-6 md:py-8">
         {/* Encabezado del perfil */}
-      <div className="flex items-center gap-6 rounded-2xl border-2 border-line bg-card p-8 nb-shadow">
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border-2 border-line bg-card p-4 sm:p-5 nb-shadow-sm">
         {usuario.foto ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={usuario.foto}
             alt={usuario.nombre}
-            className="h-20 w-20 rounded-full object-cover"
+            className="h-12 w-12 shrink-0 rounded-full object-cover"
           />
         ) : (
-          <span className="flex h-20 w-20 items-center justify-center rounded-full bg-primario text-3xl font-bold text-white">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primario text-xl font-bold text-white">
             {inicial}
           </span>
         )}
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold text-ink">{usuario.nombre}</h1>
-          <p className="text-muted">{usuario.email}</p>
+        <div className="min-w-0 flex-1">
+          <h2 className="break-words text-xl font-bold text-ink">{usuario.nombre}</h2>
+          <p title={usuario.email} className="truncate text-sm text-muted">{usuario.email}</p>
           <span className="mt-1 inline-block rounded-full bg-primario/10 px-3 py-0.5 text-xs font-semibold uppercase tracking-wide text-primario">
             Comprador
           </span>
@@ -93,12 +93,12 @@ export default async function PerfilPage() {
       </div>
 
       {/* Últimas compras */}
-      <div className="mt-10">
-        <h2 className="mb-4 text-2xl font-bold text-ink">Últimas compras</h2>
+      <div className="mt-6">
+        <h2 className="mb-3 text-xl font-bold text-ink">Últimas compras</h2>
 
         {pedidos.length === 0 ? (
-          <div className="rounded-2xl border-2 border-dashed border-line bg-card p-10 text-center nb-shadow">
-            <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-lilac/60 text-muted">
+          <div className="rounded-2xl border-2 border-dashed border-line bg-card p-5 text-center nb-shadow-sm">
+            <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lilac/60 text-muted">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
                 <path d="M3 7H21V21H3V7Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 <path d="M8 10V5.5C8 3.5 10 2 12 2C14 2 16 3.5 16 5.5V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -112,30 +112,30 @@ export default async function PerfilPage() {
             </p>
             <Link
               href="/catalogo"
-              className="mt-6 inline-block rounded-full border-2 border-line bg-primario px-6 py-3 font-bold text-white transition-colors hover:bg-ink nb-lift"
+              className="mt-4 inline-block rounded-full border-2 border-line bg-primario px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-ink nb-lift"
             >
               Explorar catálogo
             </Link>
           </div>
         ) : (
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-3">
             {pedidos.map((p) => (
               <li
                 key={p.id}
-                className="rounded-2xl border-2 border-line bg-card p-6 nb-shadow-sm"
+                className="min-w-0 rounded-2xl border-2 border-line bg-card p-4 nb-shadow-sm"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <Link
                     href={`/pedidos/${p.id}`}
-                    className="text-lg font-bold text-primario underline hover:text-ink"
+                    className="text-sm font-bold text-primario underline hover:text-ink"
                   >
                     #{p.id.slice(-8).toUpperCase()}
                   </Link>
-                  <span className="rounded-full bg-primario/10 px-3 py-1 text-sm font-semibold text-primario">
+                  <span className="rounded-full bg-primario/10 px-2.5 py-1 text-xs font-semibold text-primario">
                     {ESTADO_LABEL[normalizarEstado(p.estado)]}
                   </span>
                 </div>
-                <div className="mt-3 flex flex-col gap-1 text-sm text-muted">
+                <div className="mt-2 flex flex-col gap-0.5 break-words text-sm text-muted">
                   {Array.isArray(p.items) &&
                     p.items.map((it, i: number) => (
                       <span key={i}>
@@ -143,13 +143,13 @@ export default async function PerfilPage() {
                       </span>
                     ))}
                 </div>
-                <div className="mt-3 flex items-center justify-between">
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                   <span className="text-xs text-muted">
                     {p.fecha
                       ? new Date(p.fecha).toLocaleDateString("es-AR")
                       : ""}
                   </span>
-                  <span className="text-lg font-bold text-ink">
+                  <span className="text-base font-bold text-ink">
                     {p.total.toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
@@ -158,7 +158,7 @@ export default async function PerfilPage() {
                 </div>
                 <Link
                   href={`/pedidos/${p.id}`}
-                  className="mt-4 inline-block text-sm font-semibold text-primario underline hover:text-ink"
+                  className="mt-2 inline-block text-sm font-semibold text-primario underline hover:text-ink"
                 >
                   Ver seguimiento →
                 </Link>
