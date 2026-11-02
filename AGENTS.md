@@ -1,8 +1,19 @@
 # Pegatina — Agent Instructions
 
-## ⚡ ARRANQUE — leer esto primero (actualizado 22/10)
+## ⚡ ARRANQUE — leer esto primero (actualizado 02/11/2026)
 
-**Preguntale a Mica esto ANTES de tocar código:**
+- **Proyecto cerrado por Mica el 02/11/2026**: confirmó que ya funciona todo y pidió subir lo pendiente y cerrar sesión.
+- **Decisión de cobros resuelta**: Mica eligió **opción B**, ya implementada: perfil, registro y dashboard aclaran comisión del 10% y liquidaciones manuales del 90% cada 15 días. Opción A (historial del ilustrador y CBU/alias) postergada. **No volver a preguntar A/B al iniciar.**
+- Checkout MP envía `processing_mode: "manual"`. Webhook valida HMAC con ID original o en minúsculas y usa el ID firmado de query; rechaza IDs contradictorios. Mica confirmó funcionamiento tras ajustar firma y probar notificación con una orden real.
+- Recuperación de contraseña implementada: Gmail por SMTP TLS con `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `APP_URL`. Resend queda como alternativa. Token aleatorio de un uso, hash en Mongo, vigencia 30 minutos. Ver `docs/recuperacion-contrasena.md`.
+- Carrito confirma con aviso “Agregado al carrito” durante 3 segundos sin abrir el panel. Entregado muestra tick verde en el seguimiento; el banner de redirección desaparece al aprobarse el pago.
+- Limpieza autorizada de cami12 completada: se eliminaron 3 pedidos de prueba y se conservó `6ae89cee5a59f93fe3f3fbf2` aprobado por $6.600. Detalle en el cierre. **No repetir borrados automáticamente.**
+- Últimas verificaciones del agente: TypeScript, ESLint de archivos modificados y 10 pruebas aisladas pasaron. SMTP Gmail autenticado sin enviar emails. Mica confirmó funcionamiento general; no atribuir al agente una prueba completa de navegador ni un build (no se ejecutó).
+- Leer el cierre más reciente: `docs/sesiones/2026-11-02.md`. Pendientes históricos para una etapa futura, sin bloquear este cierre: opción A y pruebas de navegador no realizadas por el agente.
+
+### Contexto histórico del pendiente de cobros (22/10, RESUELTO con B)
+
+La pregunta siguiente quedó resuelta el 02/11: opción B implementada, A postergada. Se conserva como contexto histórico:
 
 > El ilustrador todavía NO ve que Pegatina retiene el 10% de cada venta, y la tarjeta "Cobros con Mercado Pago" de `/dashboard/perfil` quedó **FALSA** con el modelo centralizado (promete que el 90% "te llega directo a tu cuenta" al conectar MP, pero la plata entra a la cuenta de Pegatina y se liquida a mano). ¿Arreglamos solo el copy (Opción B, ~1 hora) o armamos `/dashboard/cobros` con historial de liquidaciones + campo CBU/alias (Opción A, ~medio día)?
 
@@ -14,7 +25,7 @@ Detalle técnico completo en la sección **"Administración + liquidaciones"** y
 
 ## Comandos de Sesión
 
-- **Regla confirmada por Mica (29/10/2026)**: al iniciar recuperar toda la memoria disponible antes de trabajar; al cerrar guardar decisiones, cambios, verificaciones y pendientes. Si Engram no está disponible, avisar y guardar el resumen en `docs/sesiones/`. Leer el más reciente junto con este archivo. Último cierre: `docs/sesiones/2026-10-29.md`.
+- **Regla confirmada por Mica (29/10/2026)**: al iniciar recuperar toda la memoria disponible antes de trabajar; al cerrar guardar decisiones, cambios, verificaciones y pendientes. Si Engram no está disponible, avisar y guardar el resumen en `docs/sesiones/`. Leer el más reciente junto con este archivo. Último cierre: `docs/sesiones/2026-11-02.md`.
 
 ## Estado actualizado — 29/10/2026
 
