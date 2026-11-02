@@ -10,6 +10,11 @@ export interface DBUsuario {
   nombre: string;
   email: string;
   password_hash: string;
+  password_reset?: {
+    token_hash: string;
+    expires_at: Date;
+    requested_at: Date;
+  };
   rol: Role;
   /** @usuario (handle público) — el identificador que une al usuario con sus stickers. */
   usuario?: string | null;

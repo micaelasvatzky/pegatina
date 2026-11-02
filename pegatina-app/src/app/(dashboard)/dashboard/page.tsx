@@ -50,7 +50,8 @@ export default async function DashboardPage() {
 
   const stats = [
     {
-      label: "Ventas del mes",
+      label: "Ventas del mes (bruto)",
+      detalle: "Te toca cobrar: 90%. Pegatina retiene el 10% de comisión.",
       value: ventasMes.toLocaleString("es-AR", {
         style: "currency",
         currency: "ARS",
@@ -105,6 +106,9 @@ export default async function DashboardPage() {
             </span>
             <p className="text-[15px] text-muted">{stat.label}</p>
             <p className="mt-1 text-2xl font-bold text-ink">{stat.value}</p>
+            {stat.detalle && (
+              <p className="mt-2 text-sm text-muted">{stat.detalle}</p>
+            )}
           </div>
         ))}
       </div>

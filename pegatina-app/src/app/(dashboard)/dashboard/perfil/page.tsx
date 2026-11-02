@@ -1,13 +1,11 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { getSession, getUsuarioById } from "@/lib/auth";
-import { mpOAuthConfigurado } from "@/lib/mercadopago";
 import MiPerfilForm from "./MiPerfilForm";
 
 /**
  * Mi perfil — datos REALES del ilustrador logueado.
  * Header con la identidad de la tienda + form editable (PATCH /api/usuarios/me)
- * + conexión con Mercado Pago (para cobrar el 90% de cada venta).
+ * + información de cobros centralizados y liquidaciones de Pegatina.
  */
 export const dynamic = "force-dynamic";
 
@@ -25,8 +23,6 @@ export default async function MiPerfilPage({
   const { mp } = await searchParams;
   const inicial = usuario.nombre.charAt(0).toUpperCase();
   const sinHandle = !usuario.usuario;
-  const mpOAuthListo = mpOAuthConfigurado();
-  const mpConectado = Boolean(usuario.mp?.access_token);
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -36,13 +32,15 @@ export default async function MiPerfilPage({
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
             <path d="M8 12.5L10.8 15.2L16 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          ¡Conectaste tu cuenta de Mercado Pago! Desde ahora cobrás el 90% de
-          cada venta de forma automática.
+          Cuenta de Mercado Pago conectada. Pegatina recibe los pagos, retiene
+          el 10% de comisión y te transfiere el 90% cada 15 días mediante
+          una liquidación manual.
         </p>
       )}
       {mp === "error" && (
         <p className="mb-6 flex items-center gap-3 rounded-2xl bg-red-50 px-5 py-4 text-sm font-semibold text-red-700">
-          No pudimos conectar tu cuenta de Mercado Pago. Intentá de nuevo.
+          No pudimos conectar tu cuenta de Mercado Pago. Podés seguir vendiendo:
+          Pegatina recibe los pagos y te transfiere el 90% cada 15 días.
         </p>
       )}
 
@@ -88,46 +86,18 @@ export default async function MiPerfilPage({
         />
       </div>
 
-      {/* Mercado Pago — cobros */}
+      {/* Cobros centralizados */}
       <div className="mt-8 rounded-2xl border-2 border-line bg-card p-8 nb-shadow-md">
-        <h2 className="text-lg font-bold text-ink">Cobros con Mercado Pago</h2>
+        <h2 className="text-lg font-bold text-ink">Cómo cobrás tus ventas</h2>
         <p className="mt-1 text-sm text-muted">
-          Cada vez que vendés un sticker, el comprador paga con Mercado Pago y
-          el 90% del valor te llega directo a tu cuenta (el 10% es la comisión
-          de Pegatina). Para eso necesitás conectar tu cuenta de vendedor.
+          Pegatina recibe los pagos de tus ventas y retiene el 10% de comisión.
+          Te transferimos el 90% cada 15 días mediante una liquidación manual.
         </p>
-
-        {mpConectado ? (
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <span className="flex items-center gap-2 rounded-full bg-green-100 px-4 py-2 text-sm font-bold text-green-700">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
-                <path d="M8 12.5L10.8 15.2L16 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Cuenta conectada
-            </span>
-            {usuario.mp?.user_id && (
-              <span className="text-xs text-muted">
-                Usuario MP: {usuario.mp.user_id}
-              </span>
-            )}
-          </div>
-        ) : mpOAuthListo ? (
-          <Link
-            href="/api/mercadopago/connect"
-            className="mt-4 inline-flex items-center gap-2 rounded-full border-2 border-line bg-secundario px-6 py-3 font-bold text-white nb-lift hover:bg-ink"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M8 12.5L10.8 15.2L16 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Conectar mi cuenta de Mercado Pago
-          </Link>
-        ) : (
-          <p className="mt-4 rounded-2xl bg-acento/30 px-5 py-4 text-sm font-semibold text-[#a07d00]">
-            Muy pronto: la conexión con Mercado Pago se habilita cuando la
-            tienda esté en producción. Por ahora el pago es por transferencia.
-          </p>
-        )}
+        <p className="mt-4 rounded-2xl bg-acento/30 px-5 py-4 text-sm font-semibold text-ink">
+          La liquidación incluye los pedidos enviados o entregados que todavía
+          no se hayan liquidado. No necesitás conectar tu cuenta de Mercado Pago
+          para cobrar.
+        </p>
       </div>
     </div>
   );

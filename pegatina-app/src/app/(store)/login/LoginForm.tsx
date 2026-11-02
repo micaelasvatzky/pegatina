@@ -130,9 +130,9 @@ export default function LoginForm({ demoMode = false }: { demoMode?: boolean }) 
             </div>
 
             <p className="mb-6 mt-2 text-right">
-              <span className="cursor-pointer text-[17px] text-primario underline">
+              <Link href="/recuperar-contrasena" className="text-[17px] text-primario underline">
                 ¿Olvidaste tu contraseña?
-              </span>
+              </Link>
             </p>
 
             <button

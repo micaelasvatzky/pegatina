@@ -10,6 +10,7 @@ import {
   type PagoInfo,
 } from "@/lib/mercadopago";
 import { ObjectId } from "mongodb";
+import { MercadoPagoError } from "mercadopago";
 
 /**
  * POST /api/pedidos
@@ -209,6 +210,11 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (err) {
+    console.error("[checkout] No se pudo crear la order de Mercado Pago:",
+      err instanceof MercadoPagoError
+        ? { status: err.status, codigo: err.error, mensaje: err.message }
+        : { mensaje: mensajeDeError(err) }
+    );
     // No dejamos pedidos huérfanos: si MP falló, el pedido no se crea.
     await db.collection("pedidos").deleteOne({ _id: new ObjectId(pedidoId) });
     return NextResponse.json(

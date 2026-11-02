@@ -37,6 +37,36 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+async function iniciarSesion(path: string, body?: { email: string; password: string }) {
+  try {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body ? JSON.stringify(body) : undefined,
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!res.headers.get("content-type")?.includes("application/json")) {
+      return { error: "El servidor no pudo responder. Intentá de nuevo en unos segundos." };
+    }
+    const data = await res.json();
+    if (!res.ok) {
+      return { error: data.error ?? "No pudimos iniciar sesión." };
+    }
+    if (!data.usuario) {
+      return { error: "No pudimos confirmar tu sesión. Intentá de nuevo." };
+    }
+    return { usuario: data.usuario as Usuario };
+  } catch (error) {
+    const timeout = error instanceof DOMException &&
+      (error.name === "TimeoutError" || error.name === "AbortError");
+    return {
+      error: timeout
+        ? "El servidor tardó demasiado en responder. Intentá de nuevo."
+        : "No pudimos conectar con el servidor. Revisá tu conexión e intentá de nuevo.",
+    };
+  }
+}
+
 /**
  * Auth REAL de Pegatina.
  * La sesión vive en una cookie httpOnly (JWT). Acá solo:
@@ -67,27 +97,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      return { error: data.error ?? "No pudimos iniciar sesión." };
-    }
-    setUsuario(data.usuario);
-    return { usuario: data.usuario };
+    const result = await iniciarSesion("/api/auth/login", { email, password });
+    if (result.usuario) setUsuario(result.usuario);
+    return result;
   }, []);
 
   const demoLogin = useCallback(async () => {
-    const res = await fetch("/api/auth/demo", { method: "POST" });
-    const data = await res.json();
-    if (!res.ok) {
-      return { error: data.error ?? "No pudimos entrar con la cuenta demo." };
-    }
-    setUsuario(data.usuario);
-    return { usuario: data.usuario };
+    const result = await iniciarSesion("/api/auth/demo");
+    if (result.usuario) setUsuario(result.usuario);
+    return result;
   }, []);
 
   const signup = useCallback(

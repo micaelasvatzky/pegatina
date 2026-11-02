@@ -219,6 +219,7 @@ export async function crearOrderCheckout(opts: {
   const res = await order.create({
     body: {
       type: "online",
+      processing_mode: "manual",
       capture_mode: "automatic",
       total_amount: opts.total.toFixed(2),
       external_reference: opts.externalReference,

@@ -51,7 +51,8 @@ export default function SignupIlustradorPage() {
         <div className="w-full rounded-2xl border-2 border-line bg-card p-6 nb-shadow-md md:p-10">
         <h1 className="mb-2 text-4xl font-bold text-ink">Abrí tu tienda</h1>
         <p className="mb-8 text-muted">
-          Vende tus stickers. No pagás nada por tener tu tienda activa.
+          Vendé tus stickers sin costo por publicar: Pegatina retiene el 10%
+          solo cuando vendés y te transfiere el 90% cada 15 días.
         </p>
 
         {error && (
