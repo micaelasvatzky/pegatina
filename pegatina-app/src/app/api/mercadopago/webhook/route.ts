@@ -40,18 +40,25 @@ export async function POST(req: Request) {
     body.data?.id !== undefined && body.data?.id !== null
       ? String(body.data.id)
       : url.searchParams.get("data.id") ?? "";
+  // Mercado Pago firma el data.id de la URL cuando lo incluye.
+  const signedDataId = url.searchParams.get("data.id") ?? dataId;
 
   if (!type || !dataId) {
     return NextResponse.json({ error: "Notificación inválida." }, { status: 400 });
+  }
+  if (signedDataId.toLowerCase() !== dataId.toLowerCase()) {
+    return NextResponse.json({ error: "Identificadores de notificación inconsistentes." }, { status: 400 });
   }
 
   // Validación de firma (si el secret está configurado en el panel).
   const xSignature = req.headers.get("x-signature") ?? "";
   const xRequestId = req.headers.get("x-request-id") ?? "";
   try {
-    // IMPORTANTE (doc MP): data.id llega en MAYÚSCULAS pero la firma se
-    // valida con el id en minúsculas.
-    if (!validarFirmaWebhook({ xSignature, xRequestId, dataId: dataId.toLowerCase() })) {
+    if (!validarFirmaWebhook({ xSignature, xRequestId, dataId: signedDataId })) {
+      console.warn("[webhook] Firma inválida:", {
+        type, dataId, requestId: xRequestId,
+        tieneFirma: Boolean(xSignature), tieneRequestId: Boolean(xRequestId),
+      });
       return NextResponse.json({ error: "Firma inválida." }, { status: 401 });
     }
   } catch (err) {

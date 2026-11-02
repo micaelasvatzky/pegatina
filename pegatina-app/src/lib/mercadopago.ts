@@ -315,22 +315,28 @@ export function validarFirmaWebhook(opts: {
   xRequestId: string;
   dataId: string;
 }): boolean {
-  const secret = process.env.MP_NOTIFICATION_SECRET;
+  const secret = process.env.MP_NOTIFICATION_SECRET?.trim();
   if (!secret) {
     // Sin secret configurado no podemos validar — mejor fallar que confiar ciego.
     throw new Error(
       "Falta MP_NOTIFICATION_SECRET. Se obtiene en el panel MP → Webhooks → Configurar notificaciones."
     );
   }
-  try {
-    WebhookSignatureValidator.validate({
-      xSignature: opts.xSignature,
-      xRequestId: opts.xRequestId,
-      dataId: opts.dataId,
-      secret,
-    });
-    return true;
-  } catch {
-    return false;
+  // Orders usa IDs alfanuméricos. Validar el valor recibido, y admitir
+  // también el formato en minúsculas usado en notificaciones anteriores.
+  // Ambas variantes deben superar la misma verificación HMAC con el secret.
+  for (const dataId of new Set([opts.dataId, opts.dataId.toLowerCase()])) {
+    try {
+      WebhookSignatureValidator.validate({
+        xSignature: opts.xSignature,
+        xRequestId: opts.xRequestId,
+        dataId,
+        secret,
+      });
+      return true;
+    } catch {
+      // Intentar únicamente la otra representación del mismo identificador.
+    }
   }
+  return false;
 }

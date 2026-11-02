@@ -7,6 +7,7 @@ import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
+import { createHmac } from 'node:crypto';
 const moduleRequire = createRequire(import.meta.url);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -122,4 +123,54 @@ test('checkout envía modo manual y cobra a Pegatina sin marketplace_fee', async
   assert.equal(body.total_amount, '1000.00');
   assert.equal('marketplace_fee' in body, false);
   assert.equal(body.config.online.success_url, 'https://example.com/pedidos/test?comprado=1');
+});
+
+test('webhook: firma del ID original y en minúsculas; rechaza otra clave y firma ausente', () => {
+  const secret = 'clave-solo-para-pruebas';
+  const mp = load('src/lib/mercadopago.ts', {}, { process: { env: { MP_NOTIFICATION_SECRET: secret } } });
+  const id = 'ORDTST01M6E9P231Q13YPAJWDKCYPE3J';
+  const signature = (dataId, key = secret) => 'ts=1742505638683,v1=' + createHmac('sha256', key)
+    .update(`id:${dataId};request-id:test-request;ts:1742505638683;`).digest('hex');
+  for (const signedId of [id, id.toLowerCase()]) {
+    assert.equal(mp.validarFirmaWebhook({ dataId: id, xRequestId: 'test-request', xSignature: signature(signedId) }), true);
+  }
+  assert.equal(mp.validarFirmaWebhook({ dataId: id, xRequestId: 'test-request', xSignature: signature(id, 'otra-clave') }), false);
+  assert.equal(mp.validarFirmaWebhook({ dataId: id, xRequestId: 'test-request', xSignature: '' }), false);
+});
+
+test('webhook: una order acreditada actualiza el pedido solo después de verificar firma y consultar MP', async () => {
+  const secret = 'clave-solo-para-pruebas';
+  const id = 'ORDTST01M6E9P231Q13YPAJWDKCYPE3J', pedidoId = '6ae89a60407b320adf05bd32';
+  const mp = load('src/lib/mercadopago.ts', {}, { process: { env: { MP_NOTIFICATION_SECRET: secret } } });
+  let updates = 0, queries = 0;
+  const route = load('src/app/api/mercadopago/webhook/route.ts', {
+    'next/server': next,
+    '@/lib/errors': { mensajeDeError: (e) => e.message },
+    '@/lib/mongodb': { getDb: async () => ({ collection: () => ({ updateOne: async (filter, change) => {
+      assert.equal(filter._id.toString(), pedidoId);
+      assert.equal(change.$set['pago.estado'], 'aprobado');
+      assert.equal(change.$set['pago.order_id'], id);
+      updates++;
+      return { modifiedCount: 1 };
+    } }) }) },
+    '@/lib/mercadopago': { ...mp, obtenerOrder: async () => {
+      queries++;
+      return { id, status: 'processed', external_reference: pedidoId, transactions: { payments: [{ id: 'PAY-test', status: 'processed' }] } };
+    } },
+  }, { console: { log() {}, warn() {}, error() {} } });
+  const signature = 'ts=1742505638683,v1=' + createHmac('sha256', secret)
+    .update(`id:${id};request-id:test-request;ts:1742505638683;`).digest('hex');
+  const notification = (sig, bodyId = id) => ({
+    url: `https://example.com/api/mercadopago/webhook?type=order&data.id=${id}`,
+    headers: new Headers({ 'x-signature': sig, 'x-request-id': 'test-request' }),
+    json: async () => ({ type: 'order', data: { id: bodyId } }),
+  });
+  assert.equal((await route.POST(notification('incorrecta'))).status, 401);
+  assert.equal(queries, 0);
+  assert.equal(updates, 0);
+  assert.equal((await route.POST(notification(signature, 'ORD-diferente'))).status, 400);
+  assert.equal(queries, 0);
+  assert.equal((await route.POST(notification(signature))).status, 200);
+  assert.equal(queries, 1);
+  assert.equal(updates, 1);
 });
