@@ -129,8 +129,8 @@ export default async function SeguimientoPage({ params, searchParams }: RouteCtx
 
       <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 md:px-6">
 
-      {/* Banner compra confirmada (solo justo después del checkout) */}
-      {comprado === "1" && (
+      {/* Banner posterior al checkout: oculto cuando el pago ya está aprobado. */}
+      {comprado === "1" && pedido.pago?.estado !== "aprobado" && (
         <p className="mb-8 flex items-center gap-3 rounded-2xl bg-green-100 px-5 py-4 text-sm font-semibold text-green-800">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
