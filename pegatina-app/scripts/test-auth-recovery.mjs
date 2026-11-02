@@ -174,3 +174,48 @@ test('webhook: una order acreditada actualiza el pedido solo después de verific
   assert.equal(queries, 1);
   assert.equal(updates, 1);
 });
+
+test('email: Gmail usa TLS, su propio remitente y clave de aplicación sin espacios', async () => {
+  let options, message;
+  const email = load('src/lib/email.ts', {
+    nodemailer: { default: { createTransport: (config) => {
+      options = config;
+      return { sendMail: async (data) => { message = data; } };
+    } } },
+  }, { process: { env: {
+    NODE_ENV: 'production', APP_URL: 'https://example.com',
+    GMAIL_USER: 'pegatina@example.com', GMAIL_APP_PASSWORD: 'abcd efgh ijkl mnop',
+    RESEND_API_KEY: 'test-no-es-clave', EMAIL_FROM: 'otro@example.com',
+  } } });
+  await email.sendPasswordResetEmail('comprador@example.com', 'token-de-prueba');
+  assert.equal(options.host, 'smtp.gmail.com');
+  assert.equal(options.port, 465);
+  assert.equal(options.secure, true);
+  assert.equal(options.auth.user, 'pegatina@example.com');
+  assert.equal(options.auth.pass, 'abcdefghijklmnop');
+  assert.equal(message.from.address, 'pegatina@example.com');
+  assert.equal(message.from.name, 'Pegatina');
+  assert.equal(message.to, 'comprador@example.com');
+  assert.ok(message.text.includes('https://example.com/restablecer-contrasena?token=token-de-prueba'));
+});
+
+test('email: configuración incompleta y URL HTTP de producción se rechazan; Resend sigue disponible', () => {
+  const mocked = { nodemailer: { default: {} } };
+  for (const env of [
+    { APP_URL: 'https://example.com', GMAIL_USER: 'pegatina@example.com' },
+    { APP_URL: 'http://example.com', GMAIL_USER: 'pegatina@example.com', GMAIL_APP_PASSWORD: 'test' },
+    { APP_URL: 'https://example.com', GMAIL_USER: 'email-invalido', GMAIL_APP_PASSWORD: 'test' },
+  ]) {
+    const email = load('src/lib/email.ts', mocked, { process: { env: { NODE_ENV: 'production', RESEND_API_KEY: 'test', EMAIL_FROM: 'resend@example.com', ...env } } });
+    assert.equal(email.passwordEmailConfig(), null);
+  }
+  const resend = load('src/lib/email.ts', mocked, { process: { env: { APP_URL: 'https://example.com', RESEND_API_KEY: 'test', EMAIL_FROM: 'resend@example.com' } } });
+  assert.equal(resend.passwordEmailConfig().provider, 'resend');
+});
+
+test('email: el rechazo SMTP se propaga para que la API invalide el token', async () => {
+  const email = load('src/lib/email.ts', {
+    nodemailer: { default: { createTransport: () => ({ sendMail: async () => { throw new Error('SMTP rechazado'); } }) } },
+  }, { process: { env: { APP_URL: 'https://example.com', GMAIL_USER: 'pegatina@example.com', GMAIL_APP_PASSWORD: 'test' } } });
+  await assert.rejects(() => email.sendPasswordResetEmail('comprador@example.com', 'token'), /SMTP rechazado/);
+});
