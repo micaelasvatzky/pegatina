@@ -9,6 +9,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import type { Sticker } from "@/lib/types";
 import { useAuth } from "@/context/AuthContext";
 
@@ -60,6 +61,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [notice, setNotice] = useState<{ ownerId: string | null } | null>(null);
+
+  useEffect(() => {
+    if (!notice) return;
+    const timeout = window.setTimeout(() => setNotice(null), 3000);
+    return () => window.clearTimeout(timeout);
+  }, [notice]);
 
   // Identidad a la que le pertenece el carrito actual.
   const ownerRef = useRef<string | null>("__pendiente__");
@@ -124,9 +132,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { sticker, cantidad }];
     });
-    setIsOpen(true);
+    setNotice({ ownerId: usuarioId });
     return { ok: true };
-  }, [items]);
+  }, [items, usuarioId]);
 
   const remove = useCallback((id: string) => {
     setItems((prev) => prev.filter((i) => i.sticker.id !== id));
@@ -164,6 +172,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
+      {notice && notice.ownerId === usuarioId && createPortal(
+        <div className="pointer-events-none fixed inset-x-0 bottom-6 z-[130] flex justify-center px-4">
+          <div role="status" aria-live="polite" className="pointer-events-auto flex max-w-sm items-center gap-3 rounded-2xl border-2 border-line bg-mint px-5 py-4 font-bold text-ink nb-shadow-md">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="m5 12 4 4L19 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Agregado al carrito
+            <button type="button" onClick={() => setNotice(null)} aria-label="Cerrar aviso" className="ml-2 flex h-8 w-8 items-center justify-center rounded-full hover:bg-ink/10 focus-visible:outline-2 focus-visible:outline-ink">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="m6 6 12 12M6 18 18 6" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>,
+        document.body
+      )}
     </CartContext.Provider>
   );
 }

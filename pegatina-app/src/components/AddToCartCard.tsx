@@ -77,7 +77,7 @@ export default function AddToCartCard({
       setOtroArtista(res.otroArtista ?? "");
       return;
     }
-    // add() ya abre el drawer
+    // add() muestra el aviso de confirmación sin abrir el carrito.
   }
 
   return (
