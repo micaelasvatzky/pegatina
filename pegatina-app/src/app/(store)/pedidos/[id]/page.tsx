@@ -41,7 +41,7 @@ function Timeline({ estado }: { estado: PedidoEstado }) {
   return (
     <ol className="flex flex-col gap-0 sm:flex-row sm:items-center">
       {FLUJO.map((paso, i) => {
-        const completo = i < actual;
+        const completo = i < actual || (paso === "delivered" && estado === "delivered");
         const activo = i === actual;
         return (
           <li key={paso} className="flex flex-1 flex-col sm:flex-row sm:items-center">
